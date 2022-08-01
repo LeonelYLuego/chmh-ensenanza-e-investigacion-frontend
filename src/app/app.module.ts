@@ -1,25 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { DataModule } from './data/data.module';
-import { NavComponent } from './layout/nav/nav.component';
-import { FooterComponent } from './layout/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MatButtonModule } from '@angular/material/button';
+import { AuthModule } from './modules/auth/auth.module';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, FooterComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     CoreModule,
     DataModule,
     BrowserAnimationsModule,
-    MatButtonModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

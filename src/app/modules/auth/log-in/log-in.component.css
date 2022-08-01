@@ -1,0 +1,19 @@
+.log-in {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 500px;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+.full-width {
+    width: 100%;
+}
