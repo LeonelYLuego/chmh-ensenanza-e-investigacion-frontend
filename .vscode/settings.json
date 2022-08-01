@@ -5,7 +5,26 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true
+        "**/Thumbs.db": true,
+        ".vscode": true,
+        ".browserslistrc": true,
+        ".editorconfig": true,
+        "karma.conf.js": true,
+        "package-lock.json": true,
+        "tsconfig.app.json": true,
+        "tsconfig.spec.json": true,
+        ".angular": true,
+        "node_modules": true
     },
-    "hide-files.files": []
+    "hide-files.files": [
+        ".vscode",
+        ".browserslistrc",
+        ".editorconfig",
+        "karma.conf.js",
+        "package-lock.json",
+        "tsconfig.app.json",
+        "tsconfig.spec.json",
+        ".angular",
+        "node_modules"
+    ]
 }
