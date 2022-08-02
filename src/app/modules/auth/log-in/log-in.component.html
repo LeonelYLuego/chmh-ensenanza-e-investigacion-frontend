@@ -20,7 +20,7 @@
                 </mat-error>
             </mat-form-field>
             <mat-card-actions align="end">
-                <button mat-raised-button color="primary">Iniciar Sesión</button>
+                <button mat-raised-button color="primary" [disabled]="loading">Iniciar Sesión</button>
             </mat-card-actions>
         </mat-card>
     </form>

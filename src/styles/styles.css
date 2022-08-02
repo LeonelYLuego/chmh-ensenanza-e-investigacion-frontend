@@ -8,3 +8,13 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: rgb(240, 240, 240);
 }
+
+.warn-snackbar {
+    background-color: red;
+    color: white;
+}
+
+.accent-snackbar {
+    background-color: #ff4081;
+    color: white;
+}

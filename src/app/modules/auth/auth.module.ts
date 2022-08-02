@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LogInService } from './log-in/log-in.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [LogInComponent],
@@ -16,11 +16,9 @@ import { LogInService } from './log-in/log-in.service';
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
-  ],
-  providers: [
-    LogInService
   ]
 })
 export class AuthModule {}

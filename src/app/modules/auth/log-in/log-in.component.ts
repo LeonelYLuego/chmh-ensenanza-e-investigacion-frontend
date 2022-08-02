@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,7 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { LogInService } from './log-in.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { URL } from '@app/core/constants/urls.constant';
+import { UserService } from '@app/data/services/user.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -28,25 +31,55 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.css'],
 })
-export class LogInComponent implements OnInit {
+export class LogInComponent {
+  loading = false;
   user = new FormGroup({
-    username: new FormControl('', [Validators.minLength(3), Validators.required]),
-    password: new FormControl('', [Validators.minLength(3), Validators.required]),
+    username: new FormControl('', [
+      Validators.minLength(3),
+      Validators.required,
+    ]),
+    password: new FormControl('', [
+      Validators.minLength(3),
+      Validators.required,
+    ]),
   });
   matcher = new MyErrorStateMatcher();
 
   constructor(
-    private logInService: LogInService,
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {}
-
-  logIn() {
-    if(this.user.valid) {
-      this.logInService.request({
-        username: this.user.value.username!,
-        password: this.user.value.password!,
-      });
+  async logIn(): Promise<void> {
+    if (this.user.valid) {
+      this.loading = true;
+      try {
+        const res = await this.userService.logIn({
+          username: this.user.value.username!,
+          password: this.user.value.password!,
+        });
+        if (res) {
+          this.router.navigate([URL.ROOT]);
+        } else {
+          this.snackBar.open('Usuaro o Contraseña Incorrecto', undefined, {
+            duration: 2000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: 'accent-snackbar',
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        this.snackBar.open('Ocurrió un Error', undefined, {
+          duration: 5000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: 'warn-snackbar',
+        });
+      } finally {
+        this.loading = false;
+      }
     }
   }
 }
