@@ -67,6 +67,45 @@ export class UserService {
 
   logOut(): void {
     localStorage.clear();
-    this.router.navigate([URL.LOG_IN])
+    this.router.navigate([URL.LOG_IN]);
+  }
+
+  async getUsers(): Promise<User[]> {
+    return new Promise<User[]>((resolve, reject) => {
+      this.http.get<User[]>(ENDPOINT.USERS, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')!,
+        }, 
+      }).subscribe({
+        next: (value) => {
+          resolve(value);
+        },
+        error: (err) => {
+          reject(err);
+        }
+      })
+    });
+  }
+
+  async addUser(user: User): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.http.post<User>(ENDPOINT.USERS, {
+        username: user.username,
+        password: user.password,
+        administrator: user.administrator,
+      }, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')!,
+        },
+      }).subscribe({
+        next: () => {
+          resolve(true);
+        },
+        error: (err) => {
+          reject(err);
+          resolve(false);
+        }
+      });
+    });
   }
 }

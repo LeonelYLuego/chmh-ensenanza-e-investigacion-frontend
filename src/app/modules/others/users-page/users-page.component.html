@@ -1,0 +1,30 @@
+<mat-card class="main-card">
+    <mat-card-title class="main-card-title">Usuarios</mat-card-title>
+    <mat-divider class="main-divider"></mat-divider>
+    <div style="margin-bottom: 20px;"></div>
+    <button mat-raised-button color="primary" (click)="addUserDialog()">Agregar Usuario</button>
+    <table mat-table [dataSource]="users" class="full-width">
+        <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+            <td mat-cell *matCellDef="let user"> {{user.username}} </td>
+        </ng-container>
+        <ng-container matColumnDef="administrator">
+            <th mat-header-cell *matHeaderCellDef> Administrador </th>
+            <td mat-cell *matCellDef="let user"> {{user.administrator ? 'Sí' : 'No'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="update">
+            <th mat-header-cell *matHeaderCellDef> Editar </th>
+            <td mat-cell *matCellDef="let user"><button mat-raised-button color="accent"
+                    (click)="updateUserDialog(user)">Editar</button></td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+            <td mat-cell *matCellDef="let user"><button mat-raised-button color="warn"> Eliminar </button></td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-card-actions align="end">
+        <button mat-raised-button color="basic">Cancelar</button>
+    </mat-card-actions>
+</mat-card>

@@ -9,6 +9,10 @@ body {
     background-color: rgb(240, 240, 240);
 }
 
+.full-width {
+    width: 100%;
+}
+
 .warn-snackbar {
     background-color: red;
     color: white;
@@ -17,4 +21,14 @@ body {
 .accent-snackbar {
     background-color: #ff4081;
     color: white;
+}
+
+.main-card {
+    margin: 1em;
+    /* min-height: 100vh; */
+}
+
+.main-card-title {
+    font-size: 30px;
+    padding: 8px;
 }
