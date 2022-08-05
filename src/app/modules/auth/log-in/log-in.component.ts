@@ -7,11 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { URL } from '@app/core/constants/urls.constant';
-import { UserService } from '@app/data/services/user.service';
+import { PATHS } from '@app/core/constants/paths.constant';
+import { UsersService } from '@app/data/services/users.service';
 
+/** @class My Error State Matcher */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
@@ -26,6 +26,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
+/** @class Log In Component */
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
@@ -45,41 +46,24 @@ export class LogInComponent {
   });
   matcher = new MyErrorStateMatcher();
 
-  constructor(
-    private userService: UserService,
-    private snackBar: MatSnackBar,
-    private router: Router
-  ) {}
+  constructor(private usersService: UsersService, private router: Router) {}
 
+  /**
+   * Sends the data to log in
+   * @async
+   * @function logIn
+   */
   async logIn(): Promise<void> {
     if (this.user.valid) {
       this.loading = true;
-      try {
-        const res = await this.userService.logIn({
-          username: this.user.value.username!,
-          password: this.user.value.password!,
-        });
-        if (res) {
-          this.router.navigate([URL.ROOT]);
-        } else {
-          this.snackBar.open('Usuaro o Contraseña Incorrecto', undefined, {
-            duration: 2000,
-            horizontalPosition: 'right',
-            verticalPosition: 'top',
-            panelClass: 'accent-snackbar',
-          });
-        }
-      } catch (error) {
-        console.error(error);
-        this.snackBar.open('Ocurrió un Error', undefined, {
-          duration: 5000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: 'warn-snackbar',
-        });
-      } finally {
-        this.loading = false;
+      const res = await this.usersService.logIn({
+        username: this.user.value.username!,
+        password: this.user.value.password!,
+      });
+      if (res) {
+        this.router.navigate([PATHS.ROOT]);
       }
+      this.loading = false;
     }
   }
 }

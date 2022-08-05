@@ -1,70 +1,57 @@
 <mat-card class="main-card">
-    <mat-card-title class="main-card-title">Otros</mat-card-title>
-    <mat-divider></mat-divider>
-    <div style="margin-bottom: 20px;"></div>
-    <mat-grid-list cols="3" rowHeight="110px">
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Alumnos
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Especialidades
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Servicios a Rotar
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Especialidades Externas
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Servicios a Rotar Externos
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Hospitales
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Plantillas para Documentos
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button class="button-card" color="primary">
-                <div class="word-wrap">
-                    Jefe de Departamento
-                </div>
-            </button>
-        </mat-grid-tile>
-        <mat-grid-tile *ngIf="administrator">
-            <button mat-raised-button class="button-card" color="primary" (click)="user()">
-                <div class="word-wrap">
-                    Usuarios
-                </div>
-            </button>
-        </mat-grid-tile>
-    </mat-grid-list>
+  <mat-card-title class="main-card-title">Otros</mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-grid-list cols="3" rowHeight="110px">
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Alumnos</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Especialidades</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Servicios a Rotar</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Especialidades Externas</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Servicios a Rotar Externos</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Hospitales</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Plantillas para Documentos</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="button-card" color="primary" disabled>
+        <div class="word-wrap">Jefe de Departamento</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="administrator">
+      <button
+        mat-raised-button
+        class="button-card"
+        color="primary"
+        (click)="user()"
+      >
+        <div class="word-wrap">Usuarios</div>
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
 </mat-card>

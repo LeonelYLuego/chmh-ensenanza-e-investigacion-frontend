@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { URL } from '@app/core/constants/urls.constant';
+import { PATHS } from '@app/core/constants/paths.constant';
 import { User } from '@app/data/interfaces/user';
 
+/** @class Others Page Component */
 @Component({
   selector: 'app-others-page',
   templateUrl: './others-page.component.html',
@@ -19,6 +20,6 @@ export class OthersPageComponent implements OnInit {
   }
 
   user() {
-    this.router.navigate([URL.OTHERS.USERS])
+    this.router.navigate([PATHS.OTHERS.USERS]);
   }
 }

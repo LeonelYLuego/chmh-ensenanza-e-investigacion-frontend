@@ -1,29 +1,40 @@
 <h1 mat-dialog-title *ngIf="data">Editar Usuario</h1>
 <h1 mat-dialog-title *ngIf="!data">Agregar Usuario</h1>
 <form (submit)="data ? updateUser() : addUser()">
-    <mat-dialog-content>
-        <mat-form-field class="full-width">
-            <mat-label>Usuario</mat-label>
-            <input matInput [formControl]="user.controls.username">
-            <mat-error
-                *ngIf="user.controls.username.hasError('required') || user.controls.username.hasError('minlength')">
-                Usuario <strong>Inválido</strong>
-            </mat-error>
-        </mat-form-field>
-        <br>
-        <mat-form-field class="full-width">
-            <mat-label>Contraseña</mat-label>
-            <input matInput type="password" [formControl]="user.controls.password">
-            <mat-error
-                *ngIf="user.controls.password.hasError('required') || user.controls.password.hasError('minlength')">
-                Contraseña <strong>Inválida</strong>
-            </mat-error>
-        </mat-form-field>
-        <mat-checkbox color="primary" [formControl]="user.controls.administrator">Administrador</mat-checkbox>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-        <button mat-button (click)="close()">Cancelar</button>
-        <button mat-raised-button color="accent" *ngIf="data">Editar</button>
-        <button mat-raised-button color="primary" *ngIf="!data">Agregar</button>
-    </mat-dialog-actions>
+  <mat-dialog-content>
+    <mat-form-field class="full-width">
+      <mat-label>Usuario</mat-label>
+      <input matInput [formControl]="user.controls.username" />
+      <mat-error
+        *ngIf="
+          user.controls.username.hasError('required') ||
+          user.controls.username.hasError('minlength')
+        "
+      >
+        Usuario <strong>Inválido</strong>
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" [formControl]="user.controls.password" />
+      <mat-error
+        *ngIf="
+          user.controls.password.hasError('required') ||
+          user.controls.password.hasError('minlength')
+        "
+      >
+        Contraseña <strong>Inválida</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-checkbox color="primary" [formControl]="user.controls.administrator"
+      >Administrador</mat-checkbox
+    >
+    <div style="margin-bottom: 10px"></div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="accent" *ngIf="data">Editar</button>
+    <button mat-raised-button color="primary" *ngIf="!data">Agregar</button>
+  </mat-dialog-actions>
 </form>

@@ -3,21 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-import { DataModule } from './data/data.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule } from './modules/auth/auth.module';
-import { NavComponent } from './layout/nav/nav.component';
-import { MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule} from '@angular/material/icon';
-import { OthersModule } from './modules/others/others.module';
+import { MatIconModule } from '@angular/material/icon';
+import { NavComponent } from '@app/layout/nav/nav.component';
+import { CoreModule } from '../core.module';
+import { DataModule } from '@app/data/data.module';
+import { AuthModule } from '@app/modules/auth/auth.module';
+import { OthersModule } from '@app/modules/others/others.module';
+import { ErrorPagesModule } from '@app/modules/error-pages/error-pages.module';
 
+/** Application Module */
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavComponent,
-  ],
+  declarations: [AppComponent, NavComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -28,6 +27,7 @@ import { OthersModule } from './modules/others/others.module';
     BrowserAnimationsModule,
 
     AuthModule,
+    ErrorPagesModule,
     OthersModule,
 
     MatToolbarModule,

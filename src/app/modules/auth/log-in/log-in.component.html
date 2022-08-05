@@ -1,27 +1,48 @@
 <div class="log-in">
-    <form (submit)="logIn()">
-        <mat-card class="card">
-            <mat-card-title>
-                <img src="assets/images/logo.jpg" />
-            </mat-card-title>
-            <mat-form-field class="full-width">
-                <mat-label>Usuario</mat-label>
-                <input matInput [formControl]="user.controls.username" [errorStateMatcher]="matcher" />
-                <mat-error *ngIf="user.controls.username.hasError('required') || user.controls.username.hasError('minlength')">
-                    El usuario es <strong>requerido</strong>
-                </mat-error>
-            </mat-form-field>
-            <br />
-            <mat-form-field class="full-width">
-                <mat-label>Contraseña</mat-label>
-                <input type="password" matInput [formControl]="user.controls.password" [errorStateMatcher]="matcher" />
-                <mat-error *ngIf="user.controls.password.hasError('required') || user.controls.password.hasError('minlength')">
-                    La contraseña es <strong>requerida</strong>
-                </mat-error>
-            </mat-form-field>
-            <mat-card-actions align="end">
-                <button mat-raised-button color="primary" [disabled]="loading">Iniciar Sesión</button>
-            </mat-card-actions>
-        </mat-card>
-    </form>
+  <form (submit)="logIn()">
+    <mat-card class="card">
+      <mat-card-title>
+        <img src="assets/images/logo.svg" />
+      </mat-card-title>
+      <mat-form-field class="full-width">
+        <mat-label>Usuario</mat-label>
+        <input
+          matInput
+          [formControl]="user.controls.username"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error
+          *ngIf="
+            user.controls.username.hasError('required') ||
+            user.controls.username.hasError('minlength')
+          "
+        >
+          El usuario es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input
+          type="password"
+          matInput
+          [formControl]="user.controls.password"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error
+          *ngIf="
+            user.controls.password.hasError('required') ||
+            user.controls.password.hasError('minlength')
+          "
+        >
+          La contraseña es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" [disabled]="loading">
+          Iniciar Sesión
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 </div>

@@ -1,34 +1,34 @@
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: rgb(240, 240, 240);
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgb(240, 240, 240);
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .warn-snackbar {
-    background-color: red;
-    color: white;
+  background-color: red;
+  color: white;
 }
 
 .accent-snackbar {
-    background-color: #ff4081;
-    color: white;
+  background-color: #ff4081;
+  color: white;
 }
 
 .main-card {
-    margin: 1em;
-    /* min-height: 100vh; */
+  margin: 1em;
+  /* min-height: 100vh; */
 }
 
 .main-card-title {
-    font-size: 30px;
-    padding: 8px;
+  font-size: 30px;
+  padding: 8px;
 }

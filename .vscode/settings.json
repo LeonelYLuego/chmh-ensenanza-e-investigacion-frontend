@@ -7,24 +7,24 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         ".vscode": true,
-        ".browserslistrc": true,
-        ".editorconfig": true,
         "karma.conf.js": true,
         "package-lock.json": true,
         "tsconfig.app.json": true,
         "tsconfig.spec.json": true,
+        "node_modules": true,
         ".angular": true,
-        "node_modules": true
+        ".editorconfig": true,
+        ".browserslistrc": true
     },
     "hide-files.files": [
         ".vscode",
-        ".browserslistrc",
-        ".editorconfig",
         "karma.conf.js",
         "package-lock.json",
         "tsconfig.app.json",
         "tsconfig.spec.json",
+        "node_modules",
         ".angular",
-        "node_modules"
+        ".editorconfig",
+        ".browserslistrc"
     ]
 }

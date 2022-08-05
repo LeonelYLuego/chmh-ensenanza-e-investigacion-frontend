@@ -6,23 +6,27 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { UserService } from '@app/data/services/user.service';
-import { URL } from '../constants/urls.constant';
+import { UsersService } from '@app/data/services/users.service';
+import { PATHS } from '../constants/paths.constant';
 
+/**
+ * Checks if the user is authorized
+ * @class Authentication Guard
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private usersService: UsersService) {}
 
   async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
-    if (await this.userService.logged()) {
+    if (await this.usersService.logged()) {
       return true;
     }
-    return this.router.parseUrl(URL.LOG_IN);
+    return this.router.parseUrl(PATHS.LOG_IN);
   }
 }
 
@@ -30,15 +34,15 @@ export class AuthGuard implements CanActivate {
   providedIn: 'root',
 })
 export class NotAuthGuard implements CanActivate {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private usersService: UsersService) {}
 
   async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
-    if (!await this.userService.logged()) {
+    if (!(await this.usersService.logged())) {
       return true;
     }
-    return this.router.parseUrl(URL.PAGE_NOT_FOUND);
+    return this.router.parseUrl(PATHS.PAGE_NOT_FOUND);
   }
 }

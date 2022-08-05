@@ -1,22 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { URL } from '@app/core/constants/urls.constant';
-import { UserService } from '@app/data/services/user.service';
+import { PATHS } from '@app/core/constants/paths.constant';
+import { UsersService } from '@app/data/services/users.service';
 
+/** @class Navigation Top Bar Component */
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private usersService: UsersService) {}
 
+  /**
+   * Log Out
+   * @function logOut
+   */
   logOut(): void {
-    this.userService.logOut();
+    this.usersService.logOut();
   }
 
+  /**
+   * Opens the Others page
+   * @funcntion others
+   */
   others(): void {
-    this.router.navigate([URL.OTHERS.BASE])
+    this.router.navigate([PATHS.OTHERS.BASE]);
   }
 
   ngOnInit(): void {}

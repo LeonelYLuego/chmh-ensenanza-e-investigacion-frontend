@@ -2,8 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from '@app/data/interfaces/user';
-import { UserService } from '@app/data/services/user.service';
+import { UsersService } from '@app/data/services/users.service';
 
+/** User Dialog Component */
 @Component({
   selector: 'app-user-dialog',
   templateUrl: './user-dialog.component.html',
@@ -24,39 +25,45 @@ export class UserDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<UserDialogComponent>,
-    private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) public data: User | undefined,
+    private usersService: UsersService,
+    @Inject(MAT_DIALOG_DATA) public data: User | undefined
   ) {
-    if(data) {
+    if (data) {
       this.user.setValue({
         administrator: data.administrator,
         password: '',
         username: data.username,
-      })
+      });
     }
   }
 
-  //Validate if exists an error
+  /**
+   * Sends the data to add an User
+   * @async
+   * @function addUser
+   */
   async addUser(): Promise<void> {
     const value = this.user.value;
     if (this.user.valid) {
-      const res = await this.userService.addUser({
+      const res = await this.usersService.addUser({
         _id: '',
         administrator: value.administrator!,
         username: value.username!,
         password: value.password!,
       });
-      if(res) {
+      if (res) {
         this.close();
       }
     }
   }
 
   //Validate if exists an error
-  async updateUser(): Promise<void> {
-    
-  }
+  async updateUser(): Promise<void> {}
 
+  /**
+   * Close the Dialog
+   * @function close
+   */
   close(): void {
     this.dialogRef.close();
   }
