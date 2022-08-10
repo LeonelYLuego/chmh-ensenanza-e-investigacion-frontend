@@ -4,7 +4,7 @@
   <button mat-button>Movilidades Obligatorias</button>
   <button mat-button>Movilidades Optativas</button>
   <button mat-button>Rotantes</button>
-  <button mat-button (click)="others()">Otros</button>
+  <button mat-button [routerLink]="'/' + paths.OTHERS">Otros</button>
   <span class="spacer-flex"></span>
   <button mat-icon-button aria-label="Cerrar Sesión" (click)="logOut()">
     <mat-icon>logout</mat-icon>

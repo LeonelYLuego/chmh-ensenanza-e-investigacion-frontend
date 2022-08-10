@@ -13,14 +13,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { SpecialtiesPageComponent } from './specialties-page/specialties-page.component';
+import { SpecialtyDialogComponent } from './specialty-dialog/specialty-dialog.component';
 
 /** @class Others Module */
 @NgModule({
-  declarations: [OthersPageComponent, UsersPageComponent, UserDialogComponent],
+  declarations: [OthersPageComponent, UsersPageComponent, UserDialogComponent, SpecialtiesPageComponent, SpecialtyDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     MatCardModule,
     MatGridListModule,
     MatButtonModule,

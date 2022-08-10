@@ -58,7 +58,20 @@ export class UserDialogComponent {
   }
 
   //Validate if exists an error
-  async updateUser(): Promise<void> {}
+  async updateUser(): Promise<void> {
+    const value = this.user.value;
+    if (this.user.valid) {
+      const res = await this.usersService.updateUser(this.data!._id, {
+        _id: this.data!._id,
+        username: value.username!,
+        password: value.password!,
+        administrator: value.administrator!,
+      });
+      if (res) {
+        this.close();
+      }
+    }
+  }
 
   /**
    * Close the Dialog

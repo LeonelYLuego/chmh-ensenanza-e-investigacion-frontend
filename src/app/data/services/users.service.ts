@@ -27,7 +27,10 @@ export class UsersService {
     localStorage.clear();
     return new Promise<boolean>((resolve, reject) => {
       this.http
-        .post<{ token?: string; user?: User }>(SERVER_ENDPOINTS.AUTH.LOGIN, user)
+        .post<{ token?: string; user?: User }>(
+          SERVER_ENDPOINTS.AUTH.LOGIN,
+          user
+        )
         .subscribe({
           next: (value) => {
             if (value)
@@ -151,10 +154,82 @@ export class UsersService {
               this.exceptionSnackbarService.serverPetition(err, [
                 {
                   errorMessage: 'user already exists',
-                  snackbarMessage: 'El usuario ya existe',
+                  snackbarMessage: 'El Usuario ya existe',
                 },
               ])
             )
+              resolve(false);
+            else reject(err);
+          },
+        });
+    });
+  }
+
+  async updateUser(_id: string, user: User): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.http
+        .put<User>(
+          `${SERVER_ENDPOINTS.USERS}/${_id}`,
+          {
+            username: user.username,
+            password: user.password,
+            administrator: user.administrator,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token')!,
+            },
+          }
+        )
+        .subscribe({
+          next: () => {
+            resolve(true);
+          },
+          error: (err) => {
+            if (
+              this.exceptionSnackbarService.serverPetition(err, [
+                {
+                  errorMessage: 'user not found',
+                  snackbarMessage: 'El Usuario es inválido',
+                },
+                {
+                  errorMessage: 'user not modified',
+                  snackbarMessage: 'El Usuario no se modificó',
+                },
+              ])
+            )
+              resolve(false);
+            else reject(err);
+          },
+        });
+    });
+  }
+
+  async deleteUser(_id: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.http
+        .delete(`${SERVER_ENDPOINTS.USERS}/${_id}`, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')!,
+          },
+        })
+        .subscribe({
+          next: () => resolve(true),
+          error: (err) => {
+            if (this.exceptionSnackbarService.serverPetition(err, [
+              {
+                errorMessage: 'user not found',
+                snackbarMessage: 'El Usuario es inválido',
+              },
+              {
+                errorMessage: 'user not modified',
+                snackbarMessage: 'El Usuario no se modificó',
+              },
+              {
+                errorMessage: 'the current user can not be deleted',
+                snackbarMessage: 'El Usuario actual no puede ser eliminado'
+              }
+            ]))
               resolve(false);
             else reject(err);
           },

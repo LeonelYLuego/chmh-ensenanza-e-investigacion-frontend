@@ -7,11 +7,11 @@ import { NotFoundPageComponent } from '../../modules/error-pages/not-found-page/
 import { OthersPageComponent } from '../../modules/others/others-page/others-page.component';
 import { UsersPageComponent } from '../../modules/others/users-page/users-page.component';
 import { PATHS } from '../constants/paths.constant';
+import { SpecialtiesPageComponent } from '@app/modules/others/specialties-page/specialties-page.component';
 
 const routes: Routes = [
   {
     path: PATHS.LOG_IN,
-    title: 'Iniciar Sesión',
     component: LogInComponent,
     canActivate: [NotAuthGuard],
   },
@@ -32,6 +32,12 @@ const routes: Routes = [
     title: 'Usuarios',
     component: UsersPageComponent,
     canActivate: [AuthGuard, AdministratorGuard],
+  },
+  {
+    path: PATHS.OTHERS.SPECIALTIES,
+    title: 'Especialidades',
+    component: SpecialtiesPageComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

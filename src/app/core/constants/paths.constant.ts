@@ -1,5 +1,5 @@
 export const RESOURCE_PATHS = {
-  OHTERS: 'others',
+  OTHERS: 'others',
 };
 
 export const PATHS = {
@@ -8,7 +8,8 @@ export const PATHS = {
   LOG_IN: 'log-in',
   PAGE_NOT_FOUND: '404',
   OTHERS: {
-    BASE: RESOURCE_PATHS.OHTERS,
-    USERS: RESOURCE_PATHS.OHTERS + '/users',
+    BASE: RESOURCE_PATHS.OTHERS,
+    USERS: RESOURCE_PATHS.OTHERS + '/users',
+    SPECIALTIES: RESOURCE_PATHS.OTHERS + '/specialties',
   },
 };

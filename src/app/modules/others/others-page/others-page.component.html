@@ -9,7 +9,12 @@
       </button>
     </mat-grid-tile>
     <mat-grid-tile>
-      <button mat-raised-button class="button-card" color="primary" disabled>
+      <button
+        mat-raised-button
+        class="button-card"
+        color="primary"
+        [routerLink]="'/' + paths.OTHERS.SPECIALTIES"
+      >
         <div class="word-wrap">Especialidades</div>
       </button>
     </mat-grid-tile>
@@ -48,7 +53,7 @@
         mat-raised-button
         class="button-card"
         color="primary"
-        (click)="user()"
+        [routerLink]="'/' + paths.OTHERS.USERS"
       >
         <div class="word-wrap">Usuarios</div>
       </button>

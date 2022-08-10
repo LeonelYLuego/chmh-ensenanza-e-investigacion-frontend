@@ -25,11 +25,11 @@ export class ExceptionSnackbarService {
     });
   }
 
-  private forbbidenException(
+  private forbiddenException(
     message: string,
-    forbbidenErrors: [{ errorMessage: string; snackbarMessage: string }]
+    forbiddenErrors: { errorMessage: string; snackbarMessage: string }[]
   ) {
-    for (let errorMessage of forbbidenErrors) {
+    for (let errorMessage of forbiddenErrors) {
       if (errorMessage.errorMessage == message) {
         this.snackBar.open(errorMessage.snackbarMessage, undefined, {
           duration: 2000,
@@ -64,18 +64,18 @@ export class ExceptionSnackbarService {
    * Shows a snackbar depends on the error
    * @function serverPetition
    * @param {HttpErrorResponse} error The HttpErrorResponse
-   * @param {[{ errorMessage: string; snackbarMessage: string }]?} forbbidenErrors The forbbiden error messages and the error message for the snackbar
+   * @param {[{ errorMessage: string; snackbarMessage: string }]?} forbiddenErrors The forbidden error messages and the error message for the snackbar
    * @returns {boolean} `true`: the error was displayed, `false`: the error was not displayed (unknown error)
    */
   serverPetition(
     error: HttpErrorResponse,
-    forbbidenErrors?: [{ errorMessage: string; snackbarMessage: string }]
+    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[],
   ): boolean {
     if (error.status == 401) {
       this.unauthorizedException();
-    } else if (error.status == 403 && forbbidenErrors) {
+    } else if (error.status == 403 && forbiddenErrors) {
       const message: ServerExceptionResponse = error.error;
-      this.forbbidenException(message.exception, forbbidenErrors);
+      this.forbiddenException(message.exception, forbiddenErrors);
     } else if (error.status == 404) {
       this.pageNotFound();
     } else if (error.status == 500) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PATHS } from '@app/core/constants/paths.constant';
+import { PATHS, RESOURCE_PATHS } from '@app/core/constants/paths.constant';
 import { UsersService } from '@app/data/services/users.service';
 
 /** @class Navigation Top Bar Component */
@@ -10,6 +10,8 @@ import { UsersService } from '@app/data/services/users.service';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
+  paths = RESOURCE_PATHS;
+
   constructor(private router: Router, private usersService: UsersService) {}
 
   /**
@@ -18,14 +20,6 @@ export class NavComponent implements OnInit {
    */
   logOut(): void {
     this.usersService.logOut();
-  }
-
-  /**
-   * Opens the Others page
-   * @funcntion others
-   */
-  others(): void {
-    this.router.navigate([PATHS.OTHERS.BASE]);
   }
 
   ngOnInit(): void {}

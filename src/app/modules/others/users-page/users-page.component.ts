@@ -62,4 +62,9 @@ export class UsersPageComponent implements OnInit {
       .afterClosed()
       .subscribe(async () => (this.users = await this.usersService.getUsers()));
   }
+
+  async delete(_id: string): Promise<void> {
+    await this.usersService.deleteUser(_id);
+    this.users = await this.usersService.getUsers();
+  }
 }

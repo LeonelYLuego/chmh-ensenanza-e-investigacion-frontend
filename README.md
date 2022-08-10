@@ -1,6 +1,6 @@
 # Centenario Hispital Miguel Hidalgo - Departamento de Enseñanza e Investigación
 
-![](/documents/images/logo.jpg)
+![](https://raw.githubusercontent.com/LeonelYLuego/chmh-ensenanza-e-investigacion-frontend/main/documents/images/logo.png)
 
 ## Development server
 

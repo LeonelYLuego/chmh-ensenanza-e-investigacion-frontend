@@ -11,15 +11,12 @@ import { User } from '@app/data/interfaces/user';
 })
 export class OthersPageComponent implements OnInit {
   administrator: boolean = false;
+  paths = PATHS;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user')!) as User;
     this.administrator = user.administrator;
-  }
-
-  user() {
-    this.router.navigate([PATHS.OTHERS.USERS]);
   }
 }

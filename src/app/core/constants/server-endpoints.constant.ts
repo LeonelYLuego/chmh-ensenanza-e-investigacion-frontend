@@ -10,4 +10,5 @@ export const SERVER_ENDPOINTS = {
     LOGGED: PATHS.SERVER + SERVER_RESOURCES.AUTH + '/logged',
   },
   USERS: PATHS.SERVER + '/users',
+  SPECIALTIES: PATHS.SERVER + '/specialties'
 };
