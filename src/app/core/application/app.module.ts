@@ -13,6 +13,7 @@ import { DataModule } from '@app/data/data.module';
 import { AuthModule } from '@app/modules/auth/auth.module';
 import { OthersModule } from '@app/modules/others/others.module';
 import { ErrorPagesModule } from '@app/modules/error-pages/error-pages.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 /** Application Module */
 @NgModule({
@@ -24,6 +25,7 @@ import { ErrorPagesModule } from '@app/modules/error-pages/error-pages.module';
 
     CoreModule,
     DataModule,
+    SharedModule,
     BrowserAnimationsModule,
 
     AuthModule,

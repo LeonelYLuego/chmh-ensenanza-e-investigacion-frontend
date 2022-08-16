@@ -16,10 +16,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SpecialtiesPageComponent } from './specialties-page/specialties-page.component';
 import { SpecialtyDialogComponent } from './specialty-dialog/specialty-dialog.component';
+import { StudentsPageComponent } from './students-page/students-page.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 /** @class Others Module */
 @NgModule({
-  declarations: [OthersPageComponent, UsersPageComponent, UserDialogComponent, SpecialtiesPageComponent, SpecialtyDialogComponent],
+  declarations: [OthersPageComponent, UsersPageComponent, UserDialogComponent, SpecialtiesPageComponent, SpecialtyDialogComponent, StudentsPageComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -34,6 +37,8 @@ import { SpecialtyDialogComponent } from './specialty-dialog/specialty-dialog.co
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
+    MatSelectModule,
+    MatProgressBarModule,
   ],
 })
 export class OthersModule {}

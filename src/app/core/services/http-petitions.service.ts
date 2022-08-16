@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ExceptionSnackbarService } from './exception-snackbar.service';
 
@@ -13,14 +13,23 @@ export class HttpPetitions {
 
   async get<Type>(
     url: string,
-    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[]
+    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[],
+    params?: { name: string; value: string }[]
   ): Promise<Type | undefined> {
+    let sendParams: undefined | HttpParams = undefined;
+    if (params) {
+      sendParams = new HttpParams();
+      params.map((param) => {
+        sendParams = sendParams!.set(param.name, param.value);
+      });
+    }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
         .get<Type>(url, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
+          params: sendParams,
         })
         .subscribe({
           next: (value) => resolve(value),

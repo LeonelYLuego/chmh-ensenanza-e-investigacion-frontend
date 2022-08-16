@@ -16,6 +16,7 @@ export class SpecialtiesPageComponent implements OnInit {
   specialties: Specialty[] = [];
   err: any;
   displayedColumns: string[] = ['specialty', 'update', 'delete'];
+  loading = false;
 
   constructor(
     private http: HttpPetitions,
@@ -24,7 +25,9 @@ export class SpecialtiesPageComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
     this.getSpecialties();
+    this.loading = false;
   }
 
   async getSpecialties(): Promise<void> {

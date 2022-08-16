@@ -1,0 +1,135 @@
+<h1 mat-dialog-title *ngIf="data.student">Editar Alumno</h1>
+<h1 mat-dialog-title *ngIf="!data.student">Agregar Alumno</h1>
+<form (submit)="data.student ? updateStudent() : addStudent()">
+  <mat-dialog-content>
+    <mat-form-field class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput [formControl]="studentFormControl.controls.name" />
+      <mat-error *ngIf="studentFormControl.controls.name.invalid"
+        >Nombre <strong>Iválido</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Apellido Paterno</mat-label>
+      <input
+        matInput
+        [formControl]="studentFormControl.controls.firstLastname"
+      />
+      <mat-error *ngIf="studentFormControl.controls.firstLastname.invalid"
+        >Apellido Paterno <strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Apellido Materno</mat-label>
+      <input
+        matInput
+        [formControl]="studentFormControl.controls.secondLastname"
+      />
+      <mat-error *ngIf="studentFormControl.controls.secondLastname.invalid"
+        >Apellido Materno <strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Código</mat-label>
+      <input
+        matInput
+        [formControl]="studentFormControl.controls.code"
+      />
+      <mat-error *ngIf="studentFormControl.controls.code.invalid"
+        >Código <strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Especialidad</mat-label>
+      <mat-select
+        [formControl]="studentFormControl.controls.specialty"
+        required
+      >
+        <mat-option
+          *ngFor="let specialty of specialties"
+          [value]="specialty._id"
+          >{{ specialty.value }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Generación</mat-label>
+      <mat-select
+        [formControl]="studentFormControl.controls.lastYearGeneration"
+        required
+      >
+        <mat-option
+          *ngFor="let generation of generations"
+          [value]="generation.value"
+          >{{ generation.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      class="full-width"
+      *ngFor="
+        let phoneFormControl of studentFormControl.controls.phones.controls;
+        let i = index
+      "
+      [attr.data-index]="i"
+    >
+      <mat-label>Teléfono</mat-label>
+      <input
+        matInput
+        [formControl]="phoneFormControl"
+        placeholder="Ej. +52 449 123 4567"
+      />
+      <mat-error *ngIf="phoneFormControl.invalid"
+        >Teléfono <strong>Inválido</strong></mat-error
+      >
+      <button matSuffix mat-icon-button (click)="deletePhone(+i)">
+        <mat-icon color="warn">close</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="full-width" style="clear: both; overflow: hidden">
+      <button
+        type="button"
+        mat-raised-button
+        style="float: right"
+        color="primary"
+        (click)="addPhone()"
+      >
+        Agregar Teléfono
+      </button>
+    </div>
+    <div style="margin-bottom: 20px"></div>
+    <mat-form-field
+      class="full-width"
+      *ngFor="
+        let emailFormControl of studentFormControl.controls.emails.controls;
+        let i = index
+      "
+      [attr.data-index]="i"
+    >
+      <mat-label>Correo</mat-label>
+      <input matInput [formControl]="emailFormControl" />
+      <mat-error *ngIf="emailFormControl.invalid"
+        >Correo <strong>Inválido</strong></mat-error
+      >
+      <button matSuffix mat-icon-button (click)="deleteEmail(+i)">
+        <mat-icon color="warn">close</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="full-width" style="clear: both; overflow: hidden">
+      <button
+        type="button"
+        mat-raised-button
+        style="float: right"
+        color="primary"
+        (click)="addEmail()"
+      >
+        Agregar Correo
+      </button>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="accent" *ngIf="data.student">Editar</button>
+    <button mat-raised-button color="primary" *ngIf="!data.student">Agregar</button>
+  </mat-dialog-actions>
+</form>

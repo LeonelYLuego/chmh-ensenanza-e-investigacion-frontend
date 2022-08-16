@@ -8,6 +8,7 @@ import { OthersPageComponent } from '../../modules/others/others-page/others-pag
 import { UsersPageComponent } from '../../modules/others/users-page/users-page.component';
 import { PATHS } from '../constants/paths.constant';
 import { SpecialtiesPageComponent } from '@app/modules/others/specialties-page/specialties-page.component';
+import { StudentsPageComponent } from '@app/modules/others/students-page/students-page.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,12 @@ const routes: Routes = [
     path: PATHS.OTHERS.SPECIALTIES,
     title: 'Especialidades',
     component: SpecialtiesPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: PATHS.OTHERS.STUDENTS,
+    title: 'Estudiantes',
+    component: StudentsPageComponent,
     canActivate: [AuthGuard],
   },
   {

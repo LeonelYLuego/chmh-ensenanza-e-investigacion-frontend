@@ -18,11 +18,14 @@ export class UsersPageComponent implements OnInit {
     'update',
     'delete',
   ];
+  loading = false;
 
   constructor(private usersService: UsersService, private dialog: MatDialog) {}
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
     this.users = await this.usersService.getUsers();
+    this.loading = false;
   }
 
   /**

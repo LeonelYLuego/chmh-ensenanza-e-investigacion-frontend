@@ -1,43 +1,55 @@
 <mat-card class="main-card">
-  <mat-card-title>Especialidades</mat-card-title>
+  <mat-card-title>
+    <span class="main-card-title">Especialidades</span>
+    <button
+      mat-raised-button
+      color="primary"
+      class="main-card-right-button"
+      (click)="addSpecialtyDialog()"
+    >
+      Agregar Especialidad
+    </button>
+  </mat-card-title>
   <mat-divider></mat-divider>
   <div style="margin-bottom: 20px"></div>
-  <button mat-raised-button color="primary" (click)="addSpecialtyDialog()">
-    Agregar Especialidad
-  </button>
-  <table mat-table [dataSource]="specialties" class="full-width">
-    <ng-container matColumnDef="specialty">
-      <th mat-header-cell *matHeaderCellDef>Especialidad</th>
-      <td mat-cell *matCellDef="let specialty">{{ specialty.value }}</td>
-    </ng-container>
-    <ng-container matColumnDef="update">
-      <th mat-header-cell *matHeaderCellDef>Editar</th>
-      <td mat-cell *matCellDef="let specialty">
-        <button
-          mat-raised-button
-          color="accent"
-          (click)="updateSpecialtyDialog(specialty)"
-        >
-          Editar
-        </button>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef>Eliminar</th>
-      <td mat-cell *matCellDef="let specialty">
-        <button
-          mat-raised-button
-          color="warn"
-          (click)="deleteSpecialty(specialty._id)"
-        >
-          Eliminar
-        </button>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+  <mat-card-content *ngIf="!loading">
+    <table mat-table [dataSource]="specialties" class="full-width">
+      <ng-container matColumnDef="specialty">
+        <th mat-header-cell *matHeaderCellDef>Especialidad</th>
+        <td mat-cell *matCellDef="let specialty">{{ specialty.value }}</td>
+      </ng-container>
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef>Editar</th>
+        <td mat-cell *matCellDef="let specialty">
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="updateSpecialtyDialog(specialty)"
+          >
+            Editar
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+        <td mat-cell *matCellDef="let specialty">
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="deleteSpecialty(specialty._id)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
   <mat-card-actions align="end">
     <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
   </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
 </mat-card>
