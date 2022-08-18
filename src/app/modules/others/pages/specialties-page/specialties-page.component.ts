@@ -5,7 +5,7 @@ import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Specialty } from '@app/data/interfaces/specialty';
 import { SpecialtiesService } from '@app/data/services/specialties.service';
 import to from 'await-to-js';
-import { SpecialtyDialogComponent } from '../specialty-dialog/specialty-dialog.component';
+import { SpecialtyDialogComponent } from '../../dialogs/specialty-dialog/specialty-dialog.component';
 
 @Component({
   selector: 'app-specialties-page',

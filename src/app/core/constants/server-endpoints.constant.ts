@@ -12,4 +12,5 @@ export const SERVER_ENDPOINTS = {
   USERS: PATHS.SERVER + '/users',
   SPECIALTIES: PATHS.SERVER + '/specialties',
   STUDENTS: PATHS.SERVER + '/students',
+  HOSPITALS: PATHS.SERVER + '/hospitals'
 };

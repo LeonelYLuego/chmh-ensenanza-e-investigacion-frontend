@@ -4,11 +4,12 @@ import { AdministratorGuard } from '../guards/administrator.guard';
 import { AuthGuard, NotAuthGuard } from '../guards/auth.guard';
 import { LogInComponent } from '../../modules/auth/log-in/log-in.component';
 import { NotFoundPageComponent } from '../../modules/error-pages/not-found-page/not-found-page.component';
-import { OthersPageComponent } from '../../modules/others/others-page/others-page.component';
-import { UsersPageComponent } from '../../modules/others/users-page/users-page.component';
+import { OthersPageComponent } from '../../modules/others/pages/others-page/others-page.component';
+import { UsersPageComponent } from '../../modules/others/pages/users-page/users-page.component';
 import { PATHS } from '../constants/paths.constant';
-import { SpecialtiesPageComponent } from '@app/modules/others/specialties-page/specialties-page.component';
-import { StudentsPageComponent } from '@app/modules/others/students-page/students-page.component';
+import { SpecialtiesPageComponent } from '@app/modules/others/pages/specialties-page/specialties-page.component';
+import { StudentsPageComponent } from '@app/modules/others/pages/students-page/students-page.component';
+import { HospitalsPageComponent } from '@app/modules/others/pages/hospitals-page/hospitals-page.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,12 @@ const routes: Routes = [
     path: PATHS.OTHERS.STUDENTS,
     title: 'Estudiantes',
     component: StudentsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: PATHS.OTHERS.HOSPITALS,
+    title: 'Hospitales',
+    component: HospitalsPageComponent,
     canActivate: [AuthGuard],
   },
   {

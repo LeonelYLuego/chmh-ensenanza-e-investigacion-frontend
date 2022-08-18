@@ -31,10 +31,7 @@
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Código</mat-label>
-      <input
-        matInput
-        [formControl]="studentFormControl.controls.code"
-      />
+      <input matInput [formControl]="studentFormControl.controls.code" />
       <mat-error *ngIf="studentFormControl.controls.code.invalid"
         >Código <strong>Inválido</strong></mat-error
       >
@@ -71,7 +68,6 @@
         let phoneFormControl of studentFormControl.controls.phones.controls;
         let i = index
       "
-      [attr.data-index]="i"
     >
       <mat-label>Teléfono</mat-label>
       <input
@@ -86,11 +82,11 @@
         <mat-icon color="warn">close</mat-icon>
       </button>
     </mat-form-field>
-    <div class="full-width" style="clear: both; overflow: hidden">
+    <div class="full-width dialog-button-container">
       <button
         type="button"
         mat-raised-button
-        style="float: right"
+        class="dialog-button"
         color="primary"
         (click)="addPhone()"
       >
@@ -104,7 +100,6 @@
         let emailFormControl of studentFormControl.controls.emails.controls;
         let i = index
       "
-      [attr.data-index]="i"
     >
       <mat-label>Correo</mat-label>
       <input matInput [formControl]="emailFormControl" />
@@ -115,11 +110,11 @@
         <mat-icon color="warn">close</mat-icon>
       </button>
     </mat-form-field>
-    <div class="full-width" style="clear: both; overflow: hidden">
+    <div class="full-width dialog-button-container">
       <button
         type="button"
         mat-raised-button
-        style="float: right"
+        class="dialog-button"
         color="primary"
         (click)="addEmail()"
       >
@@ -129,7 +124,11 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button type="button" (click)="close()">Cancelar</button>
-    <button mat-raised-button color="accent" *ngIf="data.student">Editar</button>
-    <button mat-raised-button color="primary" *ngIf="!data.student">Agregar</button>
+    <button mat-raised-button color="accent" *ngIf="data.student">
+      Editar
+    </button>
+    <button mat-raised-button color="primary" *ngIf="!data.student">
+      Agregar
+    </button>
   </mat-dialog-actions>
 </form>

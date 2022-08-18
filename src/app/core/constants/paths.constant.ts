@@ -12,5 +12,6 @@ export const PATHS = {
     USERS: RESOURCE_PATHS.OTHERS + '/users',
     SPECIALTIES: RESOURCE_PATHS.OTHERS + '/specialties',
     STUDENTS: RESOURCE_PATHS.OTHERS + '/students',
+    HOSPITALS: RESOURCE_PATHS.OTHERS + '/hospitals',
   },
 };

@@ -24,6 +24,16 @@
       </button>
     </mat-grid-tile>
     <mat-grid-tile>
+      <button
+        mat-raised-button
+        class="button-card"
+        color="primary"
+        [routerLink]="'/' + paths.OTHERS.HOSPITALS"
+      >
+        <div class="word-wrap">Hospitales</div>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
       <button mat-raised-button class="button-card" color="primary" disabled>
         <div class="word-wrap">Servicios a Rotar</div>
       </button>
@@ -36,11 +46,6 @@
     <mat-grid-tile>
       <button mat-raised-button class="button-card" color="primary" disabled>
         <div class="word-wrap">Servicios a Rotar Externos</div>
-      </button>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <button mat-raised-button class="button-card" color="primary" disabled>
-        <div class="word-wrap">Hospitales</div>
       </button>
     </mat-grid-tile>
     <mat-grid-tile>

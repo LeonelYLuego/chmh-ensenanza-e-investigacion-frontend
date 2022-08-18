@@ -1,0 +1,71 @@
+<mat-card class="main-card">
+  <mat-card-title>
+    <span class="main-card-title">Hospitales</span>
+    <button
+      mat-raised-button
+      color="primary"
+      class="main-card-right-button"
+      (click)="addHospitalDialog()"
+    >
+      Agregar Hospital
+    </button>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-card-content *ngIf="!loading">
+    <table mat-table [dataSource]="hospitals" class="full-width">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let hospital">{{ hospital.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef>Dirección</th>
+        <td mat-cell *matCellDef="let hospital">
+          {{
+            hospital.address
+              ? hospital.address.country +
+                ", " +
+                hospital.address.state +
+                ", " +
+                hospital.address.city +
+                ". " +
+                hospital.address.street
+              : ""
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef>Editar</th>
+        <td mat-cell *matCellDef="let hospital">
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="updateHospitalDialog(hospital)"
+          >
+            Editar
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+        <td mat-cell *matCellDef="let hospital">
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="deleteHospital(hospital._id)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

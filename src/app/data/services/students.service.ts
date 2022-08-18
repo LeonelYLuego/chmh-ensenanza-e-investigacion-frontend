@@ -13,6 +13,18 @@ export class StudentsService {
       errorMessage: 'users specialty not found',
       snackbarMessage: 'Especialidad no encontrada',
     },
+    {
+      errorMessage: 'student not found',
+      snackbarMessage: 'Estudiante no encontrado',
+    },
+    {
+      errorMessage: 'student not modified',
+      snackbarMessage: 'Estudiante no modificado',
+    },
+    {
+      errorMessage: 'student not deleted',
+      snackbarMessage: 'Estudiante no eliminado',
+    },
   ];
 
   constructor(private http: HttpPetitions) {}

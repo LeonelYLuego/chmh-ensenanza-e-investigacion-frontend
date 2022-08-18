@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '@app/data/interfaces/user';
 import { UsersService } from '@app/data/services/users.service';
-import { UserDialogComponent } from '../user-dialog/user-dialog.component';
+import { UserDialogComponent } from '../../dialogs/user-dialog/user-dialog.component';
 
 /** @class Users Page Component */
 @Component({

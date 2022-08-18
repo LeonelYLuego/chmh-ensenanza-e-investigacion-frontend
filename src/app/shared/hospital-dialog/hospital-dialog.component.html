@@ -1,0 +1,197 @@
+<h1 mat-dialog-title *ngIf="data">Editar Hospital</h1>
+<h1 mat-dialog-title *ngIf="!data">Agregar Hospital</h1>
+<form (submit)="data ? updateHospital() : addHospital()">
+  <mat-dialog-content>
+    <mat-form-field class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput [formControl]="hospitalFormControl.controls.name" />
+      <mat-error *ngIf="hospitalFormControl.controls.name.invalid">
+        Nombre <strong>Inválido</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Sinónimo</mat-label>
+      <input
+        matInput
+        [formControl]="hospitalFormControl.controls.acronym"
+        placeholder="Ej. CHMH"
+      />
+      <mat-error *ngIf="hospitalFormControl.controls.acronym.invalid">
+        Sinónimo <strong>Inválido</strong>
+      </mat-error>
+    </mat-form-field>
+    <div class="full-width dialog-button-container" *ngIf="!showDirectorInputs">
+      <button
+        type="button"
+        mat-raised-button
+        class="dialog-button"
+        color="primary"
+        (click)="showDirectorInputs = true"
+      >
+        Agregar datos del Director
+      </button>
+    </div>
+    <div *ngIf="showDirectorInputs">
+      <h4>Datos del Director</h4>
+      <mat-form-field class="full-width">
+        <mat-label>Nombre del Director</mat-label>
+        <input matInput [formControl]="directorFormControl.controls.name" />
+        <mat-error *ngIf="directorFormControl.controls.name.invalid"
+          >Nombre <strong>Inválido</strong></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Puesto del Director</mat-label>
+        <input matInput [formControl]="directorFormControl.controls.position" />
+        <mat-error *ngIf="directorFormControl.controls.position.invalid"
+          >Puesto <strong>Inválido</strong></mat-error
+        >
+      </mat-form-field>
+      <div class="full-width dialog-button-container">
+        <button
+          type="button"
+          mat-raised-button
+          class="dialog-button"
+          color="warn"
+          (click)="removeDirector()"
+        >
+          Quitar datos del Director
+        </button>
+      </div>
+    </div>
+    <mat-form-field class="full-width">
+      <mat-label>Nombre del Jefe de Enseñanza</mat-label>
+      <input
+        matInput
+        [formControl]="hospitalFormControl.controls.educationBoss"
+      />
+      <mat-error *ngIf="hospitalFormControl.controls.educationBoss.invalid"
+        >Nombre <strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+    <div class="dialog-button-container" *ngIf="!showAddressInputs">
+      <button
+        type="button"
+        mat-raised-button
+        class="dialog-button"
+        color="primary"
+        (click)="showAddressInputs = true"
+      >
+        Agregar datos de Ubicación
+      </button>
+    </div>
+    <div *ngIf="showAddressInputs">
+      <h4>Ubicación del Hospital</h4>
+      <mat-form-field class="full-width">
+        <mat-label>País</mat-label>
+        <input matInput [formControl]="addressFormControl.controls.country" />
+        <mat-error *ngIf="addressFormControl.controls.country.invalid"
+          >País <strong>Inválido</strong></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Estado</mat-label>
+        <input matInput [formControl]="addressFormControl.controls.state" />
+        <mat-error *ngIf="addressFormControl.controls.state.invalid"
+          >Estado <strong>Inválido</strong></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Ciudad</mat-label>
+        <input matInput [formControl]="addressFormControl.controls.city" />
+        <mat-error *ngIf="addressFormControl.controls.city.invalid"
+          >Ciudad <strong>Inválida</strong></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Dirección</mat-label>
+        <input matInput [formControl]="addressFormControl.controls.street" />
+        <mat-error *ngIf="addressFormControl.controls.street.invalid"
+          >Dirección <strong>Inválida</strong></mat-error
+        >
+      </mat-form-field>
+      <div class="dialog-button-container">
+        <button
+          type="button"
+          mat-raised-button
+          class="dialog-button"
+          color="warn"
+          (click)="removeAddress()"
+        >
+          Quitar datos de Ubicación
+        </button>
+      </div>
+    </div>
+    <div style="margin-bottom: 20px"></div>
+    <mat-form-field
+      class="full-width"
+      *ngFor="
+        let phoneFormControl of hospitalFormControl.controls.phones.controls;
+        let i = index
+      "
+    >
+      <mat-label>Teléfono</mat-label>
+      <input
+        matInput
+        [formControl]="phoneFormControl"
+        placeholder="Ej. +52 449 123 4567"
+      />
+      <mat-error *ngIf="phoneFormControl.invalid"
+        >Teléfono <strong>Inválido</strong></mat-error
+      >
+      <button matSuffix mat-icon-button (click)="deletePhone(+i)">
+        <mat-icon color="warn">close</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="dialog-button-container">
+      <button
+        type="button"
+        mat-raised-button
+        class="dialog-button"
+        color="primary"
+        (click)="addPhone()"
+      >
+        Agregar Teléfono
+      </button>
+    </div>
+    <div style="margin-bottom: 20px"></div>
+    <mat-form-field
+      class="full-width"
+      *ngFor="
+        let emailFormControl of hospitalFormControl.controls.emails.controls;
+        let i = index
+      "
+    >
+      <mat-label>Correo</mat-label>
+      <input matInput [formControl]="emailFormControl" />
+      <mat-error *ngIf="emailFormControl.invalid"
+        >Correo <strong>Inválido</strong></mat-error
+      >
+      <button matSuffix mat-icon-button (click)="deleteEmail(+i)">
+        <mat-icon color="warn">close</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="full-width dialog-button-container">
+      <button
+        type="button"
+        mat-raised-button
+        class="dialog-button"
+        color="primary"
+        (click)="addEmail()"
+      >
+        Agregar Correo
+      </button>
+    </div>
+    <mat-checkbox
+      color="primary"
+      [formControl]="hospitalFormControl.controls.socialService"
+      >Servicio Social</mat-checkbox
+    >
+    <div style="margin-bottom: 10px"></div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="accent" *ngIf="data">Editar</button>
+    <button mat-raised-button color="primary" *ngIf="!data">Agregar</button>
+  </mat-dialog-actions>
+</form>
