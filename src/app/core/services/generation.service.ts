@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
+/** Service to manage the Generations */
 export class generationService {
   constructor() {}
 
-  getGenerations(): {name: string, value: number}[] {
-    const generations: {name: string, value: number}[] = [];
+  /**
+   * Gets the inital year, last year and grade of generation. Sets in the value object the last year of the generation
+   * @returns {{name: string, value: number}[]}
+   */
+  getGenerations(): { name: string; value: number }[] {
+    const generations: { name: string; value: number }[] = [];
     const today = new Date();
     let month = today.getMonth() + 1,
       year = today.getFullYear();

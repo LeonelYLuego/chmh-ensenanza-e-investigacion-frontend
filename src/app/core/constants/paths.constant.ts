@@ -1,7 +1,13 @@
+/**
+ * Resources paths
+ */
 export const RESOURCE_PATHS = {
   OTHERS: 'others',
 };
 
+/**
+ * Paths for routing
+ */
 export const PATHS = {
   SERVER: 'http://localhost:3000',
   ROOT: '/',

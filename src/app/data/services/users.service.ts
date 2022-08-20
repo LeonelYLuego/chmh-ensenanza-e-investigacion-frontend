@@ -165,6 +165,13 @@ export class UsersService {
     });
   }
 
+  /**
+   * Updates the specified User
+   * @async
+   * @param {string} _id _id of the User
+   * @param {User} user User to update
+   * @returns {Promise<boolean>} `true`: if the User has been updated, `false`: if the User has not been updated
+   */
   async updateUser(_id: string, user: User): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.http
@@ -205,6 +212,12 @@ export class UsersService {
     });
   }
 
+  /**
+   * Deletes the specified User
+   * @async
+   * @param {string} _id _id of the Student
+   * @returns {Promise<boolean>} `true`: if the User has been deleted, `false`: if the User has not been deleted
+   */
   async deleteUser(_id: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.http
@@ -216,20 +229,22 @@ export class UsersService {
         .subscribe({
           next: () => resolve(true),
           error: (err) => {
-            if (this.exceptionSnackbarService.serverPetition(err, [
-              {
-                errorMessage: 'user not found',
-                snackbarMessage: 'El Usuario es inválido',
-              },
-              {
-                errorMessage: 'user not modified',
-                snackbarMessage: 'El Usuario no se modificó',
-              },
-              {
-                errorMessage: 'the current user can not be deleted',
-                snackbarMessage: 'El Usuario actual no puede ser eliminado'
-              }
-            ]))
+            if (
+              this.exceptionSnackbarService.serverPetition(err, [
+                {
+                  errorMessage: 'user not found',
+                  snackbarMessage: 'El Usuario es inválido',
+                },
+                {
+                  errorMessage: 'user not modified',
+                  snackbarMessage: 'El Usuario no se modificó',
+                },
+                {
+                  errorMessage: 'the current user can not be deleted',
+                  snackbarMessage: 'El Usuario actual no puede ser eliminado',
+                },
+              ])
+            )
               resolve(false);
             else reject(err);
           },

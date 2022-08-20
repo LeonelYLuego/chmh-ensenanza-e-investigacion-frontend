@@ -9,6 +9,7 @@ import { SpecialtiesService } from '@app/data/services/specialties.service';
   templateUrl: './specialty-dialog.component.html',
   styleUrls: ['./specialty-dialog.component.css'],
 })
+/** @class Specialty Dialog Component */
 export class SpecialtyDialogComponent implements OnInit {
   value = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
@@ -22,6 +23,10 @@ export class SpecialtyDialogComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Sends the dialog data to the server for add a Specialty
+   * @async
+   */
   async addSpecialty(): Promise<void> {
     if (this.value.valid)
       if (
@@ -32,6 +37,9 @@ export class SpecialtyDialogComponent implements OnInit {
         this.close();
   }
 
+  /**
+   * Sends the dialog data to the server to update the Specialty
+   */
   async updateSpecialty(): Promise<void> {
     if (this.value.valid) {
       if (
@@ -43,6 +51,9 @@ export class SpecialtyDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Closes the dialog
+   */
   close(): void {
     this.dialogRef.close();
   }

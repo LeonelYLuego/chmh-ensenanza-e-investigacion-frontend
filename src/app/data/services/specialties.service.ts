@@ -6,6 +6,7 @@ import { Specialty } from '../interfaces/specialty';
 @Injectable({
   providedIn: 'root',
 })
+/** @class Specialties Service */
 export class SpecialtiesService {
   err: any;
   forbiddenErrors = [
@@ -25,11 +26,22 @@ export class SpecialtiesService {
 
   constructor(private http: HttpPetitions) {}
 
+  /**
+   * Gets all Specialties from the server
+   * @async
+   * @returns {Promise<Specialty[]>} the found Specialties
+   */
   async getSpecialties(): Promise<Specialty[]> {
     let data = await this.http.get<Specialty[]>(SERVER_ENDPOINTS.SPECIALTIES);
     return data ?? [];
   }
 
+  /**
+   * Adds the Specialty in the server
+   * @async
+   * @param {Specialty} specialty
+   * @returns {Promise<Specialty | null>} the added Specialty
+   */
   async addSpecialty(specialty: Specialty): Promise<Specialty | null> {
     let data = await this.http.post<Specialty>(
       SERVER_ENDPOINTS.SPECIALTIES,
@@ -39,6 +51,13 @@ export class SpecialtiesService {
     return data ?? null;
   }
 
+  /**
+   * Updates the specified Specialty in the server
+   * @async
+   * @param {string} _id _id of the Specialty
+   * @param {Specialty} specialty
+   * @returns {Promise<Specialty | null>} the updated Specialty
+   */
   async updateSpecialty(
     _id: string,
     specialty: Specialty
@@ -51,6 +70,11 @@ export class SpecialtiesService {
     return data ?? null;
   }
 
+  /**
+   * Deletes the specified Specialty in the server
+   * @async
+   * @param {string} _id
+   */
   async deleteSpecialty(_id: string): Promise<void> {
     await this.http.delete(
       `${SERVER_ENDPOINTS.SPECIALTIES}/${_id}`,

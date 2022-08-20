@@ -57,7 +57,9 @@ export class UserDialogComponent {
     }
   }
 
-  //Validate if exists an error
+  /**
+   * Sends the dialog update the User
+   */
   async updateUser(): Promise<void> {
     const value = this.user.value;
     if (this.user.valid) {

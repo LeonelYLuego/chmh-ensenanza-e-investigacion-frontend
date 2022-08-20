@@ -29,7 +29,7 @@ export class UsersPageComponent implements OnInit {
   }
 
   /**
-   * Opens User Dialog
+   * Opens User Dialog to add User
    * @function addUserDialog
    */
   addUserDialog(): void {
@@ -66,6 +66,11 @@ export class UsersPageComponent implements OnInit {
       .subscribe(async () => (this.users = await this.usersService.getUsers()));
   }
 
+  /**
+   * Deletes a specified User
+   * @async
+   * @param {string} _id _id of the User
+   */
   async delete(_id: string): Promise<void> {
     await this.usersService.deleteUser(_id);
     this.users = await this.usersService.getUsers();

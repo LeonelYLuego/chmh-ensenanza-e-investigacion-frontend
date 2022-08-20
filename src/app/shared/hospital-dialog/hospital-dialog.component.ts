@@ -9,6 +9,7 @@ import { HospitalsService } from '@app/data/services/hospitals.service';
   templateUrl: './hospital-dialog.component.html',
   styleUrls: ['./hospital-dialog.component.css'],
 })
+/** @class Hospital Dialog Component */
 export class HospitalDialogComponent implements OnInit {
   private textValidators = [
     Validators.required,
@@ -52,6 +53,7 @@ export class HospitalDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Checks if exists a hospital to edit
     if (this.data) {
       this.hospitalFormControl.setValue({
         name: this.data.name,
@@ -86,12 +88,18 @@ export class HospitalDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Disapears the direcitor form controls
+   */
   removeDirector(): void {
     this.directorFormControl.controls.name.setValue('');
     this.directorFormControl.controls.position.setValue('');
     this.showDirectorInputs = false;
   }
 
+  /**
+   * Disapears the address form controls
+   */
   removeAddress(): void {
     this.addressFormControl.controls.country.setValue('');
     this.addressFormControl.controls.state.setValue('');
@@ -100,6 +108,10 @@ export class HospitalDialogComponent implements OnInit {
     this.showAddressInputs = false;
   }
 
+  /**
+   * Adds a phone control to the dialog
+   * @param {string} phone phone value
+   */
   addPhone(phone: string = ''): void {
     this.hospitalFormControl.controls.phones.push(
       new FormControl(phone, [
@@ -111,10 +123,18 @@ export class HospitalDialogComponent implements OnInit {
     );
   }
 
+  /**
+   * Deletes a specified phone control of the dialog
+   * @param {number} index
+   */
   deletePhone(index: number): void {
     this.hospitalFormControl.controls.phones.removeAt(index);
   }
 
+  /**
+   * Adds a email control to the dialog
+   * @param {string} email email value
+   */
   addEmail(email: string = ''): void {
     this.hospitalFormControl.controls.emails.push(
       new FormControl(email, [
@@ -126,10 +146,19 @@ export class HospitalDialogComponent implements OnInit {
     );
   }
 
+  /**
+   * Deletes a specified email control of the dialog
+   * @param {number} index
+   */
   deleteEmail(index: number): void {
     this.hospitalFormControl.controls.emails.removeAt(index);
   }
 
+  /**
+   * Get the dialog data and transforms to Hospital object
+   * @returns {Hospital} Hospital object if is valid
+   * @returns {null} if is no valid
+   */
   private getHospital(): Hospital | null {
     if (this.hospitalFormControl.valid) {
       const data = this.hospitalFormControl.value;
@@ -177,6 +206,10 @@ export class HospitalDialogComponent implements OnInit {
     return null;
   }
 
+  /**
+   * Sends the dialog data for add a Hospital in the server
+   * @async
+   */
   async addHospital(): Promise<void> {
     const hospital = this.getHospital();
     if (hospital) {
@@ -184,6 +217,10 @@ export class HospitalDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the dialog data for update a specified Hospital in the server
+   * @async
+   */
   async updateHospital(): Promise<void> {
     const hospital = this.getHospital();
     if (hospital) {
@@ -192,6 +229,7 @@ export class HospitalDialogComponent implements OnInit {
     }
   }
 
+  /** Close the dialog */
   close(): void {
     this.dialogRef.close();
   }

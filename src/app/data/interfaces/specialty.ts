@@ -1,7 +1,10 @@
+/** @interface */
 export interface Specialty {
-    _id?: string;
+  /** @property {string} _id */
+  _id?: string;
 
-    value: string;
+  /** @property {string} value */
+  value: string;
 
-    __v?: number;
+  __v?: number;
 }

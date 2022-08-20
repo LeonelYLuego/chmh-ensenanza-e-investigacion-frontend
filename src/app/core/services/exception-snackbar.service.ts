@@ -69,7 +69,7 @@ export class ExceptionSnackbarService {
    */
   serverPetition(
     error: HttpErrorResponse,
-    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[],
+    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[]
   ): boolean {
     if (error.status == 401) {
       this.unauthorizedException();

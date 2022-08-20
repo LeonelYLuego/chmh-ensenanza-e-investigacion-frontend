@@ -30,6 +30,10 @@ export class AuthGuard implements CanActivate {
   }
 }
 
+/**
+ * Checks if the user is not authorized
+ * @class Authentication Guard
+ */
 @Injectable({
   providedIn: 'root',
 })

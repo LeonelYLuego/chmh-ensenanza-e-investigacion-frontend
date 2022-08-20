@@ -5,12 +5,24 @@ import { ExceptionSnackbarService } from './exception-snackbar.service';
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * Manages the http petitions with snackbar messages and authentication
+ * @class Http Petitions
+ */
 export class HttpPetitions {
   constructor(
     private http: HttpClient,
     private exceptionSnackbarService: ExceptionSnackbarService
   ) {}
 
+  /**
+   * Does a Get petition
+   * @async
+   * @param {string} url URL of the server
+   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @param {{name: string, value: string}[]} params params for do a query petition
+   * @returns {any} returns the petition response
+   */
   async get<Type>(
     url: string,
     forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[],
@@ -44,6 +56,13 @@ export class HttpPetitions {
     });
   }
 
+  /**
+   * Does a Post petition
+   * @async
+   * @param {string} url URL of the server
+   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @returns {any} returns the petition response
+   */
   async post<Type>(
     url: string,
     body: any,
@@ -69,6 +88,13 @@ export class HttpPetitions {
     });
   }
 
+  /**
+   * Does a Put petition
+   * @async
+   * @param {string} url URL of the server
+   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @returns {any} returns the petition response
+   */
   async put<Type>(
     url: string,
     body: any,
@@ -94,6 +120,13 @@ export class HttpPetitions {
     });
   }
 
+  /**
+   * Does a Delete petition
+   * @async
+   * @param {string} url URL of the server
+   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @returns {any} returns the petition response
+   */
   async delete<Type>(
     url: string,
     forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[]

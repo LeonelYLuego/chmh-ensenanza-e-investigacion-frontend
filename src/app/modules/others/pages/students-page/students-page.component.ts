@@ -13,6 +13,7 @@ import { StudentDialogComponent } from '@app/shared/student-dialog/student-dialo
   templateUrl: './students-page.component.html',
   styleUrls: ['./students-page.component.css'],
 })
+/** @class Student Page Component */
 export class StudentsPageComponent implements OnInit {
   err: any;
   loading = false;
@@ -37,6 +38,10 @@ export class StudentsPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * Gets the students from the server
+   * @async
+   */
   async getStudents(): Promise<void> {
     if (this.specialtyFormControl.value && this.generationFormControl.value)
       this.students = await this.studentsService.getStudents(
@@ -45,22 +50,37 @@ export class StudentsPageComponent implements OnInit {
       );
   }
 
+  /**
+   * Gets the specialties from the server
+   * @async
+   */
   async getSpecialties(): Promise<void> {
     this.specialties = await this.specialtesService.getSpecialties();
   }
 
+  /**
+   * Gets the students based of the new selected specialty
+   * @async
+   */
   async specialtySelectionChange() {
     this.loading = true;
     await this.getStudents();
     this.loading = false;
   }
 
+  /**
+   * Gets the students based of the new selected generation
+   * @async
+   */
   async generationSelectionChange() {
     this.loading = true;
     await this.getStudents();
     this.loading = false;
   }
 
+  /**
+   * Opens the Student dialog for add a Student
+   */
   addStudentDialog(): void {
     const dialogRef = this.dialog.open(StudentDialogComponent, {
       maxWidth: '500px',
@@ -81,6 +101,10 @@ export class StudentsPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens the Student dialog for update the specified Student
+   * @param {Student} student
+   */
   updateStudentDialog(student: Student): void {
     const dialogRef = this.dialog.open(StudentDialogComponent, {
       maxWidth: '500px',
@@ -98,6 +122,10 @@ export class StudentsPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Deletes the specified Studen in the server
+   * @param {string} _id _id of the Student
+   */
   async deleteStudent(_id: string): Promise<void> {
     await this.studentsService.deleteStudent(_id);
     await this.getStudents();

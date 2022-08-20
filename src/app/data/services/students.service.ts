@@ -6,6 +6,7 @@ import { Student } from '../interfaces/student';
 @Injectable({
   providedIn: 'root',
 })
+/** @class Students Service */
 export class StudentsService {
   err: any;
   forbiddenErrors = [
@@ -29,6 +30,13 @@ export class StudentsService {
 
   constructor(private http: HttpPetitions) {}
 
+  /**
+   * Gets all students from the server bases on the specialty and generation
+   * @async
+   * @param {string} specialtyId _id of the Specialty
+   * @param {number} lastYearGeneration
+   * @returns {Promise<Student[]>} the found Students
+   */
   async getStudents(
     specialtyId: string,
     lastYearGeneration: number
@@ -47,6 +55,12 @@ export class StudentsService {
     return data ?? [];
   }
 
+  /**
+   * Adds the Student in the server
+   * @async
+   * @param {Student} student
+   * @returns {Promise<Student | null>} the added Student
+   */
   async addStudent(student: Student): Promise<Student | null> {
     let data = await this.http.post<Student>(
       SERVER_ENDPOINTS.STUDENTS,
@@ -56,6 +70,12 @@ export class StudentsService {
     return data ?? null;
   }
 
+  /**
+   * Updates the specified Student in the server
+   * @param {string} _id _id of the Student
+   * @param {Student} student
+   * @returns {Promise<Student | null>} the updated Student
+   */
   async updateStudent(_id: string, student: Student): Promise<Student | null> {
     let data = await this.http.put<Student>(
       `${SERVER_ENDPOINTS.STUDENTS}/${_id}`,
@@ -65,6 +85,11 @@ export class StudentsService {
     return data ?? null;
   }
 
+  /**
+   * Delete the specified Student in the server
+   * @async
+   * @param _id _id of the Student
+   */
   async deleteStudent(_id: string): Promise<void> {
     await this.http.delete<Student>(
       `${SERVER_ENDPOINTS.STUDENTS}/${_id}`,

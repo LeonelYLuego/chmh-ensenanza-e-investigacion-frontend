@@ -6,6 +6,7 @@ import { Hospital } from '../interfaces/hospital';
 @Injectable({
   providedIn: 'root',
 })
+/** @class Hospitals Service */
 export class HospitalsService {
   err: any;
   forbiddenErrors = [
@@ -25,6 +26,11 @@ export class HospitalsService {
 
   constructor(private http: HttpPetitions) {}
 
+  /**
+   * Gets from the server the Hospitals
+   * @async
+   * @returns {Promise<Hospital[]>} the found Hospitals
+   */
   async getHospitals(): Promise<Hospital[]> {
     let data = await this.http.get<Hospital[]>(
       SERVER_ENDPOINTS.HOSPITALS,
@@ -33,6 +39,12 @@ export class HospitalsService {
     return data ?? [];
   }
 
+  /**
+   * Adds a Hospital in the server
+   * @async
+   * @param {Hospital} hospital
+   * @returns {Promise<Hospital | null>} the added Hospital
+   */
   async createHospital(hospital: Hospital): Promise<Hospital | null> {
     let data = await this.http.post<Hospital>(
       SERVER_ENDPOINTS.HOSPITALS,
@@ -42,6 +54,13 @@ export class HospitalsService {
     return data ?? null;
   }
 
+  /**
+   * Updates the specified Hospital in the server
+   * @async
+   * @param {string} _id _id of the Hospital
+   * @param {Hospital} hospital
+   * @returns {Promise<Hospital | null>} the updated Hospital
+   */
   async updateHospital(
     _id: string,
     hospital: Hospital
@@ -54,6 +73,11 @@ export class HospitalsService {
     return data ?? null;
   }
 
+  /**
+   * Deletes the specified Hospital in the server
+   * @async
+   * @param {string} _id
+   */
   async deleteHospital(_id: string): Promise<void> {
     await this.http.delete(
       `${SERVER_ENDPOINTS.HOSPITALS}/${_id}`,

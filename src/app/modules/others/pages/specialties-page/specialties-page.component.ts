@@ -12,6 +12,7 @@ import { SpecialtyDialogComponent } from '../../dialogs/specialty-dialog/special
   templateUrl: './specialties-page.component.html',
   styleUrls: ['./specialties-page.component.css'],
 })
+/** @class Specialties Page Component */
 export class SpecialtiesPageComponent implements OnInit {
   specialties: Specialty[] = [];
   err: any;
@@ -30,6 +31,10 @@ export class SpecialtiesPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * Gets the specialtes from the server
+   * @async
+   */
   async getSpecialties(): Promise<void> {
     let data: Specialty[] | undefined;
     [this.err, data] = await to(
@@ -38,6 +43,9 @@ export class SpecialtiesPageComponent implements OnInit {
     if (data) this.specialties = data;
   }
 
+  /**
+   * Opens the Speciaty dialog for add a Specialty
+   */
   addSpecialtyDialog(): void {
     const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
       maxWidth: '500px',
@@ -52,6 +60,10 @@ export class SpecialtiesPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens the Specialty dialog for add the specified Specialty
+   * @param {Specialty} specialty
+   */
   updateSpecialtyDialog(specialty: Specialty): void {
     const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
       maxWidth: '500px',
@@ -67,6 +79,10 @@ export class SpecialtiesPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Deletes a specified Specialty
+   * @param {string} _id _id of the Specialty
+   */
   async deleteSpecialty(_id: string): Promise<void> {
     await this.specialtiesService.deleteSpecialty(_id);
     await this.getSpecialties();

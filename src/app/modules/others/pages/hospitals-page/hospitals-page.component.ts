@@ -9,6 +9,7 @@ import { HospitalDialogComponent } from '@app/shared/hospital-dialog/hospital-di
   templateUrl: './hospitals-page.component.html',
   styleUrls: ['./hospitals-page.component.css'],
 })
+/** @class Hospitals Page Component */
 export class HospitalsPageComponent implements OnInit {
   loading = false;
   displayedColumns = ['name', 'address', 'update', 'delete'];
@@ -25,10 +26,18 @@ export class HospitalsPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * Gets the hospitals form the server
+   * @async
+   */
   async getHospitals(): Promise<void> {
     this.hospitals = await this.hospitalsService.getHospitals();
   }
 
+  /**
+   * Opens the Hospital dialog for add a Hospital
+   * @async
+   */
   async addHospitalDialog(): Promise<void> {
     const dialogRef = this.dialog.open(HospitalDialogComponent, {
       maxWidth: '500px',
@@ -43,6 +52,11 @@ export class HospitalsPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens the Hospital dialog for update the specified Hospital
+   * @async
+   * @param {Hospital} hospital
+   */
   async updateHospitalDialog(hospital: Hospital): Promise<void> {
     const dialogRef = this.dialog.open(HospitalDialogComponent, {
       maxWidth: '500px',
@@ -58,6 +72,11 @@ export class HospitalsPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Deletes the specified Hospital
+   * @async
+   * @param {string} _id _id Hospital
+   */
   async deleteHospital(_id: string): Promise<void> {
     await this.hospitalsService.deleteHospital(_id);
     await this.getHospitals();

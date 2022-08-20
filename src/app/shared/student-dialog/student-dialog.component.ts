@@ -12,6 +12,7 @@ import { StudentsService } from '@app/data/services/students.service';
   templateUrl: './student-dialog.component.html',
   styleUrls: ['./student-dialog.component.css'],
 })
+/** @Class Student Dialog Component  */
 export class StudentDialogComponent implements OnInit {
   readonly nameValidators = [
     Validators.required,
@@ -22,6 +23,7 @@ export class StudentDialogComponent implements OnInit {
   specialties: Specialty[] = [];
   generations: { name: string; value: number }[] = [];
 
+  //Studen Form Control
   studentFormControl = new FormGroup({
     name: new FormControl('', this.nameValidators),
     firstLastname: new FormControl('', this.nameValidators),
@@ -50,8 +52,13 @@ export class StudentDialogComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    // Get specialties
     this.specialties = await this.specialtiesService.getSpecialties();
+
+    // Get generation
     this.generations = await this.generationService.getGenerations();
+
+    //Checks if the user wants to edit a student
     if (this.data.student) {
       const student = this.data.student;
       this.studentFormControl.setValue({
@@ -71,6 +78,7 @@ export class StudentDialogComponent implements OnInit {
         this.addEmail(email);
       });
     } else {
+      // Selects a specialty if is no specified in the data of the dialog
       if (
         this.data.specialty &&
         this.specialties.findIndex(
@@ -101,6 +109,10 @@ export class StudentDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Adds a Phone Form Control to the dialog
+   * @param {string} phone initial phone value
+   */
   addPhone(phone: string = ''): void {
     this.studentFormControl.controls.phones.push(
       new FormControl(phone, [
@@ -112,10 +124,18 @@ export class StudentDialogComponent implements OnInit {
     );
   }
 
+  /**
+   * Deletes the specified Phone Form Control at the index
+   * @param {number} index
+   */
   deletePhone(index: number): void {
     this.studentFormControl.controls.phones.removeAt(index);
   }
 
+  /**
+   * Adds Email Form Control to the dialog
+   * @param {string} email initial email value
+   */
   addEmail(email: string = ''): void {
     this.studentFormControl.controls.emails.push(
       new FormControl(email, [
@@ -127,10 +147,18 @@ export class StudentDialogComponent implements OnInit {
     );
   }
 
+  /**
+   * Deletes the specified Phone Form Control at the index
+   * @param {number} index
+   */
   deleteEmail(index: number): void {
     this.studentFormControl.controls.emails.removeAt(index);
   }
 
+  /**
+   * Sends the dialog data for add a Student
+   * @async
+   */
   async addStudent(): Promise<void> {
     if (this.studentFormControl.valid) {
       const data = this.studentFormControl.value;
@@ -150,6 +178,10 @@ export class StudentDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the dialog data for update a specified Student
+   * @async
+   */
   async updateStudent(): Promise<void> {
     if (this.studentFormControl.valid) {
       const data = this.studentFormControl.value;
@@ -172,6 +204,9 @@ export class StudentDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Closes the dialog
+   */
   close(): void {
     this.dialogRef.close();
   }
