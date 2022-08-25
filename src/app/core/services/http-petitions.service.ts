@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ForbiddenErrorInterface } from '../interfaces/forbidden-error.interface';
 import { ExceptionSnackbarService } from './exception-snackbar.service';
 
 @Injectable({
@@ -19,13 +20,13 @@ export class HttpPetitions {
    * Does a Get petition
    * @async
    * @param {string} url URL of the server
-   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @param {ForbiddenErrorInterface[]} forbiddenErrors errors to show with snackbars
    * @param {{name: string, value: string}[]} params params for do a query petition
    * @returns {any} returns the petition response
    */
   async get<Type>(
     url: string,
-    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[],
+    forbiddenErrors?: ForbiddenErrorInterface[],
     params?: { name: string; value: string }[]
   ): Promise<Type | undefined> {
     let sendParams: undefined | HttpParams = undefined;
@@ -60,13 +61,13 @@ export class HttpPetitions {
    * Does a Post petition
    * @async
    * @param {string} url URL of the server
-   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @param {ForbiddenErrorInterface[]} forbiddenErrors errors to show with snackbars
    * @returns {any} returns the petition response
    */
   async post<Type>(
     url: string,
     body: any,
-    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[]
+    forbiddenErrors?: ForbiddenErrorInterface[]
   ): Promise<Type | undefined> {
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
@@ -92,13 +93,13 @@ export class HttpPetitions {
    * Does a Put petition
    * @async
    * @param {string} url URL of the server
-   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @param {ForbiddenErrorInterface[]} forbiddenErrors errors to show with snackbars
    * @returns {any} returns the petition response
    */
   async put<Type>(
     url: string,
     body: any,
-    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[]
+    forbiddenErrors?: ForbiddenErrorInterface[]
   ): Promise<Type | undefined> {
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
@@ -124,12 +125,12 @@ export class HttpPetitions {
    * Does a Delete petition
    * @async
    * @param {string} url URL of the server
-   * @param {{errorMessage: string, snackbarMessage: string}[]} forbiddenErrors errors to show with snackbars
+   * @param {ForbiddenErrorInterface[]} forbiddenErrors errors to show with snackbars
    * @returns {any} returns the petition response
    */
   async delete<Type>(
     url: string,
-    forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[]
+    forbiddenErrors?: ForbiddenErrorInterface[]
   ): Promise<Type | undefined> {
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http

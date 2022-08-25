@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
+import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Hospital } from '../interfaces/hospital';
 
@@ -9,7 +10,7 @@ import { Hospital } from '../interfaces/hospital';
 /** @class Hospitals Service */
 export class HospitalsService {
   err: any;
-  forbiddenErrors = [
+  forbiddenErrors: ForbiddenErrorInterface[] = [
     {
       errorMessage: 'hospital not found',
       snackbarMessage: 'Hospital no encontrado',

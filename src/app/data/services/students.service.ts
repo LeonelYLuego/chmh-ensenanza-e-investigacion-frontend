@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
+import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Student } from '../interfaces/student';
 
@@ -9,7 +10,7 @@ import { Student } from '../interfaces/student';
 /** @class Students Service */
 export class StudentsService {
   err: any;
-  forbiddenErrors = [
+  forbiddenErrors: ForbiddenErrorInterface[] = [
     {
       errorMessage: 'users specialty not found',
       snackbarMessage: 'Especialidad no encontrada',

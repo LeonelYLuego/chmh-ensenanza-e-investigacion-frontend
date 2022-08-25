@@ -14,6 +14,7 @@ import { AuthModule } from '@app/modules/auth/auth.module';
 import { OthersModule } from '@app/modules/others/others.module';
 import { ErrorPagesModule } from '@app/modules/error-pages/error-pages.module';
 import { SharedModule } from '@app/shared/shared.module';
+import { SocialServicesModule } from '@app/modules/social-services/social-services.module';
 
 /** Application Module */
 @NgModule({
@@ -31,6 +32,7 @@ import { SharedModule } from '@app/shared/shared.module';
     AuthModule,
     ErrorPagesModule,
     OthersModule,
+    SocialServicesModule,
 
     MatToolbarModule,
     MatButtonModule,

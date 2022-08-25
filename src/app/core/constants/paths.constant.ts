@@ -3,6 +3,7 @@
  */
 export const RESOURCE_PATHS = {
   OTHERS: 'others',
+  SOCIAL_SERVICES: 'social-services',
 };
 
 /**
@@ -19,5 +20,8 @@ export const PATHS = {
     SPECIALTIES: RESOURCE_PATHS.OTHERS + '/specialties',
     STUDENTS: RESOURCE_PATHS.OTHERS + '/students',
     HOSPITALS: RESOURCE_PATHS.OTHERS + '/hospitals',
+  },
+  SOCIAL_SERVICES: {
+    BASE: RESOURCE_PATHS.SOCIAL_SERVICES,
   },
 };

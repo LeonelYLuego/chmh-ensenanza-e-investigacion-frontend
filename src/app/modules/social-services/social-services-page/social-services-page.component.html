@@ -1,0 +1,41 @@
+<mat-card class="main-card">
+  <mat-card-title>
+    <span class="main-card-title">Servicio Social</span>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-icon matPrefix>search</mat-icon>
+    <mat-label>Buscador</mat-label>
+    <input matInput disabled />
+  </mat-form-field>
+  <br />
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Periodo Inicial</mat-label>
+    <mat-select
+      [formControl]="periodFormControl.controls.initialPeriod"
+      (selectionChange)="initialPeriodChange()"
+    >
+      <mat-option *ngFor="let period of periods" [value]="period.value">{{
+        period.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Periodo Final</mat-label>
+    <mat-select
+      [formControl]="periodFormControl.controls.finalPeriod"
+      (selectionChange)="finalPeriodChange()"
+    >
+      <mat-option *ngFor="let period of periods" [value]="period.value">{{
+        period.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br />
+  <button mat-raised-button color="primary">Agregar Servicio Social</button>
+  <br>
+  <button mat-raised-button color="primary">
+    Generar Oficios de Presentación
+  </button>
+</mat-card>

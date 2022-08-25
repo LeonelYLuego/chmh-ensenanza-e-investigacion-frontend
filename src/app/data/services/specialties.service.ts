@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
+import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Specialty } from '../interfaces/specialty';
 
@@ -9,7 +10,7 @@ import { Specialty } from '../interfaces/specialty';
 /** @class Specialties Service */
 export class SpecialtiesService {
   err: any;
-  forbiddenErrors = [
+  forbiddenErrors: ForbiddenErrorInterface[] = [
     {
       errorMessage: 'specialty not modified',
       snackbarMessage: 'Especialidad no modificada',
