@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
-import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
+import {
+  SERVER_ENDPOINTS,
+  SERVER_RESOURCES,
+} from '@app/core/constants/server-endpoints.constant';
 import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
 import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
+import {
+  SocialService,
+  SocialServiceBySpecialty,
+} from '../interfaces/social-service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +20,37 @@ export class SocialServicesService {
 
   constructor(private http: HttpPetitions) {}
 
-  async getSocialServices() {}
+  async getSocialServices(
+    initialYear: number,
+    initialPeriod: number,
+    finalYear: number,
+    finalPeriod: number
+  ): Promise<SocialServiceBySpecialty[]> {
+    const params: NameValueInterface<string>[] = [
+      {
+        name: 'initialPeriod',
+        value: initialPeriod.toString(),
+      },
+      {
+        name: 'initialYear',
+        value: initialYear.toString(),
+      },
+      {
+        name: 'finalPeriod',
+        value: finalPeriod.toString(),
+      },
+      {
+        name: 'finalYear',
+        value: finalYear.toString(),
+      },
+    ];
+    let data = await this.http.get<SocialServiceBySpecialty[] | null>(
+      SERVER_RESOURCES.SOCIAL_SERVICES,
+      this.forbiddenErrors,
+      params
+    );
+    return data ?? [];
+  }
 
   async getPeriods(): Promise<
     NameValueInterface<{ year: number; period: number }>[]
@@ -25,30 +62,31 @@ export class SocialServicesService {
     } | null>(SERVER_ENDPOINTS.SOCIAL_SERVICES.PERIODS, this.forbiddenErrors);
     if (data) {
       for (let year = data.initialYear; year <= data.finalYear; year++) {
-        periods.push({
-          name: `Marzo ${year} - Junio ${year}`,
-          value: {
-            year,
-            period: 0,
-          },
-        });
-        periods.push({
-          name: `Julio ${year} - Octubre ${year}`,
-          value: {
-            year,
-            period: 1,
-          },
-        });
-        periods.push({
-          name: `Noviembre ${year} - Febrero ${year + 1}`,
-          value: {
-            year,
-            period: 2,
-          },
-        });
+        for (let p = 0; p < 3; p++) {
+          periods.push({
+            name: this.getPeriod(p, year),
+            value: {
+              year,
+              period: p,
+            },
+          });
+        }
       }
     }
     return periods;
+  }
+
+  getPeriod(period: number, year: number): string {
+    switch (period) {
+      case 0:
+        return `Marzo ${year} - Junio ${year}`;
+      case 1:
+        return `Julio ${year} - Octubre ${year}`;
+      case 2:
+        return `Noviembre ${year} - Febrero ${year + 1}`;
+      default:
+        return '';
+    }
   }
 
   async addSocialService() {}

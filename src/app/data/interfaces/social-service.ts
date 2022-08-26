@@ -12,3 +12,9 @@ export interface SocialService {
   hospital: Hospital | string;
   __v?: number;
 }
+
+export interface SocialServiceBySpecialty {
+  _id: string;
+  value: string;
+  socialServices: SocialService[];
+}

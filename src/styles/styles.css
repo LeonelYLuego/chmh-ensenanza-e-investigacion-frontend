@@ -55,3 +55,18 @@ body {
   clear: both;
   overflow: hidden;
 }
+
+.mat-presentation-office {
+  background-color: rgb(255, 85, 113) !important;
+  color: white !important;
+}
+
+.mat-report {
+  background-color: rgb(161, 54, 161) !important;
+  color: white !important;
+}
+
+.mat-constancy {
+  background-color: green !important;
+  color: white !important;
+}

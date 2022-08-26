@@ -11,10 +11,10 @@
         "package-lock.json": true,
         "tsconfig.app.json": true,
         "tsconfig.spec.json": true,
-        "node_modules": true,
         ".editorconfig": true,
         ".browserslistrc": true,
-        ".angular": true
+        ".angular": true,
+        "node_modules": true
     },
     "hide-files.files": [
         ".vscode",
@@ -22,9 +22,9 @@
         "package-lock.json",
         "tsconfig.app.json",
         "tsconfig.spec.json",
-        "node_modules",
         ".editorconfig",
         ".browserslistrc",
-        ".angular"
+        ".angular",
+        "node_modules"
     ]
 }
