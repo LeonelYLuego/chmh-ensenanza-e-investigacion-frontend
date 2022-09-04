@@ -1,9 +1,19 @@
 .mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
   cursor: pointer;
 }
 
 .mat-row:hover .mat-cell {
   background-color: rgb(241, 241, 241);
+}
+
+.row-specialty {
+  background-color: #3F51B5;
+  color: white;
+  text-align: center;
+  cursor: default !important;
+}
+
+.row-specialty:hover {
+  background-color: #3F51B5 !important;
+  color: white;
 }

@@ -1,0 +1,90 @@
+<mat-card class="main-card">
+  <mat-card-title>
+    <span class="main-card-title">Agregar Servicio Social</span>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Especialidad</mat-label>
+    <mat-select
+      [formControl]="specialtyFormControl"
+      (selectionChange)="filterChange()"
+    >
+      <mat-option
+        *ngFor="let specialty of specialties"
+        [value]="specialty._id"
+        >{{ specialty.value }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Generación</mat-label>
+    <mat-select
+      [formControl]="generationFormControl"
+      (selectionChange)="filterChange()"
+      ><mat-option
+        *ngFor="let generation of generations"
+        [value]="generation.value"
+        >{{ generation.name }}</mat-option
+      ></mat-select
+    >
+  </mat-form-field>
+  <div *ngIf="students.length > 0 && !loading">
+    <div
+      *ngFor="
+        let socialServiceFormControl of socialServiceFormControls.controls;
+        let i = index
+      "
+    >
+      <h2>Estudiante {{ i + 1 }}</h2>
+      <mat-form-field class="large-input input">
+        <mat-label>Estudiante</mat-label>
+        <mat-select [formControl]="socialServiceFormControl.controls.student">
+          <mat-option *ngFor="let student of students" [value]="student._id"
+            >{{ student.name }} {{ student.firstLastName }}
+            {{ student.secondLastName }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="short-input input">
+        <mat-label>Hospital</mat-label>
+        <mat-select [formControl]="socialServiceFormControl.controls.hospital">
+          <mat-option *ngFor="let hospital of hospitals" [value]="hospital._id">
+            {{ hospital.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="short-input input">
+        <mat-label>Perido</mat-label>
+        <mat-select [formControl]="socialServiceFormControl.controls.period">
+          <mat-option
+            *ngFor="let period of singlePeriods"
+            [value]="period.value"
+            >{{ period.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="short-input input">
+        <mat-label>Año</mat-label>
+        <input
+          matInput
+          [formControl]="socialServiceFormControl.controls.year"
+        />
+        <mat-error>Año <strong>Inválido</strong></mat-error>
+      </mat-form-field>
+      <button mat-icon-button>
+        <mat-icon color="warn" (click)="removeStudent(i)">close</mat-icon>
+      </button>
+    </div>
+    <button mat-raised-button color="primary" (click)="addStudent()">
+      Agregar Estudiante
+    </button>
+  </div>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary">Agregar Servicios Sociales</button>
+    <button mat-raised-button routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

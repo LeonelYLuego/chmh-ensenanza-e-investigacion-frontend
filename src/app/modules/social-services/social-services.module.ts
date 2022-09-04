@@ -11,11 +11,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips'
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AddSocialServicesComponent } from './add-social-services/add-social-services.component';
+import { AppRoutingModule } from '@app/core/application/app-routing.module';
 
 @NgModule({
-  declarations: [SocialServicesPageComponent],
+  declarations: [SocialServicesPageComponent, AddSocialServicesComponent],
   imports: [
     CommonModule,
+    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
@@ -27,6 +31,7 @@ import { MatChipsModule } from '@angular/material/chips'
     MatIconModule,
     MatTableModule,
     MatChipsModule,
+    MatProgressBarModule,
   ],
 })
 export class SocialServicesModule {}

@@ -6,6 +6,7 @@ import { PATHS } from './paths.constant';
 export const SERVER_RESOURCES = {
   AUTH: PATHS.SERVER + '/auth',
   SOCIAL_SERVICES: PATHS.SERVER + '/social-services',
+  HOSPITALS: PATHS.SERVER + '/hospitals',
 };
 
 /**
@@ -19,7 +20,9 @@ export const SERVER_ENDPOINTS = {
   USERS: PATHS.SERVER + '/users',
   SPECIALTIES: PATHS.SERVER + '/specialties',
   STUDENTS: PATHS.SERVER + '/students',
-  HOSPITALS: PATHS.SERVER + '/hospitals',
+  HOSPITALS: {
+    SOCIAL_SERVICE: SERVER_RESOURCES.HOSPITALS + '/social-service',
+  },
   SOCIAL_SERVICES: {
     PERIODS: SERVER_RESOURCES.SOCIAL_SERVICES + '/periods',
   },

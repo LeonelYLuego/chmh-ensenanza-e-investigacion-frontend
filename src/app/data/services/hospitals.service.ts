@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
+import {
+  SERVER_ENDPOINTS,
+  SERVER_RESOURCES,
+} from '@app/core/constants/server-endpoints.constant';
 import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Hospital } from '../interfaces/hospital';
@@ -34,7 +37,15 @@ export class HospitalsService {
    */
   async getHospitals(): Promise<Hospital[]> {
     let data = await this.http.get<Hospital[]>(
-      SERVER_ENDPOINTS.HOSPITALS,
+      SERVER_RESOURCES.HOSPITALS,
+      this.forbiddenErrors
+    );
+    return data ?? [];
+  }
+
+  async getSocialServiceHospitals(): Promise<Hospital[]> {
+    let data = await this.http.get<Hospital[]>(
+      SERVER_ENDPOINTS.HOSPITALS.SOCIAL_SERVICE,
       this.forbiddenErrors
     );
     return data ?? [];
@@ -48,7 +59,7 @@ export class HospitalsService {
    */
   async createHospital(hospital: Hospital): Promise<Hospital | null> {
     let data = await this.http.post<Hospital>(
-      SERVER_ENDPOINTS.HOSPITALS,
+      SERVER_RESOURCES.HOSPITALS,
       hospital,
       this.forbiddenErrors
     );

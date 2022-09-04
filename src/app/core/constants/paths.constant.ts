@@ -23,5 +23,6 @@ export const PATHS = {
   },
   SOCIAL_SERVICES: {
     BASE: RESOURCE_PATHS.SOCIAL_SERVICES,
+    ADD: RESOURCE_PATHS.SOCIAL_SERVICES + '/add',
   },
 };

@@ -13,8 +13,8 @@
         "tsconfig.spec.json": true,
         ".editorconfig": true,
         ".browserslistrc": true,
-        ".angular": true,
-        "node_modules": true
+        "node_modules": true,
+        ".angular": true
     },
     "hide-files.files": [
         ".vscode",
@@ -24,7 +24,7 @@
         "tsconfig.spec.json",
         ".editorconfig",
         ".browserslistrc",
-        ".angular",
-        "node_modules"
+        "node_modules",
+        ".angular"
     ]
 }

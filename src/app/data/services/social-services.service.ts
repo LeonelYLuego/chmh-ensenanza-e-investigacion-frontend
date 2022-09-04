@@ -76,6 +76,23 @@ export class SocialServicesService {
     return periods;
   }
 
+  getSinglePeriods(): NameValueInterface<number>[] {
+    const singlePeriods: NameValueInterface<number>[] = [];
+    singlePeriods.push({
+      name: 'Marzo - Junio',
+      value: 0
+    });
+    singlePeriods.push({
+      name: 'Julio - Octubre',
+      value: 1
+    });
+    singlePeriods.push({
+      name: 'Noviembre - Febrero',
+      value: 2
+    });
+    return singlePeriods;
+  }
+
   getPeriod(period: number, year: number): string {
     switch (period) {
       case 0:

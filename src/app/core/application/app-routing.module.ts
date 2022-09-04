@@ -11,6 +11,7 @@ import { SpecialtiesPageComponent } from '@app/modules/others/pages/specialties-
 import { StudentsPageComponent } from '@app/modules/others/pages/students-page/students-page.component';
 import { HospitalsPageComponent } from '@app/modules/others/pages/hospitals-page/hospitals-page.component';
 import { SocialServicesPageComponent } from '@app/modules/social-services/social-services-page/social-services-page.component';
+import { AddSocialServicesComponent } from '@app/modules/social-services/add-social-services/add-social-services.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,12 @@ const routes: Routes = [
     path: PATHS.SOCIAL_SERVICES.BASE,
     title: 'Servicio Social',
     component: SocialServicesPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: PATHS.SOCIAL_SERVICES.ADD,
+    title: 'Agregar Servicio Social',
+    component: AddSocialServicesComponent,
     canActivate: [AuthGuard],
   },
   {

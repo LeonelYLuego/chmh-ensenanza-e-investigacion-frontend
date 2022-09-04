@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PATHS } from '@app/core/constants/paths.constant';
 import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
 import { Hospital } from '@app/data/interfaces/hospital';
 import {
   SocialService,
-  SocialServiceBySpecialty,
 } from '@app/data/interfaces/social-service';
 import { Student } from '@app/data/interfaces/student';
 import { HospitalsService } from '@app/data/services/hospitals.service';
@@ -16,6 +16,8 @@ import { SocialServicesService } from '@app/data/services/social-services.servic
   styleUrls: ['./social-services-page.component.css'],
 })
 export class SocialServicesPageComponent implements OnInit {
+  loading = false;
+  paths = PATHS.SOCIAL_SERVICES;
   socialServices: {
     _id?: string;
     specialty?: string;
@@ -29,7 +31,7 @@ export class SocialServicesPageComponent implements OnInit {
     };
   }[] = [];
   hospitals: Hospital[] = [];
-  displayedColumns = ['student', 'hospital', 'period'];
+  displayedColumns = ['student', 'hospital', 'period', 'documents'];
   periods: NameValueInterface<{ year: number; period: number }>[] = [];
   periodFormControl = new FormGroup({
     initialPeriod: new FormControl<{
@@ -48,6 +50,7 @@ export class SocialServicesPageComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
     this.periods = await this.socialServicesService.getPeriods();
     this.hospitals = await this.hospitalsService.getHospitals();
     if (this.periods.length >= 3) {
@@ -59,9 +62,12 @@ export class SocialServicesPageComponent implements OnInit {
       );
     }
     await this.getSocialServices();
+    this.loading = false;
   }
 
   async getSocialServices() {
+    this.loading = true;
+    this.socialServices = [];
     const value = this.periodFormControl.value;
     const ss = await this.socialServicesService.getSocialServices(
       value.initialPeriod?.year!,
@@ -90,7 +96,7 @@ export class SocialServicesPageComponent implements OnInit {
         });
       }
     });
-    console.log(this.socialServices);
+    this.loading = false;
   }
 
   private validatePeriod(): boolean {
@@ -109,6 +115,7 @@ export class SocialServicesPageComponent implements OnInit {
         this.periodFormControl.value.initialPeriod!
       );
     }
+    this.getSocialServices();
   }
 
   finalPeriodChange() {
@@ -117,6 +124,7 @@ export class SocialServicesPageComponent implements OnInit {
         this.periodFormControl.value.finalPeriod!
       );
     }
+    this.getSocialServices();
   }
 
   getHospital(_id: string): Hospital | undefined {
