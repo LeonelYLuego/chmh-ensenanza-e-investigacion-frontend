@@ -6,5 +6,8 @@ export interface Specialty {
   /** @property {string} value */
   value: string;
 
+  /** @property {number} duration */
+  duration: number;
+
   __v?: number;
 }

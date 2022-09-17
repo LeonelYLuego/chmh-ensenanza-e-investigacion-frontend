@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
-import { generationService } from '@app/core/services/generation.service';
 import { Hospital } from '@app/data/interfaces/hospital';
 import { Specialty } from '@app/data/interfaces/specialty';
 import { Student } from '@app/data/interfaces/student';
@@ -38,7 +37,6 @@ export class AddSocialServicesComponent implements OnInit {
   constructor(
     private socialServicesService: SocialServicesService,
     private specialtiesService: SpecialtiesService,
-    private generationsService: generationService,
     private studentsService: StudentsService,
     private hospitalsService: HospitalsService
   ) {}
@@ -46,7 +44,7 @@ export class AddSocialServicesComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.specialties = await this.specialtiesService.getSpecialties();
     this.hospitals = await this.hospitalsService.getSocialServiceHospitals();
-    this.generations = this.generationsService.getGenerations();
+    this.generations = await this.specialtiesService.getGenerations('');  /////////////////////////// Modify
     this.singlePeriods = this.socialServicesService.getSinglePeriods();
   }
 

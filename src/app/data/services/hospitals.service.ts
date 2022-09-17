@@ -78,7 +78,7 @@ export class HospitalsService {
     hospital: Hospital
   ): Promise<Hospital | null> {
     let data = await this.http.put<Hospital>(
-      `${SERVER_ENDPOINTS.HOSPITALS}/${_id}`,
+      `${SERVER_RESOURCES.HOSPITALS}/${_id}`,
       hospital,
       this.forbiddenErrors
     );
@@ -92,7 +92,7 @@ export class HospitalsService {
    */
   async deleteHospital(_id: string): Promise<void> {
     await this.http.delete(
-      `${SERVER_ENDPOINTS.HOSPITALS}/${_id}`,
+      `${SERVER_RESOURCES.HOSPITALS}/${_id}`,
       this.forbiddenErrors
     );
   }

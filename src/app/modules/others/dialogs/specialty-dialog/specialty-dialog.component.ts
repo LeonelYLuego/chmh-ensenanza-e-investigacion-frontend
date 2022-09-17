@@ -12,13 +12,17 @@ import { SpecialtiesService } from '@app/data/services/specialties.service';
 /** @class Specialty Dialog Component */
 export class SpecialtyDialogComponent implements OnInit {
   value = new FormControl('', [Validators.required, Validators.minLength(3)]);
+  duration = new FormControl<number | string>('', [Validators.required, Validators.min(1), Validators.max(6)]);
 
   constructor(
     private dialogRef: MatDialogRef<SpecialtyDialogComponent>,
     private specialtiesService: SpecialtiesService,
     @Inject(MAT_DIALOG_DATA) public data: Specialty | undefined
   ) {
-    if (data) this.value.setValue(data.value);
+    if (data){
+      this.value.setValue(data.value);
+      this.duration.setValue(data.duration);
+    }
   }
 
   ngOnInit(): void {}
@@ -32,6 +36,7 @@ export class SpecialtyDialogComponent implements OnInit {
       if (
         await this.specialtiesService.addSpecialty({
           value: this.value.value!,
+          duration: this.duration.value as number
         })
       )
         this.close();
@@ -45,6 +50,7 @@ export class SpecialtyDialogComponent implements OnInit {
       if (
         await this.specialtiesService.updateSpecialty(this.data!._id!, {
           value: this.value.value!,
+          duration: this.duration.value as number
         })
       )
         this.close();

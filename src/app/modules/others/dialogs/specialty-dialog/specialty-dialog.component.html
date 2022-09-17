@@ -9,6 +9,13 @@
         *ngIf="value.hasError('required') || value.hasError('minlength')"
       >Especialidad <strong>Inválida</strong></mat-error>
     </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Duración</mat-label>
+      <input matInput [formControl]="duration" type="number" min="1" max="6" value="3">
+      <mat-error
+        *ngIf="duration.invalid"
+      >Duración <strong>Inválida</strong></mat-error>
+    </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button type="button" (click)="close()">Cancelar</button>

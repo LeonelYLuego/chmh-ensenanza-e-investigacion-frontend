@@ -50,7 +50,7 @@ const routes: Routes = [
   },
   {
     path: PATHS.OTHERS.STUDENTS,
-    title: 'Estudiantes',
+    title: 'Alumnos',
     component: StudentsPageComponent,
     canActivate: [AuthGuard],
   },

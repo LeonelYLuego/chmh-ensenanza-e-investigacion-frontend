@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { generationService } from '@app/core/services/generation.service';
 import { Specialty } from '@app/data/interfaces/specialty';
 import { Student } from '@app/data/interfaces/student';
 import { SpecialtiesService } from '@app/data/services/specialties.service';
@@ -22,18 +21,16 @@ export class StudentsPageComponent implements OnInit {
   displayedColumns: string[] = ['name', 'update', 'delete'];
   specialtyFormControl = new FormControl<string | null>(null);
   generations: { name: string; value: number }[] = [];
-  generationFormControl = new FormControl<number | null>(null);
+  generationFormControl = new FormControl<number | null>({value: null, disabled: true});
 
   constructor(
     private studentsService: StudentsService,
     private specialtesService: SpecialtiesService,
-    private generationService: generationService,
     private dialog: MatDialog
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    this.generations = this.generationService.getGenerations();
     await this.getSpecialties();
     this.loading = false;
   }
@@ -65,6 +62,8 @@ export class StudentsPageComponent implements OnInit {
   async specialtySelectionChange() {
     this.loading = true;
     await this.getStudents();
+    this.generations = await this.specialtesService.getGenerations(this.specialtyFormControl.value ?? '');
+    this.generationFormControl.enable();
     this.loading = false;
   }
 

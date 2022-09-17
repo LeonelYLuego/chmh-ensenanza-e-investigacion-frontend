@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { generationService } from '@app/core/services/generation.service';
 import { Specialty } from '@app/data/interfaces/specialty';
 import { Student } from '@app/data/interfaces/student';
 import { SpecialtiesService } from '@app/data/services/specialties.service';
@@ -20,6 +19,11 @@ export class StudentDialogComponent implements OnInit {
     Validators.maxLength(64),
     Validators.pattern(/^[a-zA-ZáéíóúüñÁÉÍÓÚÑ ]+$/u),
   ];
+  readonly nameOptionalValidators = [
+    Validators.minLength(3),
+    Validators.maxLength(64),
+    Validators.pattern(/^[a-zA-ZáéíóúüñÁÉÍÓÚÑ ]+$/u),
+  ];
   specialties: Specialty[] = [];
   generations: { name: string; value: number }[] = [];
 
@@ -27,7 +31,7 @@ export class StudentDialogComponent implements OnInit {
   studentFormControl = new FormGroup({
     name: new FormControl('', this.nameValidators),
     firstLastname: new FormControl('', this.nameValidators),
-    secondLastname: new FormControl('', this.nameValidators),
+    secondLastname: new FormControl('', this.nameOptionalValidators),
     code: new FormControl('', [Validators.maxLength(64)]),
     specialty: new FormControl<string | null>(null, Validators.required),
     lastYearGeneration: new FormControl<number | null>(
@@ -42,7 +46,6 @@ export class StudentDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<StudentDialogComponent>,
     private studentsService: StudentsService,
     private specialtiesService: SpecialtiesService,
-    private generationService: generationService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       specialty: string | null;
@@ -56,7 +59,7 @@ export class StudentDialogComponent implements OnInit {
     this.specialties = await this.specialtiesService.getSpecialties();
 
     // Get generation
-    this.generations = await this.generationService.getGenerations();
+    this.generations = await this.specialtiesService.getGenerations(''); //////////////////////////////////// Modify
 
     //Checks if the user wants to edit a student
     if (this.data.student) {
@@ -65,7 +68,7 @@ export class StudentDialogComponent implements OnInit {
         code: student.code ?? null,
         firstLastname: student.firstLastName,
         name: student.name,
-        secondLastname: student.secondLastName,
+        secondLastname: student.secondLastName ?? '',
         specialty: (student.specialty as Specialty)._id!,
         lastYearGeneration: student.lastYearGeneration,
         phones: [],
@@ -166,7 +169,7 @@ export class StudentDialogComponent implements OnInit {
         code: data.code == '' ? undefined : data.code!,
         name: data.name!,
         firstLastName: data.firstLastname!,
-        secondLastName: data.secondLastname!,
+        secondLastName: data.secondLastname == '' ? undefined : data.secondLastname!,
         specialty: data.specialty!,
         lastYearGeneration: data.lastYearGeneration!,
         phones: data.phones as string[],
@@ -191,7 +194,7 @@ export class StudentDialogComponent implements OnInit {
           code: data.code == '' ? undefined : data.code!,
           name: data.name!,
           firstLastName: data.firstLastname!,
-          secondLastName: data.secondLastname!,
+          secondLastName: data.secondLastname == '' ? undefined : data.secondLastname!,
           specialty: data.specialty!,
           lastYearGeneration: data.lastYearGeneration!,
           phones: data.phones as string[],
