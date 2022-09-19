@@ -8,7 +8,7 @@
     <mat-label>Especialidad</mat-label>
     <mat-select
       [formControl]="specialtyFormControl"
-      (selectionChange)="filterChange()"
+      (selectionChange)="specialtyValueChange()"
     >
       <mat-option
         *ngFor="let specialty of specialties"
@@ -81,7 +81,7 @@
     </button>
   </div>
   <mat-card-actions align="end">
-    <button mat-raised-button color="primary">Agregar Servicios Sociales</button>
+    <button mat-raised-button color="primary" [disabled]="!socialServiceFormControls.length">Agregar Servicios Sociales</button>
     <button mat-raised-button routerLink="..">Cancelar</button>
   </mat-card-actions>
   <mat-card-footer *ngIf="loading">

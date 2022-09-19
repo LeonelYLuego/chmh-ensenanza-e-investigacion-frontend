@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
+import {
+  SERVER_RESOURCES,
+} from '@app/core/constants/server-endpoints.constant';
 import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Specialty } from '../interfaces/specialty';
@@ -33,7 +35,7 @@ export class SpecialtiesService {
    * @returns {Promise<Specialty[]>} the found Specialties
    */
   async getSpecialties(): Promise<Specialty[]> {
-    let data = await this.http.get<Specialty[]>(SERVER_ENDPOINTS.SPECIALTIES);
+    let data = await this.http.get<Specialty[]>(SERVER_RESOURCES.SPECIALTIES);
     return data ?? [];
   }
 
@@ -45,7 +47,7 @@ export class SpecialtiesService {
    */
   async addSpecialty(specialty: Specialty): Promise<Specialty | null> {
     let data = await this.http.post<Specialty>(
-      SERVER_ENDPOINTS.SPECIALTIES,
+      SERVER_RESOURCES.SPECIALTIES,
       specialty,
       this.forbiddenErrors
     );
@@ -64,7 +66,7 @@ export class SpecialtiesService {
     specialty: Specialty
   ): Promise<Specialty | null> {
     let data = await this.http.put<Specialty>(
-      `${SERVER_ENDPOINTS.SPECIALTIES}/${_id}`,
+      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
       specialty,
       this.forbiddenErrors
     );
@@ -78,26 +80,34 @@ export class SpecialtiesService {
    */
   async deleteSpecialty(_id: string): Promise<void> {
     await this.http.delete(
-      `${SERVER_ENDPOINTS.SPECIALTIES}/${_id}`,
+      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
       this.forbiddenErrors
     );
   }
 
-  async getGenerations(_id: string): Promise<{ name: string; value: number }[]> {
+  async getGenerations(
+    _id: string
+  ): Promise<{ name: string; value: number }[]> {
+    let specialty = await this.http.get<Specialty>(
+      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
+      this.forbiddenErrors
+    );
     const generations: { name: string; value: number }[] = [];
-    // const today = new Date();
-    // let month = today.getMonth() + 1,
-    //   year = today.getFullYear();
+    if (specialty) {
+      const today = new Date();
+      let month = today.getMonth() + 1,
+        year = today.getFullYear();
 
-    // if (month == 1 || month == 2) year -= 1;
-    // for (let i = 0; i < 5; i++) {
-    //   let generation = year - i + ' - ' + (year - i + 3);
-    //   if (i < 3) generation += ' (' + (i + 1) + ' año)';
-    //   generations.push({
-    //     name: generation,
-    //     value: year - i + 3,
-    //   });
-    // }
+      if (month == 1 || month == 2) year -= 1;
+      for (let i = 0; i < 5; i++) {
+        let generation = year - i + ' - ' + (year - i + specialty.duration);
+        if (i < specialty.duration) generation += ' (' + (i + 1) + ' año)';
+        generations.push({
+          name: generation,
+          value: year - i + specialty.duration,
+        });
+      }
+    }
     return generations;
   }
 }

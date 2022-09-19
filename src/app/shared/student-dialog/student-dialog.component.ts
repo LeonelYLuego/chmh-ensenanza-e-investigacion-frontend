@@ -59,7 +59,7 @@ export class StudentDialogComponent implements OnInit {
     this.specialties = await this.specialtiesService.getSpecialties();
 
     // Get generation
-    this.generations = await this.specialtiesService.getGenerations(''); //////////////////////////////////// Modify
+    // this.generations = await this.specialtiesService.getGenerations(''); //////////////////////////////////// Modify
 
     //Checks if the user wants to edit a student
     if (this.data.student) {
@@ -80,6 +80,9 @@ export class StudentDialogComponent implements OnInit {
       student.emails.map((email) => {
         this.addEmail(email);
       });
+      this.generations = await this.specialtiesService.getGenerations(
+        (student.specialty as Specialty)._id!
+      );
     } else {
       // Selects a specialty if is no specified in the data of the dialog
       if (
@@ -95,6 +98,9 @@ export class StudentDialogComponent implements OnInit {
         this.studentFormControl.controls.specialty.setValue(
           this.specialties[0]._id!
         );
+      this.generations = await this.specialtiesService.getGenerations(
+        this.studentFormControl.controls.specialty.value!
+      );
       if (
         this.data.lastYearGeneration &&
         this.generations.find(
@@ -109,6 +115,18 @@ export class StudentDialogComponent implements OnInit {
           this.generations[0].value
         );
       }
+    }
+  }
+
+  async specialtyValueChange() {
+    this.generations = await this.specialtiesService.getGenerations(
+      this.studentFormControl.controls.specialty.value!
+    );
+    this.studentFormControl.controls.lastYearGeneration.setValue(null);
+    if (this.generations.length > 0) {
+      this.studentFormControl.controls.lastYearGeneration.setValue(
+        this.generations[0].value
+      );
     }
   }
 
@@ -169,7 +187,8 @@ export class StudentDialogComponent implements OnInit {
         code: data.code == '' ? undefined : data.code!,
         name: data.name!,
         firstLastName: data.firstLastname!,
-        secondLastName: data.secondLastname == '' ? undefined : data.secondLastname!,
+        secondLastName:
+          data.secondLastname == '' ? undefined : data.secondLastname!,
         specialty: data.specialty!,
         lastYearGeneration: data.lastYearGeneration!,
         phones: data.phones as string[],
@@ -194,7 +213,8 @@ export class StudentDialogComponent implements OnInit {
           code: data.code == '' ? undefined : data.code!,
           name: data.name!,
           firstLastName: data.firstLastname!,
-          secondLastName: data.secondLastname == '' ? undefined : data.secondLastname!,
+          secondLastName:
+            data.secondLastname == '' ? undefined : data.secondLastname!,
           specialty: data.specialty!,
           lastYearGeneration: data.lastYearGeneration!,
           phones: data.phones as string[],

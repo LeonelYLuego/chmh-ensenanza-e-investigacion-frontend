@@ -7,6 +7,7 @@ export const SERVER_RESOURCES = {
   AUTH: PATHS.SERVER + '/auth',
   SOCIAL_SERVICES: PATHS.SERVER + '/social-services',
   HOSPITALS: PATHS.SERVER + '/hospitals',
+  SPECIALTIES: PATHS.SERVER + '/specialties',
 };
 
 /**
@@ -18,7 +19,9 @@ export const SERVER_ENDPOINTS = {
     LOGGED: SERVER_RESOURCES.AUTH + '/logged',
   },
   USERS: PATHS.SERVER + '/users',
-  SPECIALTIES: PATHS.SERVER + '/specialties',
+  SPECIALTIES: {
+    DURATION: SERVER_RESOURCES.SPECIALTIES + '/duration'
+  },
   STUDENTS: PATHS.SERVER + '/students',
   HOSPITALS: {
     SOCIAL_SERVICE: SERVER_RESOURCES.HOSPITALS + '/social-service',

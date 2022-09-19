@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
+import { SERVER_ENDPOINTS, SERVER_RESOURCES } from '@app/core/constants/server-endpoints.constant';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Specialty } from '@app/data/interfaces/specialty';
 import { SpecialtiesService } from '@app/data/services/specialties.service';
@@ -38,7 +38,7 @@ export class SpecialtiesPageComponent implements OnInit {
   async getSpecialties(): Promise<void> {
     let data: Specialty[] | undefined;
     [this.err, data] = await to(
-      this.http.get<Specialty[]>(SERVER_ENDPOINTS.SPECIALTIES)
+      this.http.get<Specialty[]>(SERVER_RESOURCES.SPECIALTIES)
     );
     if (data) this.specialties = data;
   }

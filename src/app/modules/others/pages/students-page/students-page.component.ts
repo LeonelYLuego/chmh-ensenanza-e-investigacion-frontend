@@ -61,8 +61,9 @@ export class StudentsPageComponent implements OnInit {
    */
   async specialtySelectionChange() {
     this.loading = true;
-    await this.getStudents();
     this.generations = await this.specialtesService.getGenerations(this.specialtyFormControl.value ?? '');
+    this.generationFormControl.setValue(null);
+    this.students = [];
     this.generationFormControl.enable();
     this.loading = false;
   }

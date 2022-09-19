@@ -29,7 +29,10 @@ export class AddSocialServicesComponent implements OnInit {
   students: Student[] = [];
   hospitals: Hospital[] = [];
   specialtyFormControl = new FormControl<string | null>(null);
-  generationFormControl = new FormControl<number | null>(null);
+  generationFormControl = new FormControl<number | null>({
+    disabled: true,
+    value: null,
+  });
   socialServiceFormControls: FormArray<
     FormGroup<SocialServiceFormControlInterface>
   > = new FormArray<FormGroup<SocialServiceFormControlInterface>>([]);
@@ -44,7 +47,6 @@ export class AddSocialServicesComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.specialties = await this.specialtiesService.getSpecialties();
     this.hospitals = await this.hospitalsService.getSocialServiceHospitals();
-    this.generations = await this.specialtiesService.getGenerations('');  /////////////////////////// Modify
     this.singlePeriods = this.socialServicesService.getSinglePeriods();
   }
 
@@ -57,6 +59,16 @@ export class AddSocialServicesComponent implements OnInit {
     );
     this.addStudent();
     this.loading = false;
+  }
+
+  async specialtyValueChange() {
+    this.socialServiceFormControls.clear();
+    this.students = [];
+    this.generationFormControl.setValue(null);
+    this.generations = await this.specialtiesService.getGenerations(
+      this.specialtyFormControl.value!
+    );
+    this.generationFormControl.enable();
   }
 
   async filterChange(): Promise<void> {

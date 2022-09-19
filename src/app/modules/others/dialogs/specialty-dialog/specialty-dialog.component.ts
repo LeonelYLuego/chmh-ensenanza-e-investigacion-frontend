@@ -12,7 +12,7 @@ import { SpecialtiesService } from '@app/data/services/specialties.service';
 /** @class Specialty Dialog Component */
 export class SpecialtyDialogComponent implements OnInit {
   value = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  duration = new FormControl<number | string>('', [Validators.required, Validators.min(1), Validators.max(6)]);
+  duration = new FormControl<number | string>('', [Validators.required, Validators.min(1), Validators.max(5)]);
 
   constructor(
     private dialogRef: MatDialogRef<SpecialtyDialogComponent>,
