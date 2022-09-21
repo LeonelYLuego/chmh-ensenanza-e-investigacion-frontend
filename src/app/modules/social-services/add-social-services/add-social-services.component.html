@@ -81,7 +81,14 @@
     </button>
   </div>
   <mat-card-actions align="end">
-    <button mat-raised-button color="primary" [disabled]="!socialServiceFormControls.length">Agregar Servicios Sociales</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!socialServiceFormControls.length"
+      (click)="addSocialServices()"
+    >
+      Agregar Servicios Sociales
+    </button>
     <button mat-raised-button routerLink="..">Cancelar</button>
   </mat-card-actions>
   <mat-card-footer *ngIf="loading">

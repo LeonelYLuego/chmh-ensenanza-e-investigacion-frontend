@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
 import { Hospital } from '@app/data/interfaces/hospital';
 import { Specialty } from '@app/data/interfaces/specialty';
@@ -12,7 +13,7 @@ import { StudentsService } from '@app/data/services/students.service';
 interface SocialServiceFormControlInterface {
   student: FormControl<string | null>;
   hospital: FormControl<string | null>;
-  period: FormControl<number | null>;
+  period: FormControl<0 | 1 | 2 | null>;
   year: FormControl<number | null>;
 }
 
@@ -41,7 +42,8 @@ export class AddSocialServicesComponent implements OnInit {
     private socialServicesService: SocialServicesService,
     private specialtiesService: SpecialtiesService,
     private studentsService: StudentsService,
-    private hospitalsService: HospitalsService
+    private hospitalsService: HospitalsService,
+    private router: Router,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -84,7 +86,7 @@ export class AddSocialServicesComponent implements OnInit {
       new FormGroup({
         student: new FormControl<string | null>(null, [Validators.required]),
         hospital: new FormControl<string | null>(null, [Validators.required]),
-        period: new FormControl<number | null>(null, [
+        period: new FormControl<0 | 1 | 2 | null>(null, [
           Validators.required,
           Validators.min(0),
           Validators.max(2),
@@ -100,5 +102,21 @@ export class AddSocialServicesComponent implements OnInit {
 
   removeStudent(index: number): void {
     this.socialServiceFormControls.removeAt(index);
+  }
+
+  async addSocialServices(): Promise<void> {
+    if (this.socialServiceFormControls.valid) {
+      await Promise.all(
+        this.socialServiceFormControls.value.map(async (value) => {
+          await this.socialServicesService.addSocialService({
+            hospital: value.hospital!,
+            period: value.period!,
+            student: value.student!,
+            year: +value.year!,
+          });
+        })
+      );
+      this.router.navigate([".."]);
+    }
   }
 }

@@ -12,23 +12,23 @@
   </mat-form-field>
   <br />
   <mat-form-field class="filter-width" appearance="outline">
-    <mat-label>Periodo Inicial</mat-label>
+    <mat-label>Fecha Inicial</mat-label>
     <mat-select
       [formControl]="periodFormControl.controls.initialPeriod"
       (selectionChange)="initialPeriodChange()"
     >
-      <mat-option *ngFor="let period of periods" [value]="period.value">{{
+      <mat-option *ngFor="let period of initialPeriods" [value]="period.value">{{
         period.name
       }}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field class="filter-width" appearance="outline">
-    <mat-label>Periodo Final</mat-label>
+    <mat-label>Fecha Final</mat-label>
     <mat-select
       [formControl]="periodFormControl.controls.finalPeriod"
       (selectionChange)="finalPeriodChange()"
     >
-      <mat-option *ngFor="let period of periods" [value]="period.value">{{
+      <mat-option *ngFor="let period of finalPeriods" [value]="period.value">{{
         period.name
       }}</mat-option>
     </mat-select>

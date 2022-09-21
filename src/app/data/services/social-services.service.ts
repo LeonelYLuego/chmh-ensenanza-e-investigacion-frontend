@@ -76,19 +76,58 @@ export class SocialServicesService {
     return periods;
   }
 
+  async getInitialFinalPeriods(): Promise<
+    {
+      initial: NameValueInterface<{ year: number; period: number }>;
+      final: NameValueInterface<{ year: number; period: number }>;
+    }[]
+  > {
+    const periods: {
+      initial: NameValueInterface<{ year: number; period: number }>;
+      final: NameValueInterface<{ year: number; period: number }>;
+    }[] = [];
+    let data = await this.http.get<{
+      initialYear: number;
+      finalYear: number;
+    } | null>(SERVER_ENDPOINTS.SOCIAL_SERVICES.PERIODS, this.forbiddenErrors);
+    if (data) {
+      for (let year = data.initialYear; year <= data.finalYear; year++) {
+        for (let p = 0; p < 3; p++) {
+          periods.push({
+            initial: {
+              name: this.getInitialPeriod(p, year),
+              value: {
+                year,
+                period: p
+              }
+            },
+            final: {
+              name: this.getFinalPeriod(p, year),
+              value: {
+                year,
+                period: p
+              }
+            },
+          });
+        }
+      }
+    }
+    return periods;
+  }
+
   getSinglePeriods(): NameValueInterface<number>[] {
     const singlePeriods: NameValueInterface<number>[] = [];
     singlePeriods.push({
       name: 'Marzo - Junio',
-      value: 0
+      value: 0,
     });
     singlePeriods.push({
       name: 'Julio - Octubre',
-      value: 1
+      value: 1,
     });
     singlePeriods.push({
       name: 'Noviembre - Febrero',
-      value: 2
+      value: 2,
     });
     return singlePeriods;
   }
@@ -106,7 +145,42 @@ export class SocialServicesService {
     }
   }
 
-  async addSocialService() {}
+  getInitialPeriod(period: number, year: number): string {
+    switch (period) {
+      case 0:
+        return `Marzo ${year}`;
+      case 1:
+        return `Julio ${year}`;
+      case 2:
+        return `Noviembre ${year}`;
+      default:
+        return '';
+    }
+  }
+
+  getFinalPeriod(period: number, year: number): string {
+    switch (period) {
+      case 0:
+        return `Junio ${year}`;
+      case 1:
+        return `Octubre ${year}`;
+      case 2:
+        return `Febrero ${year + 1}`;
+      default:
+        return '';
+    }
+  }
+
+  async addSocialService(
+    socialService: SocialService
+  ): Promise<SocialService | null> {
+    let data = await this.http.post<SocialService>(
+      SERVER_RESOURCES.SOCIAL_SERVICES,
+      socialService,
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
 
   async updateSocialService() {}
 

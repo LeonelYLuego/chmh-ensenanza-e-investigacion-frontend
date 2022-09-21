@@ -17,34 +17,43 @@
         placeholder="Ej. CHMH"
       />
       <mat-error *ngIf="hospitalFormControl.controls.acronym.invalid">
-        Sinónimo <strong>Inválido</strong>
+        Siglas <strong>Inválidas</strong>
       </mat-error>
     </mat-form-field>
-    <div class="full-width dialog-button-container" *ngIf="!showDirectorInputs">
+    <div
+      class="full-width dialog-button-container"
+      *ngIf="!showFirstReceiverInputs"
+    >
       <button
         type="button"
         mat-raised-button
         class="dialog-button"
         color="primary"
-        (click)="showDirectorInputs = true"
+        (click)="showFirstReceiverInputs = true"
       >
-        Agregar datos del Director
+        Agregar datos del Destinatario Principal
       </button>
     </div>
-    <div *ngIf="showDirectorInputs">
-      <h4>Datos del Director</h4>
+    <div *ngIf="showFirstReceiverInputs">
+      <h4>Datos del Destinatario Principal</h4>
       <mat-form-field class="full-width">
-        <mat-label>Nombre del Director</mat-label>
-        <input matInput [formControl]="directorFormControl.controls.name" />
-        <mat-error *ngIf="directorFormControl.controls.name.invalid"
-          >Nombre <strong>Inválido</strong></mat-error
+        <mat-label>Cargo</mat-label>
+        <input
+          matInput
+          [formControl]="firstReceiverFormControl.controls.position"
+        />
+        <mat-error *ngIf="firstReceiverFormControl.controls.position.invalid"
+          >Cargo <strong>Inválido</strong></mat-error
         >
       </mat-form-field>
       <mat-form-field class="full-width">
-        <mat-label>Puesto del Director</mat-label>
-        <input matInput [formControl]="directorFormControl.controls.position" />
-        <mat-error *ngIf="directorFormControl.controls.position.invalid"
-          >Puesto <strong>Inválido</strong></mat-error
+        <mat-label>Nombre</mat-label>
+        <input
+          matInput
+          [formControl]="firstReceiverFormControl.controls.name"
+        />
+        <mat-error *ngIf="firstReceiverFormControl.controls.name.invalid"
+          >Nombre <strong>Inválido</strong></mat-error
         >
       </mat-form-field>
       <div class="full-width dialog-button-container">
@@ -53,22 +62,64 @@
           mat-raised-button
           class="dialog-button"
           color="warn"
-          (click)="removeDirector()"
+          (click)="removeFirstReceiver()"
         >
-          Quitar datos del Director
+          Quitar datos del Destinatarios
         </button>
       </div>
-    </div>
-    <mat-form-field class="full-width">
-      <mat-label>Nombre del Jefe de Enseñanza</mat-label>
-      <input
-        matInput
-        [formControl]="hospitalFormControl.controls.educationBoss"
-      />
-      <mat-error *ngIf="hospitalFormControl.controls.educationBoss.invalid"
-        >Nombre <strong>Inválido</strong></mat-error
+      <div style="margin-bottom: 20px"></div>
+      <div
+        class="full-width dialog-button-container"
+        *ngIf="!showSecondReceiverInputs"
       >
-    </mat-form-field>
+        <button
+          type="button"
+          mat-raised-button
+          class="dialog-button"
+          color="primary"
+          (click)="showSecondReceiverInputs = true"
+        >
+          Agregar datos del Destinatario Secundario
+        </button>
+      </div>
+      <div *ngIf="showSecondReceiverInputs">
+        <h4>Datos del Destinatario Secundario</h4>
+        <mat-form-field class="full-width">
+          <mat-label>Cargo</mat-label>
+          <input
+            matInput
+            [formControl]="secondReceiverFormControl.controls.position"
+          />
+          <mat-error *ngIf="secondReceiverFormControl.controls.position.invalid"
+            >Cargo <strong>Inválido</strong></mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            [formControl]="secondReceiverFormControl.controls.name"
+          />
+          <mat-error *ngIf="secondReceiverFormControl.controls.name.invalid"
+            >Nombre <strong>Inválido</strong></mat-error
+          >
+        </mat-form-field>
+
+        <div class="full-width dialog-button-container">
+          <button
+            type="button"
+            mat-raised-button
+            class="dialog-button"
+            color="warn"
+            (click)="removeSecondReceiver()"
+          >
+            Quitar datos del Destinatario Secundario
+          </button>
+        </div>
+      </div>
+      <div style="margin-bottom: 20px"></div>
+    </div>
+    <div style="margin-bottom: 20px"></div>
     <div class="dialog-button-container" *ngIf="!showAddressInputs">
       <button
         type="button"

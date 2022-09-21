@@ -1,10 +1,8 @@
 /** @interface */
-interface Director {
-  /** @property {string} name */
-  name: string;
-
-  /** @property {string} position */
+interface Receiver {
   position: string;
+
+  name: string;
 }
 
 /** @interface */
@@ -32,11 +30,9 @@ export interface Hospital {
   /** @property {string} acronym */
   acronym?: string;
 
-  /** @property {Director} director */
-  director?: Director;
+  firstReceiver?: Receiver;
 
-  /** @property {string} educationBoss */
-  educationBoss?: string;
+  secondReceiver?: Receiver;
 
   /** @property {Address} address */
   address?: Address;

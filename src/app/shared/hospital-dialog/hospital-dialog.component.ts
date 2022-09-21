@@ -16,7 +16,8 @@ export class HospitalDialogComponent implements OnInit {
     Validators.minLength(3),
     Validators.maxLength(64),
   ];
-  showDirectorInputs = false;
+  showFirstReceiverInputs = false;
+  showSecondReceiverInputs = false;
   showAddressInputs = false;
 
   hospitalFormControl = new FormGroup({
@@ -24,10 +25,6 @@ export class HospitalDialogComponent implements OnInit {
     acronym: new FormControl('', [
       Validators.minLength(2),
       Validators.maxLength(4),
-    ]),
-    educationBoss: new FormControl('', [
-      Validators.minLength(3),
-      Validators.maxLength(64),
     ]),
     phones: new FormArray<FormControl<string | null>>([]),
     emails: new FormArray<FormControl<string | null>>([]),
@@ -37,6 +34,24 @@ export class HospitalDialogComponent implements OnInit {
   directorFormControl = new FormGroup({
     name: new FormControl('', this.textValidators),
     position: new FormControl('', this.textValidators),
+  });
+
+  firstReceiverFormControl = new FormGroup({
+    position: new FormControl('', this.textValidators),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.min(3),
+      Validators.max(128),
+    ]),
+  });
+
+  secondReceiverFormControl = new FormGroup({
+    position: new FormControl('', this.textValidators),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.min(3),
+      Validators.max(128),
+    ]),
   });
 
   addressFormControl = new FormGroup({
@@ -58,7 +73,6 @@ export class HospitalDialogComponent implements OnInit {
       this.hospitalFormControl.setValue({
         name: this.data.name,
         acronym: this.data.acronym ?? null,
-        educationBoss: this.data.educationBoss ?? null,
         emails: [],
         phones: [],
         socialService: this.data.socialService,
@@ -69,12 +83,19 @@ export class HospitalDialogComponent implements OnInit {
       this.data.emails.map((email) => {
         this.addEmail(email);
       });
-      if (this.data.director) {
-        this.directorFormControl.setValue({
-          name: this.data.director.name,
-          position: this.data.director.position,
+      if (this.data.firstReceiver) {
+        this.firstReceiverFormControl.setValue({
+          position: this.data.firstReceiver.position,
+          name: this.data.firstReceiver.name,
         });
-        this.showDirectorInputs = true;
+        this.showFirstReceiverInputs = true;
+        if (this.data.secondReceiver) {
+          this.secondReceiverFormControl.setValue({
+            position: this.data.secondReceiver.position,
+            name: this.data.secondReceiver.name,
+          });
+          this.showSecondReceiverInputs = true;
+        }
       }
       if (this.data.address) {
         this.addressFormControl.setValue({
@@ -88,13 +109,17 @@ export class HospitalDialogComponent implements OnInit {
     }
   }
 
-  /**
-   * Disapears the direcitor form controls
-   */
-  removeDirector(): void {
-    this.directorFormControl.controls.name.setValue('');
-    this.directorFormControl.controls.position.setValue('');
-    this.showDirectorInputs = false;
+  removeFirstReceiver(): void {
+    this.removeSecondReceiver();
+    this.firstReceiverFormControl.controls.position.setValue('');
+    this.firstReceiverFormControl.controls.name.setValue('');
+    this.showFirstReceiverInputs = false;
+  }
+
+  removeSecondReceiver(): void {
+    this.secondReceiverFormControl.controls.position.setValue('');
+    this.secondReceiverFormControl.controls.name.setValue('');
+    this.showSecondReceiverInputs = false;
   }
 
   /**
@@ -162,7 +187,10 @@ export class HospitalDialogComponent implements OnInit {
   private getHospital(): Hospital | null {
     if (this.hospitalFormControl.valid) {
       const data = this.hospitalFormControl.value;
-      let director: { name: string; position: string } | undefined = undefined;
+      let firstReceiver: { name: string; position: string } | undefined =
+        undefined;
+      let secondReceiver: { name: string; position: string } | undefined =
+        undefined;
       let address:
         | {
             country: string;
@@ -171,13 +199,22 @@ export class HospitalDialogComponent implements OnInit {
             street: string;
           }
         | undefined = undefined;
-      if (this.showDirectorInputs) {
-        if (this.directorFormControl.valid) {
-          const data = this.directorFormControl.value;
-          director = {
-            name: data.name!,
+      if (this.showFirstReceiverInputs) {
+        if (this.firstReceiverFormControl.valid) {
+          const data = this.firstReceiverFormControl.value;
+          firstReceiver = {
             position: data.position!,
+            name: data.name!,
           };
+          if (this.showSecondReceiverInputs) {
+            if (this.secondReceiverFormControl.valid) {
+              const data = this.secondReceiverFormControl.value;
+              secondReceiver = {
+                position: data.position!,
+                name: data.name!,
+              };
+            } else return null;
+          }
         } else return null;
       }
       if (this.showAddressInputs) {
@@ -194,9 +231,8 @@ export class HospitalDialogComponent implements OnInit {
       return {
         name: data.name!,
         acronym: data.acronym == '' ? undefined : data.acronym!,
-        educationBoss:
-          data.educationBoss == '' ? undefined : data.educationBoss!,
-        director,
+        firstReceiver,
+        secondReceiver,
         address,
         phones: data.phones as string[],
         emails: data.emails as string[],

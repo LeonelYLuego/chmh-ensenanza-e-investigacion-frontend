@@ -3,9 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { PATHS } from '@app/core/constants/paths.constant';
 import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
 import { Hospital } from '@app/data/interfaces/hospital';
-import {
-  SocialService,
-} from '@app/data/interfaces/social-service';
+import { SocialService } from '@app/data/interfaces/social-service';
 import { Student } from '@app/data/interfaces/student';
 import { HospitalsService } from '@app/data/services/hospitals.service';
 import { SocialServicesService } from '@app/data/services/social-services.service';
@@ -32,7 +30,8 @@ export class SocialServicesPageComponent implements OnInit {
   }[] = [];
   hospitals: Hospital[] = [];
   displayedColumns = ['student', 'hospital', 'period', 'documents'];
-  periods: NameValueInterface<{ year: number; period: number }>[] = [];
+  initialPeriods: NameValueInterface<{ year: number; period: number }>[] = [];
+  finalPeriods: NameValueInterface<{ year: number; period: number }>[] = [];
   periodFormControl = new FormGroup({
     initialPeriod: new FormControl<{
       year: number;
@@ -51,17 +50,21 @@ export class SocialServicesPageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    this.periods = await this.socialServicesService.getPeriods();
+    const periods = await this.socialServicesService.getInitialFinalPeriods();
+    this.initialPeriods = periods.map((p) => p.initial);
+    this.finalPeriods = periods.map((p) => p.final);
     this.hospitals = await this.hospitalsService.getHospitals();
-    if (this.periods.length >= 3) {
+    if (periods.length >= 3) {
       this.periodFormControl.controls.initialPeriod.setValue(
-        this.periods[0].value
+        periods[periods.length - 3].initial.value
       );
       this.periodFormControl.controls.finalPeriod.setValue(
-        this.periods[2].value
+        periods[periods.length - 1].final.value
       );
     }
-    await this.getSocialServices();
+    if (periods) {
+      await this.getSocialServices();
+    }
     this.loading = false;
   }
 
@@ -75,11 +78,17 @@ export class SocialServicesPageComponent implements OnInit {
       value.finalPeriod?.year!,
       value.finalPeriod?.period!
     );
+    ss.sort((a, b) => a.value.localeCompare(b.value));
     ss.map((s) => {
       if (s.socialServices.length > 0) {
         this.socialServices.push({
           specialty: s.value,
         });
+        s.socialServices.sort((a, b) =>
+          (a.student as Student).firstLastName.localeCompare(
+            (b.student as Student).firstLastName
+          )
+        );
         s.socialServices.map((v) => {
           const student = v.student as Student;
           this.socialServices.push({
@@ -111,8 +120,14 @@ export class SocialServicesPageComponent implements OnInit {
 
   initialPeriodChange() {
     if (this.validatePeriod()) {
+      const value = this.periodFormControl.value.initialPeriod!;
+      const index = this.finalPeriods.findIndex((period) => {
+        return (
+          value.period == period.value.period && value.year == period.value.year
+        );
+      });
       this.periodFormControl.controls.finalPeriod.setValue(
-        this.periodFormControl.value.initialPeriod!
+        this.finalPeriods[index].value
       );
     }
     this.getSocialServices();
@@ -120,8 +135,14 @@ export class SocialServicesPageComponent implements OnInit {
 
   finalPeriodChange() {
     if (this.validatePeriod()) {
+      const value = this.periodFormControl.value.finalPeriod!;
+      const index = this.initialPeriods.findIndex((period) => {
+        return (
+          value.period == period.value.period && value.year == period.value.year
+        );
+      });
       this.periodFormControl.controls.initialPeriod.setValue(
-        this.periodFormControl.value.finalPeriod!
+        this.initialPeriods[index].value
       );
     }
     this.getSocialServices();
