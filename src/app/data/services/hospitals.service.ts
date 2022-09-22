@@ -43,6 +43,14 @@ export class HospitalsService {
     return data ?? [];
   }
 
+  async getHospital(_id: string): Promise<Hospital | null> {
+    const data = await this.http.get<Hospital | null>(
+      SERVER_RESOURCES.HOSPITALS + `/${_id}`,
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
+
   async getSocialServiceHospitals(): Promise<Hospital[]> {
     let data = await this.http.get<Hospital[]>(
       SERVER_ENDPOINTS.HOSPITALS.SOCIAL_SERVICE,

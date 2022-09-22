@@ -10,10 +10,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { HospitalDialogComponent } from './hospital-dialog/hospital-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { StudentInfoComponent } from './student-info/student-info.component';
+import { MatCardModule } from '@angular/material/card';
 
 /** @class Shared Module */
 @NgModule({
-  declarations: [StudentDialogComponent, HospitalDialogComponent],
+  declarations: [
+    StudentDialogComponent,
+    HospitalDialogComponent,
+    StudentInfoComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,6 +31,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSelectModule,
     MatIconModule,
     MatCheckboxModule,
+    MatCardModule
   ],
+  exports: [
+    StudentInfoComponent
+  ]
 })
 export class SharedModule {}

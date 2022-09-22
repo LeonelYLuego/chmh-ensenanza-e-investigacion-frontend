@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  SERVER_RESOURCES,
-} from '@app/core/constants/server-endpoints.constant';
+import { SERVER_RESOURCES } from '@app/core/constants/server-endpoints.constant';
 import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
 import { HttpPetitions } from '@app/core/services/http-petitions.service';
 import { Specialty } from '../interfaces/specialty';
@@ -109,5 +107,28 @@ export class SpecialtiesService {
       }
     }
     return generations;
+  }
+
+  async getGeneration(
+    _id: string,
+    lastYearGeneration: number
+  ): Promise<string> {
+    let generation = '';
+    let specialty = await this.http.get<Specialty>(
+      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
+      this.forbiddenErrors
+    );
+    if (specialty) {
+      const today = new Date();
+      let month = today.getMonth() + 1,
+        year = today.getFullYear();
+      if (month == 1 || month == 2) year -= 1;
+      generation += `${lastYearGeneration - specialty.duration} - ${lastYearGeneration}`;
+      const grade = -(lastYearGeneration - specialty.duration - year - 1);
+      if(grade <= specialty.duration) {
+        generation += ` (${grade} año)`;
+      }
+    }
+    return generation;
   }
 }

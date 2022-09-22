@@ -1,0 +1,10 @@
+<mat-card *ngIf="student">
+    <h1>Datos del Estudiante</h1>
+    <p>Código Hospitalario: {{student.code}}</p>
+    <p><strong>Nombre: {{student.name}} {{student.firstLastName}} {{student.secondLastName}}</strong></p>
+    <p>Especialidad: <span *ngIf="specialty">{{specialty.value}}</span></p>
+    <p>Generación: {{generation}}</p>
+    <p>Teléfono(s): {{phones}}</p>
+    <p>Correo(s): {{emails}}</p>
+    <button mat-raised-button color="accent" (click)="updateStudentDialog()">Editar Alumno</button>
+</mat-card>

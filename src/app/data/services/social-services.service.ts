@@ -20,6 +20,14 @@ export class SocialServicesService {
 
   constructor(private http: HttpPetitions) {}
 
+  async getSocialService(_id: string) : Promise<SocialService | null> {
+    const data = await this.http.get<SocialService | null>(
+      SERVER_RESOURCES.SOCIAL_SERVICES + `/${_id}`,
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
+
   async getSocialServices(
     initialYear: number,
     initialPeriod: number,

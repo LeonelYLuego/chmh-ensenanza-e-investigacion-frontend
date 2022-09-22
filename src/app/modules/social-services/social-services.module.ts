@@ -10,14 +10,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { MatChipsModule } from '@angular/material/chips'
+import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AddSocialServicesComponent } from './add-social-services/add-social-services.component';
 import { AppRoutingModule } from '@app/core/application/app-routing.module';
+import { SocialServiceStudentComponent } from './social-service-student/social-service-student.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
-  declarations: [SocialServicesPageComponent, AddSocialServicesComponent],
+  declarations: [
+    SocialServicesPageComponent,
+    AddSocialServicesComponent,
+    SocialServiceStudentComponent,
+  ],
   imports: [
+    SharedModule,
     CommonModule,
     AppRoutingModule,
     FormsModule,

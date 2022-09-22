@@ -56,6 +56,14 @@ export class StudentsService {
     return data ?? [];
   }
 
+  async getStudent(_id: string): Promise<Student | null> {
+    const data = await this.http.get<Student>(
+      SERVER_ENDPOINTS.STUDENTS + `/${_id}`,
+      this.forbiddenErrors,
+    );
+    return data ?? null;
+  }
+
   /**
    * Adds the Student in the server
    * @async

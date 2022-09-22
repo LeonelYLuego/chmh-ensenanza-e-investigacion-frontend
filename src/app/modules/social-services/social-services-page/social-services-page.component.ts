@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PATHS } from '@app/core/constants/paths.constant';
 import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
 import { Hospital } from '@app/data/interfaces/hospital';
@@ -45,7 +46,8 @@ export class SocialServicesPageComponent implements OnInit {
 
   constructor(
     private socialServicesService: SocialServicesService,
-    private hospitalsService: HospitalsService
+    private hospitalsService: HospitalsService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -157,6 +159,6 @@ export class SocialServicesPageComponent implements OnInit {
   }
 
   updateSocialService(row: SocialService) {
-    console.log(row._id);
+    this.router.navigate(['social-services', row._id!]);
   }
 }
