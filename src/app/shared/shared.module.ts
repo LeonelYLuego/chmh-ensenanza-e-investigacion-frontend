@@ -31,10 +31,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSelectModule,
     MatIconModule,
     MatCheckboxModule,
-    MatCardModule
+    MatCardModule,
   ],
-  exports: [
-    StudentInfoComponent
-  ]
+  exports: [StudentInfoComponent],
 })
 export class SharedModule {}

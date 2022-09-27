@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import {
   SERVER_ENDPOINTS,
   SERVER_RESOURCES,
@@ -16,11 +17,16 @@ import {
 })
 export class SocialServicesService {
   err: any;
-  forbiddenErrors: ForbiddenErrorInterface[] = [];
+  forbiddenErrors: ForbiddenErrorInterface[] = [
+    {
+      errorMessage: 'social service not updated',
+      snackbarMessage: 'Servicio social no editado',
+    },
+  ];
 
   constructor(private http: HttpPetitions) {}
 
-  async getSocialService(_id: string) : Promise<SocialService | null> {
+  async getSocialService(_id: string): Promise<SocialService | null> {
     const data = await this.http.get<SocialService | null>(
       SERVER_RESOURCES.SOCIAL_SERVICES + `/${_id}`,
       this.forbiddenErrors
@@ -106,15 +112,15 @@ export class SocialServicesService {
               name: this.getInitialPeriod(p, year),
               value: {
                 year,
-                period: p
-              }
+                period: p,
+              },
             },
             final: {
               name: this.getFinalPeriod(p, year),
               value: {
                 year,
-                period: p
-              }
+                period: p,
+              },
             },
           });
         }
@@ -190,7 +196,43 @@ export class SocialServicesService {
     return data ?? null;
   }
 
-  async updateSocialService() {}
+  async updateSocialService(
+    _id: string,
+    socialService: SocialService
+  ): Promise<SocialService | null> {
+    let data = await this.http.put<SocialService | null>(
+      SERVER_RESOURCES.SOCIAL_SERVICES + `/${_id}`,
+      socialService,
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
 
-  async deleteSocialService() {}
+  async deleteSocialService(_id: string): Promise<void> {
+    await this.http.delete<void>(
+      SERVER_RESOURCES.SOCIAL_SERVICES + `/${_id}`,
+      this.forbiddenErrors
+    );
+  }
+
+  async updatePresentationOffice(
+    _id: string,
+    formData: FormData
+  ): Promise<SocialService | null> {
+    let data = await this.http.put<SocialService | null>(
+      SERVER_RESOURCES.SOCIAL_SERVICES + `/presentation-office/${_id}`,
+      formData,
+      this.forbiddenErrors
+    );
+
+    return data ?? null;
+  }
+
+  async getPresentationOffice(_id: string): Promise<SafeResourceUrl | null> {
+    let data = await this.http.getFile(
+      SERVER_RESOURCES.SOCIAL_SERVICES + `/presentation-office/${_id}`,
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
 }

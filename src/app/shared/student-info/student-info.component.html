@@ -6,5 +6,7 @@
     <p>Generación: {{generation}}</p>
     <p>Teléfono(s): {{phones}}</p>
     <p>Correo(s): {{emails}}</p>
-    <button mat-raised-button color="accent" (click)="updateStudentDialog()">Editar Alumno</button>
+    <mat-card-actions align="end">
+        <button mat-raised-button color="accent" (click)="updateStudentDialog()">Editar Alumno</button>
+    </mat-card-actions>
 </mat-card>

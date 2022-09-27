@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ForbiddenErrorInterface } from '../interfaces/forbidden-error.interface';
 import { ExceptionSnackbarService } from './exception-snackbar.service';
 
@@ -13,7 +14,8 @@ import { ExceptionSnackbarService } from './exception-snackbar.service';
 export class HttpPetitions {
   constructor(
     private http: HttpClient,
-    private exceptionSnackbarService: ExceptionSnackbarService
+    private exceptionSnackbarService: ExceptionSnackbarService,
+    private sanitizer: DomSanitizer
   ) {}
 
   /**
@@ -46,6 +48,37 @@ export class HttpPetitions {
         })
         .subscribe({
           next: (value) => resolve(value),
+          error: (err) => {
+            if (
+              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
+            )
+              resolve(undefined);
+            else reject(err);
+          },
+        });
+    });
+  }
+
+  async getFile(
+    url: string,
+    forbiddenErrors?: ForbiddenErrorInterface[]
+  ): Promise<SafeResourceUrl | undefined> {
+    return new Promise<SafeResourceUrl | undefined>((resolve, reject) => {
+      this.http
+        .get(url, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')!,
+            Accept: 'application/pdf',
+          },
+          responseType: 'blob',
+        })
+        .subscribe({
+          next: (value) => {
+            const fileURL = URL.createObjectURL(value);
+            const sanitizedURL =
+              this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+            resolve(sanitizedURL);
+          },
           error: (err) => {
             if (
               this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
