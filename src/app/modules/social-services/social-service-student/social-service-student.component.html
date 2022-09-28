@@ -47,21 +47,143 @@
       <h2>Documentos</h2>
       <h3>
         Oficio de Presentación
-        <button (click)="uploader.click()" mat-raised-button color="primary">
+        <button
+          *ngIf="!socialService.presentationOfficeDocument"
+          (click)="presentationOfficeUploader.click()"
+          mat-raised-button
+          color="primary"
+          class="document-button"
+        >
           Agregar Archivo
+        </button>
+        <button
+          *ngIf="socialService.presentationOfficeDocument"
+          (click)="presentationOfficeUploader.click()"
+          mat-raised-button
+          color="accent"
+          class="document-button"
+        >
+          Editar Archivo
+        </button>
+        <button
+          (click)="deleteFile('presentationOfficeDocument')"
+          mat-raised-button
+          color="warn"
+          class="document-button"
+        >
+          Eliminar Archivo
         </button>
       </h3>
       <input
         hidden
         accept=".pdf"
         type="file"
-        #uploader
-        (change)="uploadFile($event)"
+        #presentationOfficeUploader
+        (change)="updateFile($event, 'presentationOfficeDocument')"
       />
-
-      <iframe *ngIf="test" [src]="test" width="100%" height="600"></iframe>
+      <div *ngIf="socialService.presentationOfficeDocument">
+        <iframe
+          *ngIf="presentationOfficeDocument"
+          [src]="presentationOfficeDocument"
+          width="100%"
+          height="600"
+        ></iframe>
+      </div>
+      <br>
+      <h3>
+        Reporte
+        <button
+          *ngIf="!socialService.reportDocument"
+          (click)="reportUploader.click()"
+          mat-raised-button
+          color="primary"
+          class="document-button"
+        >
+          Agregar Archivo
+        </button>
+        <button
+          *ngIf="socialService.reportDocument"
+          (click)="reportUploader.click()"
+          mat-raised-button
+          color="accent"
+          class="document-button"
+        >
+          Editar Archivo
+        </button>
+        <button
+          (click)="deleteFile('reportDocument')"
+          mat-raised-button
+          color="warn"
+          class="document-button"
+        >
+          Eliminar Archivo
+        </button>
+      </h3>
+      <input
+        hidden
+        accept=".pdf"
+        type="file"
+        #reportUploader
+        (change)="updateFile($event, 'reportDocument')"
+      />
+      <div *ngIf="socialService.reportDocument">
+        <iframe
+          *ngIf="reportDocument"
+          [src]="reportDocument"
+          width="100%"
+          height="600"
+        ></iframe>
+      </div>
+      <br>
+      <h3>
+        Constancia
+        <button
+          *ngIf="!socialService.constancyDocument"
+          (click)="constancyUploader.click()"
+          mat-raised-button
+          color="primary"
+          class="document-button"
+        >
+          Agregar Archivo
+        </button>
+        <button
+          *ngIf="socialService.constancyDocument"
+          (click)="constancyUploader.click()"
+          mat-raised-button
+          color="accent"
+          class="document-button"
+        >
+          Editar Archivo
+        </button>
+        <button
+          (click)="deleteFile('constancyDocument')"
+          mat-raised-button
+          color="warn"
+          class="document-button"
+        >
+          Eliminar Archivo
+        </button>
+      </h3>
+      <input
+        hidden
+        accept=".pdf"
+        type="file"
+        #constancyUploader
+        (change)="updateFile($event, 'constancyDocument')"
+      />
+      <div *ngIf="socialService.constancyDocument">
+        <iframe
+          *ngIf="constancyDocument"
+          [src]="constancyDocument"
+          width="100%"
+          height="600"
+        ></iframe>
+      </div>
     </div>
   </div>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
   <mat-card-footer *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </mat-card-footer>

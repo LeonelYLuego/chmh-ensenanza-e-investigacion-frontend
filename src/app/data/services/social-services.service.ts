@@ -215,24 +215,40 @@ export class SocialServicesService {
     );
   }
 
-  async updatePresentationOffice(
+  async getDocument(
     _id: string,
-    formData: FormData
-  ): Promise<SocialService | null> {
-    let data = await this.http.put<SocialService | null>(
-      SERVER_RESOURCES.SOCIAL_SERVICES + `/presentation-office/${_id}`,
-      formData,
+    type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument'
+  ): Promise<SafeResourceUrl | null> {
+    let data = await this.http.getFile(
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.DOCUMENT + `/${_id}`,
+      type,
       this.forbiddenErrors
     );
-
     return data ?? null;
   }
 
-  async getPresentationOffice(_id: string): Promise<SafeResourceUrl | null> {
-    let data = await this.http.getFile(
-      SERVER_RESOURCES.SOCIAL_SERVICES + `/presentation-office/${_id}`,
-      this.forbiddenErrors
+  async updateDocument(
+    _id: string,
+    type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument',
+    formData: FormData
+  ): Promise<SocialService | null> {
+    let data = await this.http.put<SocialService | null>(
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.DOCUMENT + `/${_id}`,
+      formData,
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
     );
     return data ?? null;
+  }
+
+  async deleteDocument(
+    _id: string,
+    type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument'
+  ): Promise<void> {
+    await this.http.delete<void>(
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.DOCUMENT + `/${_id}`,
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
   }
 }

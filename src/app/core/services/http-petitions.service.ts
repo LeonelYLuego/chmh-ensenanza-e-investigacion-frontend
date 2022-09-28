@@ -61,6 +61,7 @@ export class HttpPetitions {
 
   async getFile(
     url: string,
+    type: string,
     forbiddenErrors?: ForbiddenErrorInterface[]
   ): Promise<SafeResourceUrl | undefined> {
     return new Promise<SafeResourceUrl | undefined>((resolve, reject) => {
@@ -69,6 +70,9 @@ export class HttpPetitions {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
             Accept: 'application/pdf',
+          },
+          params: {
+            type,
           },
           responseType: 'blob',
         })
@@ -100,14 +104,23 @@ export class HttpPetitions {
   async post<Type>(
     url: string,
     body: any,
-    forbiddenErrors?: ForbiddenErrorInterface[]
+    forbiddenErrors?: ForbiddenErrorInterface[],
+    params?: { name: string; value: string }[]
   ): Promise<Type | undefined> {
+    let sendParams: undefined | HttpParams = undefined;
+    if (params) {
+      sendParams = new HttpParams();
+      params.map((param) => {
+        sendParams = sendParams!.set(param.name, param.value);
+      });
+    }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
         .post<Type>(url, body, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
+          params: sendParams,
         })
         .subscribe({
           next: (value) => resolve(value),
@@ -132,14 +145,23 @@ export class HttpPetitions {
   async put<Type>(
     url: string,
     body: any,
-    forbiddenErrors?: ForbiddenErrorInterface[]
+    forbiddenErrors?: ForbiddenErrorInterface[],
+    params?: { name: string; value: string }[]
   ): Promise<Type | undefined> {
+    let sendParams: undefined | HttpParams = undefined;
+    if (params) {
+      sendParams = new HttpParams();
+      params.map((param) => {
+        sendParams = sendParams!.set(param.name, param.value);
+      });
+    }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
         .put<Type>(url, body, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
+          params: sendParams,
         })
         .subscribe({
           next: (value) => resolve(value),
@@ -163,14 +185,23 @@ export class HttpPetitions {
    */
   async delete<Type>(
     url: string,
-    forbiddenErrors?: ForbiddenErrorInterface[]
+    forbiddenErrors?: ForbiddenErrorInterface[],
+    params?: { name: string; value: string }[]
   ): Promise<Type | undefined> {
+    let sendParams: undefined | HttpParams = undefined;
+    if (params) {
+      sendParams = new HttpParams();
+      params.map((param) => {
+        sendParams = sendParams!.set(param.name, param.value);
+      });
+    }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
         .delete<Type>(url, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
+          params: sendParams,
         })
         .subscribe({
           next: (value) => resolve(value),

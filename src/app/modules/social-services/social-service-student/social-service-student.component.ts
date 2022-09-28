@@ -24,11 +24,12 @@ export class SocialServiceStudentComponent implements OnInit {
       Validators.max(2100),
     ]),
   });
+  presentationOfficeDocument: SafeResourceUrl | null = null;
+  reportDocument: SafeResourceUrl | null = null;
+  constancyDocument: SafeResourceUrl | null = null;
   hospitals: Hospital[] = [];
   singlePeriods: NameValueInterface<number>[] = [];
   loading = true;
-
-  test: SafeResourceUrl | null = null;
 
   constructor(
     private socialServicesService: SocialServicesService,
@@ -57,9 +58,29 @@ export class SocialServiceStudentComponent implements OnInit {
         period: this.socialService.period,
         year: this.socialService.year,
       });
-      this.test = await this.socialServicesService.getPresentationOffice(
-        this.socialService!._id!
-      );
+      this.presentationOfficeDocument =
+        this.reportDocument =
+        this.constancyDocument =
+          null;
+      if (this.socialService.presentationOfficeDocument) {
+        this.presentationOfficeDocument =
+          await this.socialServicesService.getDocument(
+            this.socialService!._id!,
+            'presentationOfficeDocument'
+          );
+      }
+      if (this.socialService.reportDocument) {
+        this.reportDocument = await this.socialServicesService.getDocument(
+          this.socialService!._id!,
+          'reportDocument'
+        );
+      }
+      if (this.socialService.constancyDocument) {
+        this.constancyDocument = await this.socialServicesService.getDocument(
+          this.socialService!._id!,
+          'constancyDocument'
+        );
+      }
       this.loading = false;
     } else this.router.navigate(['/404']);
   }
@@ -89,17 +110,32 @@ export class SocialServiceStudentComponent implements OnInit {
     this.router.navigate(['..']);
   }
 
-  async uploadFile(event: any) {
+  async updateFile(
+    event: any,
+    type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument'
+  ) {
     this.loading = true;
     const file: File = event.target.files[0];
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      await this.socialServicesService.updatePresentationOffice(
+      await this.socialServicesService.updateDocument(
         this.socialService!._id!,
+        type,
         formData
       );
       await this.getSocialService();
     }
+  }
+
+  async deleteFile(
+    type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument'
+  ) {
+    this.loading = true;
+    await this.socialServicesService.deleteDocument(
+      this.socialService!._id!,
+      type
+    );
+    await this.getSocialService();
   }
 }
