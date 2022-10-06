@@ -215,14 +215,73 @@ export class SocialServicesService {
     );
   }
 
+  async generateDocuments(
+    initialNumberOfDocuments: number,
+    dateOfDocuments: Date,
+    initialPeriod: number,
+    initialYear: number,
+    finalPeriod: number,
+    finalYear: number,
+    hospital?: string,
+    specialty?: string
+  ): Promise<null | Blob> {
+    const params: { name: string; value: string }[] = [
+      {
+        name: 'initialNumberOfDocuments',
+        value: initialNumberOfDocuments.toString(),
+      },
+      {
+        name: 'dateOfDocuments',
+        value: `${
+          dateOfDocuments.getMonth() + 1
+        }/${dateOfDocuments.getDate()}/${dateOfDocuments.getFullYear()}`,
+      },
+      {
+        name: 'initialPeriod',
+        value: initialPeriod.toString(),
+      },
+      {
+        name: 'initialYear',
+        value: initialYear.toString(),
+      },
+      {
+        name: 'finalPeriod',
+        value: finalPeriod.toString(),
+      },
+      {
+        name: 'finalYear',
+        value: finalYear.toString(),
+      },
+    ];
+
+    if (hospital)
+      params.push({
+        name: 'hospital',
+        value: hospital,
+      });
+    if (specialty)
+      params.push({
+        name: 'specialty',
+        value: specialty,
+      });
+
+    let data = await this.http.getBlob(
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.GENERATE,
+      this.forbiddenErrors,
+      params
+    );
+
+    return data ?? null;
+  }
+
   async getDocument(
     _id: string,
     type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument'
   ): Promise<SafeResourceUrl | null> {
-    let data = await this.http.getFile(
+    let data = await this.http.getFileUrl(
       SERVER_ENDPOINTS.SOCIAL_SERVICES.DOCUMENT + `/${_id}`,
-      type,
-      this.forbiddenErrors
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
     );
     return data ?? null;
   }

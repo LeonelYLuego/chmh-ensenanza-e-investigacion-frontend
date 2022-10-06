@@ -33,7 +33,7 @@
       }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button color="primary" class="filter-button">
+  <button mat-raised-button color="primary" class="filter-button" [routerLink]="'/' + paths.DOCUMENTS">
     Generar Oficios de Presentación
   </button>
   <table
@@ -90,7 +90,7 @@
             *ngIf="socialService.documents?.presentationOffice"
             color="presentation-office"
             selected
-            >Officio de Presentación</mat-chip
+            >Oficio de Presentación</mat-chip
           >
           <mat-chip
             *ngIf="socialService.documents?.report"

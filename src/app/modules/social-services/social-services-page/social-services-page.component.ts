@@ -95,7 +95,7 @@ export class SocialServicesPageComponent implements OnInit {
           const student = v.student as Student;
           this.socialServices.push({
             _id: v._id,
-            student: `${student.name} ${student.firstLastName} ${student.secondLastName}`,
+            student: `${student.name} ${student.firstLastName} ${student.secondLastName ?? ''}`,
             period: this.getPeriod(v.period, v.year),
             hospital: this.getHospital(v.hospital as string)!.name,
             documents: {

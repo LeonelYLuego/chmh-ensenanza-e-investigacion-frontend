@@ -13,6 +13,7 @@ import { HospitalsPageComponent } from '@app/modules/others/pages/hospitals-page
 import { SocialServicesPageComponent } from '@app/modules/social-services/social-services-page/social-services-page.component';
 import { AddSocialServicesComponent } from '@app/modules/social-services/add-social-services/add-social-services.component';
 import { SocialServiceStudentComponent } from '@app/modules/social-services/social-service-student/social-service-student.component';
+import { SocialServiceGenerateDocumentsComponent } from '@app/modules/social-services/social-service-generate-documents/social-service-generate-documents.component';
 
 const routes: Routes = [
   {
@@ -74,10 +75,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: PATHS.SOCIAL_SERVICES.DOCUMENTS,
+    title: 'Cartas de Presentación para Servicio Social',
+    component: SocialServiceGenerateDocumentsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: PATHS.SOCIAL_SERVICES.STUDENT,
     title: 'Servicio Social',
     component: SocialServiceStudentComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: '**',
