@@ -59,21 +59,61 @@ export class HttpPetitions {
     });
   }
 
-  async getFile(
+  async getBlob(
     url: string,
-    type: string,
-    forbiddenErrors?: ForbiddenErrorInterface[]
-  ): Promise<SafeResourceUrl | undefined> {
-    return new Promise<SafeResourceUrl | undefined>((resolve, reject) => {
+    forbiddenErrors?: ForbiddenErrorInterface[],
+    params?: { name: string; value: string }[]
+  ): Promise<Blob | undefined> {
+    return new Promise<Blob | undefined>((resolve, reject) => {
+      let sendParams: undefined | HttpParams = undefined;
+      if (params) {
+        sendParams = new HttpParams();
+        params.map((param) => {
+          sendParams = sendParams!.set(param.name, param.value);
+        });
+      }
       this.http
         .get(url, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
-            Accept: 'application/pdf',
           },
-          params: {
-            type,
+          params: sendParams,
+          responseType: 'blob',
+        })
+        .subscribe({
+          next: (value) => {
+            resolve(value);
           },
+          error: (err) => {
+            if (
+              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
+            )
+              resolve(undefined);
+            else reject(err);
+          },
+        });
+    });
+  }
+
+  async getFileUrl(
+    url: string,
+    forbiddenErrors?: ForbiddenErrorInterface[],
+    params?: { name: string; value: string }[]
+  ): Promise<SafeResourceUrl | undefined> {
+    return new Promise<SafeResourceUrl | undefined>((resolve, reject) => {
+      let sendParams: undefined | HttpParams = undefined;
+      if (params) {
+        sendParams = new HttpParams();
+        params.map((param) => {
+          sendParams = sendParams!.set(param.name, param.value);
+        });
+      }
+      this.http
+        .get(url, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')!,
+          },
+          params: sendParams,
           responseType: 'blob',
         })
         .subscribe({
