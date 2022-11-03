@@ -1,17 +1,42 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
 import { HttpClient } from '@angular/common/http';
-import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
 import { Router } from '@angular/router';
-import { ExceptionSnackbarService } from '@app/core/services/exception-snackbar.service';
-import { PATHS } from '@app/core/constants/paths.constant';
+import { ExceptionSnackbarService, HttpPetitions } from '@core/services';
+import { PATHS, SERVER_ENDPOINTS } from '@core/constants';
+import { HttpResponse } from '@core/interfaces/http-response.interface';
+import { ForbiddenErrorInterface } from '@core/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
+  readonly forbiddenErrors: ForbiddenErrorInterface[] = [
+    {
+      errorMessage: 'user already exists',
+      snackbarMessage: 'El usuario ya existe',
+    },
+    {
+      errorMessage: 'user not found',
+      snackbarMessage: 'Usuario no encontrado',
+    },
+    {
+      errorMessage: 'user not modified',
+      snackbarMessage: 'Usuario no modificado',
+    },
+    {
+      errorMessage: 'user not deleted',
+      snackbarMessage: 'Usuario no eliminado',
+    },
+    {
+      errorMessage: 'the current user can not be deleted',
+      snackbarMessage: 'El Usuario actual no puede ser eliminado',
+    },
+  ];
+
   constructor(
     private http: HttpClient,
+    private httpPetitions: HttpPetitions,
     private router: Router,
     private exceptionSnackbarService: ExceptionSnackbarService
   ) {}
@@ -27,24 +52,36 @@ export class UsersService {
     localStorage.clear();
     return new Promise<boolean>((resolve, reject) => {
       this.http
-        .post<{ token?: string; user?: User }>(
+        .post<HttpResponse<{ token?: string; user?: User }>>(
           SERVER_ENDPOINTS.AUTH.LOGIN,
           user
         )
         .subscribe({
           next: (value) => {
             if (value)
-              if (value.token && value.user) {
-                localStorage.setItem('token', value.token);
-                localStorage.setItem('user', JSON.stringify(value.user));
-                resolve(true);
+              if (value.error) {
+                if (
+                  this.exceptionSnackbarService.serverPetitionLogIn(value.error)
+                )
+                  resolve(false);
+                else reject(value.error);
+              } else if (value.data) {
+                if (value.data.token && value.data.user) {
+                  localStorage.setItem('token', value.data.token);
+                  localStorage.setItem('user', JSON.stringify(value.data.user));
+                  resolve(true);
+                }
               }
             resolve(false);
           },
           error: (err) => {
-            if (this.exceptionSnackbarService.serverPetitionLogIn(err))
-              resolve(false);
-            else reject(err);
+            this.exceptionSnackbarService.serverPetition({
+              statusCode: 404,
+              path: '',
+              timestamp: Date.now().toString(),
+              exception: undefined,
+            });
+            reject(err);
           },
         });
     });
@@ -60,7 +97,7 @@ export class UsersService {
     return new Promise<boolean>((resolve, reject) => {
       if (localStorage.getItem('token')) {
         this.http
-          .get<User>(SERVER_ENDPOINTS.AUTH.LOGGED, {
+          .get<HttpResponse<User>>(SERVER_ENDPOINTS.AUTH.LOGGED, {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem('token')!,
             },
@@ -68,8 +105,10 @@ export class UsersService {
           .subscribe({
             next: (value) => {
               if (value) {
-                localStorage.setItem('user', JSON.stringify(value));
-                resolve(true);
+                if (value.data) {
+                  localStorage.setItem('user', JSON.stringify(value.data));
+                  resolve(true);
+                }
               } else {
                 localStorage.clear();
                 resolve(false);
@@ -93,7 +132,7 @@ export class UsersService {
    */
   logOut(): void {
     localStorage.clear();
-    this.router.navigate([PATHS.LOG_IN]);
+    this.router.navigate([PATHS.AUTH.BASE_PATH, PATHS.AUTH.LOG_IN]);
   }
 
   /**
@@ -102,24 +141,12 @@ export class UsersService {
    * @function getUsers
    * @returns {Promise<User[]>} The Users
    */
-  async getUsers(): Promise<User[]> {
-    return new Promise<User[]>((resolve, reject) => {
-      this.http
-        .get<User[]>(SERVER_ENDPOINTS.USERS, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')!,
-          },
-        })
-        .subscribe({
-          next: (value) => {
-            resolve(value);
-          },
-          error: (err) => {
-            if (this.exceptionSnackbarService.serverPetition(err)) resolve([]);
-            else reject(err);
-          },
-        });
-    });
+  async getAll(): Promise<User[]> {
+    const data = await this.httpPetitions.get<User[]>(
+      SERVER_ENDPOINTS.USERS.BASE_ENDPOINT,
+      this.forbiddenErrors
+    );
+    return data ?? [];
   }
 
   /**
@@ -129,40 +156,13 @@ export class UsersService {
    * @param {User} user The User data
    * @returns {Promise<boolean>} `true`: the User has been added, `false`: the User has not been added
    */
-  async addUser(user: User): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      this.http
-        .post<User>(
-          SERVER_ENDPOINTS.USERS,
-          {
-            username: user.username,
-            password: user.password,
-            administrator: user.administrator,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')!,
-            },
-          }
-        )
-        .subscribe({
-          next: () => {
-            resolve(true);
-          },
-          error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, [
-                {
-                  errorMessage: 'user already exists',
-                  snackbarMessage: 'El Usuario ya existe',
-                },
-              ])
-            )
-              resolve(false);
-            else reject(err);
-          },
-        });
-    });
+  async add(user: User): Promise<User | null> {
+    const data = await this.httpPetitions.post<User>(
+      SERVER_ENDPOINTS.USERS.BASE_ENDPOINT,
+      user,
+      this.forbiddenErrors
+    );
+    return data ?? null;
   }
 
   /**
@@ -172,44 +172,13 @@ export class UsersService {
    * @param {User} user User to update
    * @returns {Promise<boolean>} `true`: if the User has been updated, `false`: if the User has not been updated
    */
-  async updateUser(_id: string, user: User): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      this.http
-        .put<User>(
-          `${SERVER_ENDPOINTS.USERS}/${_id}`,
-          {
-            username: user.username,
-            password: user.password,
-            administrator: user.administrator,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')!,
-            },
-          }
-        )
-        .subscribe({
-          next: () => {
-            resolve(true);
-          },
-          error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, [
-                {
-                  errorMessage: 'user not found',
-                  snackbarMessage: 'El Usuario es inválido',
-                },
-                {
-                  errorMessage: 'user not modified',
-                  snackbarMessage: 'El Usuario no se modificó',
-                },
-              ])
-            )
-              resolve(false);
-            else reject(err);
-          },
-        });
-    });
+  async update(_id: string, user: User): Promise<User | null> {
+    const data = await this.httpPetitions.put<User>(
+      SERVER_ENDPOINTS.USERS.BY_ID(_id),
+      user,
+      this.forbiddenErrors
+    );
+    return data ?? null;
   }
 
   /**
@@ -218,37 +187,10 @@ export class UsersService {
    * @param {string} _id _id of the Student
    * @returns {Promise<boolean>} `true`: if the User has been deleted, `false`: if the User has not been deleted
    */
-  async deleteUser(_id: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      this.http
-        .delete(`${SERVER_ENDPOINTS.USERS}/${_id}`, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')!,
-          },
-        })
-        .subscribe({
-          next: () => resolve(true),
-          error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, [
-                {
-                  errorMessage: 'user not found',
-                  snackbarMessage: 'El Usuario es inválido',
-                },
-                {
-                  errorMessage: 'user not modified',
-                  snackbarMessage: 'El Usuario no se modificó',
-                },
-                {
-                  errorMessage: 'the current user can not be deleted',
-                  snackbarMessage: 'El Usuario actual no puede ser eliminado',
-                },
-              ])
-            )
-              resolve(false);
-            else reject(err);
-          },
-        });
-    });
+  async delete(_id: string): Promise<void> {
+    await this.httpPetitions.delete<void>(
+      SERVER_ENDPOINTS.USERS.BY_ID(_id),
+      this.forbiddenErrors
+    );
   }
 }

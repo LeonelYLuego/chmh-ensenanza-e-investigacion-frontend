@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Hospital } from '@app/data/interfaces/hospital';
-import { HospitalsService } from '@app/data/services/hospitals.service';
+import { Hospital } from '@data/interfaces';
+import { HospitalsService } from '@data/services';
 
 @Component({
   selector: 'app-hospital-dialog',
@@ -77,18 +77,22 @@ export class HospitalDialogComponent implements OnInit {
         phones: [],
         socialService: this.data.socialService,
       });
+      //Adds the phone data to the form
       this.data.phones.map((phone) => {
         this.addPhone(phone);
       });
+      //Adds the email data to de form
       this.data.emails.map((email) => {
         this.addEmail(email);
       });
+      //If exists a first receiver adds it to the form
       if (this.data.firstReceiver) {
         this.firstReceiverFormControl.setValue({
           position: this.data.firstReceiver.position,
           name: this.data.firstReceiver.name,
         });
         this.showFirstReceiverInputs = true;
+        //If exists a second receiver adds it to the form
         if (this.data.secondReceiver) {
           this.secondReceiverFormControl.setValue({
             position: this.data.secondReceiver.position,
@@ -97,6 +101,7 @@ export class HospitalDialogComponent implements OnInit {
           this.showSecondReceiverInputs = true;
         }
       }
+      //If exists address data adds it to the form
       if (this.data.address) {
         this.addressFormControl.setValue({
           country: this.data.address.country,
@@ -109,6 +114,9 @@ export class HospitalDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Removes the first and second receiver data
+   */
   removeFirstReceiver(): void {
     this.removeSecondReceiver();
     this.firstReceiverFormControl.controls.position.setValue('');
@@ -116,6 +124,9 @@ export class HospitalDialogComponent implements OnInit {
     this.showFirstReceiverInputs = false;
   }
 
+  /**
+   * Removes the second receiver data
+   */
   removeSecondReceiver(): void {
     this.secondReceiverFormControl.controls.position.setValue('');
     this.secondReceiverFormControl.controls.name.setValue('');
@@ -199,6 +210,7 @@ export class HospitalDialogComponent implements OnInit {
             street: string;
           }
         | undefined = undefined;
+      //Adds to the object the first receiver if this is being showed
       if (this.showFirstReceiverInputs) {
         if (this.firstReceiverFormControl.valid) {
           const data = this.firstReceiverFormControl.value;
@@ -206,6 +218,7 @@ export class HospitalDialogComponent implements OnInit {
             position: data.position!,
             name: data.name!,
           };
+          //Adds to the object the second receiver if this is being showed
           if (this.showSecondReceiverInputs) {
             if (this.secondReceiverFormControl.valid) {
               const data = this.secondReceiverFormControl.value;
@@ -217,6 +230,7 @@ export class HospitalDialogComponent implements OnInit {
           }
         } else return null;
       }
+      //Adds to the object the address if this is being showed
       if (this.showAddressInputs) {
         if (this.addressFormControl.valid) {
           const data = this.addressFormControl.value;
@@ -249,7 +263,7 @@ export class HospitalDialogComponent implements OnInit {
   async addHospital(): Promise<void> {
     const hospital = this.getHospital();
     if (hospital) {
-      if (await this.hospitalsService.createHospital(hospital)) this.close();
+      if (await this.hospitalsService.add(hospital)) this.close();
     }
   }
 
@@ -260,7 +274,7 @@ export class HospitalDialogComponent implements OnInit {
   async updateHospital(): Promise<void> {
     const hospital = this.getHospital();
     if (hospital) {
-      if (await this.hospitalsService.updateHospital(this.data!._id!, hospital))
+      if (await this.hospitalsService.update(this.data!._id!, hospital))
         this.close();
     }
   }

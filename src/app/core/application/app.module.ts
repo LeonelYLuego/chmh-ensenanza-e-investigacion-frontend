@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from '../routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { NavComponent } from '@app/layout/nav/nav.component';
 import { CoreModule } from '../core.module';
-import { DataModule } from '@app/data/data.module';
-import { AuthModule } from '@app/modules/auth/auth.module';
-import { OthersModule } from '@app/modules/others/others.module';
-import { ErrorPagesModule } from '@app/modules/error-pages/error-pages.module';
-import { SharedModule } from '@app/shared/shared.module';
-import { SocialServicesModule } from '@app/modules/social-services/social-services.module';
+import { NavComponent } from 'app/layout/nav';
+import { DataModule } from '@data/data.module';
+import { SharedModule } from '@shared/shared.module';
+import { AuthModule } from '@auth/auth.module';
+import { ErrorPagesModule } from '@error-pages/error-pages.module';
+import { OthersModule } from '@others/others.module';
+import { SocialServicesModule } from '@social-services/social-services.module';
 
 /** Application Module */
 @NgModule({

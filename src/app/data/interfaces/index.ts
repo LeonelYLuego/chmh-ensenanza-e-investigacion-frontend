@@ -1,0 +1,5 @@
+export * from './hospital';
+export * from './social-service';
+export * from './specialty';
+export * from './student';
+export * from './user';

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SERVER_ENDPOINTS, SERVER_RESOURCES } from '@app/core/constants/server-endpoints.constant';
-import { HttpPetitions } from '@app/core/services/http-petitions.service';
-import { Specialty } from '@app/data/interfaces/specialty';
-import { SpecialtiesService } from '@app/data/services/specialties.service';
+import { SERVER_RESOURCES } from '@core/constants';
+import { HttpPetitions } from '@core/services';
+import { Specialty } from '@data/interfaces';
+import { SpecialtiesService } from '@data/services';
 import to from 'await-to-js';
 import { SpecialtyDialogComponent } from '../../dialogs/specialty-dialog/specialty-dialog.component';
 
@@ -36,11 +36,7 @@ export class SpecialtiesPageComponent implements OnInit {
    * @async
    */
   async getSpecialties(): Promise<void> {
-    let data: Specialty[] | undefined;
-    [this.err, data] = await to(
-      this.http.get<Specialty[]>(SERVER_RESOURCES.SPECIALTIES)
-    );
-    if (data) this.specialties = data;
+    this.specialties = await this.specialtiesService.findAll();
   }
 
   /**
@@ -84,7 +80,7 @@ export class SpecialtiesPageComponent implements OnInit {
    * @param {string} _id _id of the Specialty
    */
   async deleteSpecialty(_id: string): Promise<void> {
-    await this.specialtiesService.deleteSpecialty(_id);
+    await this.specialtiesService.delete(_id);
     await this.getSpecialties();
   }
 }

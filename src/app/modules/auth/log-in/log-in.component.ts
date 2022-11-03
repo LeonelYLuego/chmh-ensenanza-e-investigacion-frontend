@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
-import { PATHS } from '@app/core/constants/paths.constant';
-import { UsersService } from '@app/data/services/users.service';
+import { PATHS } from '@core/constants';
+import { UsersService } from '@data/services';
 
 /** @class My Error State Matcher */
 export class MyErrorStateMatcher implements ErrorStateMatcher {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SERVER_RESOURCES } from '@app/core/constants/server-endpoints.constant';
-import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
-import { HttpPetitions } from '@app/core/services/http-petitions.service';
+import { SERVER_ENDPOINTS } from '@core/constants';
+import { ForbiddenErrorInterface } from '@core/interfaces';
+import { HttpPetitions } from '@core/services';
 import { Specialty } from '../interfaces/specialty';
 
 @Injectable({
@@ -21,7 +21,11 @@ export class SpecialtiesService {
     },
     {
       errorMessage: 'specialty not found',
-      snackbarMessage: 'No se encontró la Especialidad',
+      snackbarMessage: 'Especialidad no encontrada',
+    },
+    {
+      errorMessage: 'specialty not deleted',
+      snackbarMessage: 'Especialidad no eliminada',
     },
   ];
 
@@ -32,8 +36,11 @@ export class SpecialtiesService {
    * @async
    * @returns {Promise<Specialty[]>} the found Specialties
    */
-  async getSpecialties(): Promise<Specialty[]> {
-    let data = await this.http.get<Specialty[]>(SERVER_RESOURCES.SPECIALTIES);
+  async findAll(): Promise<Specialty[]> {
+    let data = await this.http.get<Specialty[]>(
+      SERVER_ENDPOINTS.SPECIALTIES.BASE_ENDPOINT,
+      this.forbiddenErrors
+    );
     return data ?? [];
   }
 
@@ -43,9 +50,9 @@ export class SpecialtiesService {
    * @param {Specialty} specialty
    * @returns {Promise<Specialty | null>} the added Specialty
    */
-  async addSpecialty(specialty: Specialty): Promise<Specialty | null> {
+  async add(specialty: Specialty): Promise<Specialty | null> {
     let data = await this.http.post<Specialty>(
-      SERVER_RESOURCES.SPECIALTIES,
+      SERVER_ENDPOINTS.SPECIALTIES.BASE_ENDPOINT,
       specialty,
       this.forbiddenErrors
     );
@@ -59,12 +66,9 @@ export class SpecialtiesService {
    * @param {Specialty} specialty
    * @returns {Promise<Specialty | null>} the updated Specialty
    */
-  async updateSpecialty(
-    _id: string,
-    specialty: Specialty
-  ): Promise<Specialty | null> {
+  async update(_id: string, specialty: Specialty): Promise<Specialty | null> {
     let data = await this.http.put<Specialty>(
-      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
+      SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
       specialty,
       this.forbiddenErrors
     );
@@ -76,26 +80,34 @@ export class SpecialtiesService {
    * @async
    * @param {string} _id
    */
-  async deleteSpecialty(_id: string): Promise<void> {
+  async delete(_id: string): Promise<void> {
     await this.http.delete(
-      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
+      SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
       this.forbiddenErrors
     );
   }
 
+  /**
+   * Gets generations as array of names and values
+   * @param _id Specialty primary key
+   * @returns last year generation as `value` and the string as `name`
+   */
   async getGenerations(
     _id: string
   ): Promise<{ name: string; value: number }[]> {
+    //Gets the specialty
     let specialty = await this.http.get<Specialty>(
-      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
+      SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
       this.forbiddenErrors
     );
     const generations: { name: string; value: number }[] = [];
     if (specialty) {
+      //Gets the month and year now
       const today = new Date();
       let month = today.getMonth() + 1,
         year = today.getFullYear();
 
+      //If is january or february
       if (month == 1 || month == 2) year -= 1;
       for (let i = 0; i < 5; i++) {
         let generation = year - i + ' - ' + (year - i + specialty.duration);
@@ -109,23 +121,34 @@ export class SpecialtiesService {
     return generations;
   }
 
+  /**
+   * Get a generation as string
+   * @param _id
+   * @param lastYearGeneration
+   * @returns the generation as string
+   */
   async getGeneration(
     _id: string,
     lastYearGeneration: number
   ): Promise<string> {
     let generation = '';
+    //Gets the specialty
     let specialty = await this.http.get<Specialty>(
-      `${SERVER_RESOURCES.SPECIALTIES}/${_id}`,
+      SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
       this.forbiddenErrors
     );
     if (specialty) {
+      //Gets the month and year now
       const today = new Date();
       let month = today.getMonth() + 1,
         year = today.getFullYear();
+      //If the month is january or february
       if (month == 1 || month == 2) year -= 1;
-      generation += `${lastYearGeneration - specialty.duration} - ${lastYearGeneration}`;
+      generation += `${
+        lastYearGeneration - specialty.duration
+      } - ${lastYearGeneration}`;
       const grade = -(lastYearGeneration - specialty.duration - year - 1);
-      if(grade <= specialty.duration) {
+      if (grade <= specialty.duration) {
         generation += ` (${grade} año)`;
       }
     }

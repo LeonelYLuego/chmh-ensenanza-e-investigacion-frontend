@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { User } from '@app/data/interfaces/user';
-import { UsersService } from '@app/data/services/users.service';
+import { User } from '@data/interfaces';
+import { UsersService } from '@data/services';
 
 /** User Dialog Component */
 @Component({
@@ -45,7 +45,7 @@ export class UserDialogComponent {
   async addUser(): Promise<void> {
     const value = this.user.value;
     if (this.user.valid) {
-      const res = await this.usersService.addUser({
+      const res = await this.usersService.add({
         _id: '',
         administrator: value.administrator!,
         username: value.username!,
@@ -63,7 +63,7 @@ export class UserDialogComponent {
   async updateUser(): Promise<void> {
     const value = this.user.value;
     if (this.user.valid) {
-      const res = await this.usersService.updateUser(this.data!._id, {
+      const res = await this.usersService.update(this.data!._id, {
         _id: this.data!._id,
         username: value.username!,
         password: value.password!,

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PATHS } from '@app/core/constants/paths.constant';
-import { User } from '@app/data/interfaces/user';
+import { PATHS } from '@core/constants';
+import { User } from '@data/interfaces';
 
-/** @class Others Page Component */
+/** Others Page component */
 @Component({
   selector: 'app-others-page',
   templateUrl: './others-page.component.html',
@@ -13,9 +12,10 @@ export class OthersPageComponent implements OnInit {
   administrator: boolean = false;
   paths = PATHS;
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngOnInit(): void {
+    //Checks if the current user is an administrator
     const user = JSON.parse(localStorage.getItem('user')!) as User;
     this.administrator = user.administrator;
   }

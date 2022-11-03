@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SERVER_ENDPOINTS } from '@app/core/constants/server-endpoints.constant';
-import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
-import { HttpPetitions } from '@app/core/services/http-petitions.service';
+import { SERVER_ENDPOINTS } from '@core/constants';
+import { ForbiddenErrorInterface } from '@core/interfaces';
+import { HttpPetitions } from '@core/services';
 import { Student } from '../interfaces/student';
 
 @Injectable({
@@ -38,7 +38,7 @@ export class StudentsService {
    * @param {number} lastYearGeneration
    * @returns {Promise<Student[]>} the found Students
    */
-  async getStudents(
+  async getAll(
     specialtyId: string,
     lastYearGeneration: number
   ): Promise<Student[]> {
@@ -49,17 +49,17 @@ export class StudentsService {
         { name: 'lastYearGeneration', value: lastYearGeneration.toString() },
       ];
     let data = await this.http.get<Student[]>(
-      SERVER_ENDPOINTS.STUDENTS,
+      SERVER_ENDPOINTS.STUDENTS.BASE_PATH,
       this.forbiddenErrors,
       params
     );
     return data ?? [];
   }
 
-  async getStudent(_id: string): Promise<Student | null> {
+  async get(_id: string): Promise<Student | null> {
     const data = await this.http.get<Student>(
-      SERVER_ENDPOINTS.STUDENTS + `/${_id}`,
-      this.forbiddenErrors,
+      SERVER_ENDPOINTS.STUDENTS.BY_ID(_id),
+      this.forbiddenErrors
     );
     return data ?? null;
   }
@@ -70,9 +70,9 @@ export class StudentsService {
    * @param {Student} student
    * @returns {Promise<Student | null>} the added Student
    */
-  async addStudent(student: Student): Promise<Student | null> {
+  async add(student: Student): Promise<Student | null> {
     let data = await this.http.post<Student>(
-      SERVER_ENDPOINTS.STUDENTS,
+      SERVER_ENDPOINTS.STUDENTS.BASE_PATH,
       student,
       this.forbiddenErrors
     );
@@ -85,9 +85,9 @@ export class StudentsService {
    * @param {Student} student
    * @returns {Promise<Student | null>} the updated Student
    */
-  async updateStudent(_id: string, student: Student): Promise<Student | null> {
+  async update(_id: string, student: Student): Promise<Student | null> {
     let data = await this.http.put<Student>(
-      `${SERVER_ENDPOINTS.STUDENTS}/${_id}`,
+      SERVER_ENDPOINTS.STUDENTS.BY_ID(_id),
       student,
       this.forbiddenErrors
     );
@@ -99,9 +99,9 @@ export class StudentsService {
    * @async
    * @param _id _id of the Student
    */
-  async deleteStudent(_id: string): Promise<void> {
+  async delete(_id: string): Promise<void> {
     await this.http.delete<Student>(
-      `${SERVER_ENDPOINTS.STUDENTS}/${_id}`,
+      SERVER_ENDPOINTS.STUDENTS.BY_ID(_id),
       this.forbiddenErrors
     );
   }

@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import {
-  SERVER_ENDPOINTS,
-  SERVER_RESOURCES,
-} from '@app/core/constants/server-endpoints.constant';
-import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
-import { HttpPetitions } from '@app/core/services/http-petitions.service';
+import { SERVER_ENDPOINTS } from '@core/constants';
+import { ForbiddenErrorInterface } from '@core/interfaces';
+import { HttpPetitions } from '@core/services';
 import { Hospital } from '../interfaces/hospital';
 
 @Injectable({
   providedIn: 'root',
 })
-/** @class Hospitals Service */
+/** Hospitals service */
 export class HospitalsService {
   err: any;
   forbiddenErrors: ForbiddenErrorInterface[] = [
@@ -35,23 +32,32 @@ export class HospitalsService {
    * @async
    * @returns {Promise<Hospital[]>} the found Hospitals
    */
-  async getHospitals(): Promise<Hospital[]> {
+  async getAll(): Promise<Hospital[]> {
     let data = await this.http.get<Hospital[]>(
-      SERVER_RESOURCES.HOSPITALS,
+      SERVER_ENDPOINTS.HOSPITALS.BASE_ENDPOINT,
       this.forbiddenErrors
     );
     return data ?? [];
   }
 
-  async getHospital(_id: string): Promise<Hospital | null> {
+  /**
+   * Gets from the serve a Hospital
+   * @param _id Hospital primary key
+   * @returns the found hospital
+   */
+  async get(_id: string): Promise<Hospital | null> {
     const data = await this.http.get<Hospital | null>(
-      SERVER_RESOURCES.HOSPITALS + `/${_id}`,
+      SERVER_ENDPOINTS.HOSPITALS.BY_ID(_id),
       this.forbiddenErrors
     );
     return data ?? null;
   }
 
-  async getSocialServiceHospitals(): Promise<Hospital[]> {
+  /**
+   * Gets from the server all Social Service Hospitals
+   * @returns the found hospitals
+   */
+  async getSocialServices(): Promise<Hospital[]> {
     let data = await this.http.get<Hospital[]>(
       SERVER_ENDPOINTS.HOSPITALS.SOCIAL_SERVICE,
       this.forbiddenErrors
@@ -65,9 +71,9 @@ export class HospitalsService {
    * @param {Hospital} hospital
    * @returns {Promise<Hospital | null>} the added Hospital
    */
-  async createHospital(hospital: Hospital): Promise<Hospital | null> {
+  async add(hospital: Hospital): Promise<Hospital | null> {
     let data = await this.http.post<Hospital>(
-      SERVER_RESOURCES.HOSPITALS,
+      SERVER_ENDPOINTS.HOSPITALS.BASE_ENDPOINT,
       hospital,
       this.forbiddenErrors
     );
@@ -81,12 +87,9 @@ export class HospitalsService {
    * @param {Hospital} hospital
    * @returns {Promise<Hospital | null>} the updated Hospital
    */
-  async updateHospital(
-    _id: string,
-    hospital: Hospital
-  ): Promise<Hospital | null> {
+  async update(_id: string, hospital: Hospital): Promise<Hospital | null> {
     let data = await this.http.put<Hospital>(
-      `${SERVER_RESOURCES.HOSPITALS}/${_id}`,
+      SERVER_ENDPOINTS.HOSPITALS.BY_ID(_id),
       hospital,
       this.forbiddenErrors
     );
@@ -98,9 +101,9 @@ export class HospitalsService {
    * @async
    * @param {string} _id
    */
-  async deleteHospital(_id: string): Promise<void> {
+  async delete(_id: string): Promise<void> {
     await this.http.delete(
-      `${SERVER_RESOURCES.HOSPITALS}/${_id}`,
+      SERVER_ENDPOINTS.HOSPITALS.BY_ID(_id),
       this.forbiddenErrors
     );
   }

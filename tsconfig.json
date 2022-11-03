@@ -19,12 +19,14 @@
     "target": "es2020",
     "module": "es2020",
     "paths": {
-      "@app/*": ["app/*"],
       "@core/*": ["app/core/*"],
       "@shared/*": ["app/shared/*"],
+      "@auth/*": ["app/modules/auth/*"],
+      "@error-pages/*": ["app/modules/error-pages/*"],
+      "@others/*": ["app/modules/others/*"],
+      "@social-services/*": ["app/modules/social-services/*"],
+      "@data/*": ["app/data/*"],
       "@env": ["environments/environment"],
-      "@modules/*": ["app/modules/*"],
-      "@data/*": ["app/data/*"]
     },
     "lib": [
       "es2020",

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
-import { Hospital } from '@app/data/interfaces/hospital';
-import { Specialty } from '@app/data/interfaces/specialty';
-import { HospitalsService } from '@app/data/services/hospitals.service';
-import { SocialServicesService } from '@app/data/services/social-services.service';
-import { SpecialtiesService } from '@app/data/services/specialties.service';
+import { NameValueInterface } from '@core/interfaces';
+import { Hospital, Specialty } from '@data/interfaces';
+import {
+  HospitalsService,
+  SocialServicesService,
+  SpecialtiesService,
+} from '@data/services';
 
 @Component({
   selector: 'app-social-service-generate-documents',
@@ -57,7 +58,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
           socialService: false,
         },
       ] as Hospital[]
-    ).concat(await this.hospitalsService.getSocialServiceHospitals());
+    ).concat(await this.hospitalsService.getSocialServices());
     this.specialties = (
       [
         {
@@ -66,7 +67,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
           _id: 'all',
         },
       ] as Specialty[]
-    ).concat(await this.specialtiesService.getSpecialties());
+    ).concat(await this.specialtiesService.findAll());
     const periods = await this.socialServicesService.getInitialFinalPeriods();
     this.initialPeriods = periods.map((p) => p.initial);
     this.finalPeriods = periods.map((p) => p.final);
@@ -133,10 +134,10 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
         values.specialty! == 'all' ? undefined : values.specialty!
       );
 
-      if(blob) {
+      if (blob) {
         var url = window.URL.createObjectURL(blob);
-        var anchor = document.createElement("a");
-        anchor.download = "Oficios de Presentación.zip";
+        var anchor = document.createElement('a');
+        anchor.download = 'Oficios de Presentación.zip';
         anchor.href = url;
         anchor.click();
       }

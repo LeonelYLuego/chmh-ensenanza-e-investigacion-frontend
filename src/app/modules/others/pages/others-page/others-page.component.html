@@ -10,7 +10,9 @@
         mat-raised-button
         class="button-card"
         color="primary"
-        [routerLink]="'/' + paths.OTHERS.STUDENTS"
+        [routerLink]="
+          '/' + paths.OTHERS.BASE_PATH + '/' + paths.OTHERS.STUDENTS
+        "
       >
         <div class="word-wrap">Alumnos</div>
       </button>
@@ -20,7 +22,9 @@
         mat-raised-button
         class="button-card"
         color="primary"
-        [routerLink]="'/' + paths.OTHERS.SPECIALTIES"
+        [routerLink]="
+          '/' + paths.OTHERS.BASE_PATH + '/' + paths.OTHERS.SPECIALTIES
+        "
       >
         <div class="word-wrap">Especialidades</div>
       </button>
@@ -30,7 +34,9 @@
         mat-raised-button
         class="button-card"
         color="primary"
-        [routerLink]="'/' + paths.OTHERS.HOSPITALS"
+        [routerLink]="
+          '/' + paths.OTHERS.BASE_PATH + '/' + paths.OTHERS.HOSPITALS
+        "
       >
         <div class="word-wrap">Hospitales</div>
       </button>
@@ -65,7 +71,7 @@
         mat-raised-button
         class="button-card"
         color="primary"
-        [routerLink]="'/' + paths.OTHERS.USERS"
+        [routerLink]="'/' + paths.OTHERS.BASE_PATH + '/' + paths.OTHERS.USERS"
       >
         <div class="word-wrap">Usuarios</div>
       </button>

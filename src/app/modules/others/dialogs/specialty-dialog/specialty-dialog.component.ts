@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Specialty } from '@app/data/interfaces/specialty';
-import { SpecialtiesService } from '@app/data/services/specialties.service';
+import { Specialty } from '@data/interfaces';
+import { SpecialtiesService } from '@data/services';
 
 @Component({
   selector: 'app-specialty-dialog',
@@ -12,7 +12,7 @@ import { SpecialtiesService } from '@app/data/services/specialties.service';
 /** @class Specialty Dialog Component */
 export class SpecialtyDialogComponent implements OnInit {
   value = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  duration = new FormControl<number | string>('', [Validators.required, Validators.min(1), Validators.max(5)]);
+  duration = new FormControl<number | string>('', [Validators.required, Validators.min(1), Validators.max(6)]);
 
   constructor(
     private dialogRef: MatDialogRef<SpecialtyDialogComponent>,
@@ -34,7 +34,7 @@ export class SpecialtyDialogComponent implements OnInit {
   async addSpecialty(): Promise<void> {
     if (this.value.valid)
       if (
-        await this.specialtiesService.addSpecialty({
+        await this.specialtiesService.add({
           value: this.value.value!,
           duration: this.duration.value as number
         })
@@ -48,7 +48,7 @@ export class SpecialtyDialogComponent implements OnInit {
   async updateSpecialty(): Promise<void> {
     if (this.value.valid) {
       if (
-        await this.specialtiesService.updateSpecialty(this.data!._id!, {
+        await this.specialtiesService.update(this.data!._id!, {
           value: this.value.value!,
           duration: this.duration.value as number
         })

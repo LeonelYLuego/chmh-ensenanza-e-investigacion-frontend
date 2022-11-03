@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Specialty } from '@app/data/interfaces/specialty';
-import { Student } from '@app/data/interfaces/student';
-import { SpecialtiesService } from '@app/data/services/specialties.service';
-import { StudentsService } from '@app/data/services/students.service';
-import { StudentDialogComponent } from '@app/shared/student-dialog/student-dialog.component';
+import { Specialty, Student } from '@data/interfaces';
+import { SpecialtiesService, StudentsService } from '@data/services';
+import { StudentDialogComponent } from '@shared/student-dialog';
 
 @Component({
   selector: 'app-students-page',
@@ -21,7 +19,10 @@ export class StudentsPageComponent implements OnInit {
   displayedColumns: string[] = ['name', 'update', 'delete'];
   specialtyFormControl = new FormControl<string | null>(null);
   generations: { name: string; value: number }[] = [];
-  generationFormControl = new FormControl<number | null>({value: null, disabled: true});
+  generationFormControl = new FormControl<number | null>({
+    value: null,
+    disabled: true,
+  });
 
   constructor(
     private studentsService: StudentsService,
@@ -41,7 +42,7 @@ export class StudentsPageComponent implements OnInit {
    */
   async getStudents(): Promise<void> {
     if (this.specialtyFormControl.value && this.generationFormControl.value)
-      this.students = await this.studentsService.getStudents(
+      this.students = await this.studentsService.getAll(
         this.specialtyFormControl.value,
         +this.generationFormControl.value
       );
@@ -52,16 +53,18 @@ export class StudentsPageComponent implements OnInit {
    * @async
    */
   async getSpecialties(): Promise<void> {
-    this.specialties = await this.specialtesService.getSpecialties();
+    this.specialties = await this.specialtesService.findAll();
   }
 
   /**
    * Gets the students based of the new selected specialty
    * @async
    */
-  async specialtySelectionChange() {
+  async specialtySelectionChange(): Promise<void> {
     this.loading = true;
-    this.generations = await this.specialtesService.getGenerations(this.specialtyFormControl.value ?? '');
+    this.generations = await this.specialtesService.getGenerations(
+      this.specialtyFormControl.value ?? ''
+    );
     this.generationFormControl.setValue(null);
     this.students = [];
     this.generationFormControl.enable();
@@ -72,7 +75,7 @@ export class StudentsPageComponent implements OnInit {
    * Gets the students based of the new selected generation
    * @async
    */
-  async generationSelectionChange() {
+  async generationSelectionChange(): Promise<void> {
     this.loading = true;
     await this.getStudents();
     this.loading = false;
@@ -127,7 +130,7 @@ export class StudentsPageComponent implements OnInit {
    * @param {string} _id _id of the Student
    */
   async deleteStudent(_id: string): Promise<void> {
-    await this.studentsService.deleteStudent(_id);
+    await this.studentsService.delete(_id);
     await this.getStudents();
   }
 }

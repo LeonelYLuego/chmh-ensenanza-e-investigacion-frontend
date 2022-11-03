@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpPetitions } from './services/http-petitions.service';
 
-/** @class Core Module */
+/** Core module */
 @NgModule({
   declarations: [],
   imports: [CommonModule],

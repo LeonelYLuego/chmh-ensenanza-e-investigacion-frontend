@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import {
-  SERVER_ENDPOINTS,
-  SERVER_RESOURCES,
-} from '@app/core/constants/server-endpoints.constant';
-import { ForbiddenErrorInterface } from '@app/core/interfaces/forbidden-error.interface';
-import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
-import { HttpPetitions } from '@app/core/services/http-petitions.service';
+import { SERVER_ENDPOINTS, SERVER_RESOURCES } from '@core/constants';
+import { ForbiddenErrorInterface, NameValueInterface } from '@core/interfaces';
+import { HttpPetitions } from '@core/services';
 import {
   SocialService,
   SocialServiceBySpecialty,

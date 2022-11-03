@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Specialty } from '@app/data/interfaces/specialty';
-import { Student } from '@app/data/interfaces/student';
-import { SpecialtiesService } from '@app/data/services/specialties.service';
-import { StudentsService } from '@app/data/services/students.service';
+import { Specialty, Student } from '@data/interfaces';
+import { SpecialtiesService, StudentsService } from '@data/services';
 import { StudentDialogComponent } from '../student-dialog/student-dialog.component';
 
+/** Student Information controller */
 @Component({
   selector: 'app-student-info',
   templateUrl: './student-info.component.html',
@@ -30,8 +29,11 @@ export class StudentInfoComponent implements OnInit {
     await this.getStudent();
   }
 
+  /**
+   * Gets a Student from the database and sets the attributes of the service
+   */
   async getStudent(): Promise<void> {
-    this.student = await this.studentsService.getStudent(this.id as string);
+    this.student = await this.studentsService.get(this.id as string);
     if (this.student) {
       this.specialty = this.student.specialty as Specialty;
       this.phones = '';
@@ -51,6 +53,9 @@ export class StudentInfoComponent implements OnInit {
     }
   }
 
+  /**
+   * Opens the update Student dialog
+   */
   updateStudentDialog(): void {
     const dialogRef = this.dialog.open(StudentDialogComponent, {
       maxWidth: '500px',

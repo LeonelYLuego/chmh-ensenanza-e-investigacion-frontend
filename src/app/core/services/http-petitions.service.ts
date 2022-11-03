@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpResponse } from '@core/interfaces/http-response.interface';
 import { ForbiddenErrorInterface } from '../interfaces/forbidden-error.interface';
 import { ExceptionSnackbarService } from './exception-snackbar.service';
 
@@ -40,25 +41,39 @@ export class HttpPetitions {
     }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
-        .get<Type>(url, {
+        .get<HttpResponse<Type>>(url, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
           params: sendParams,
         })
         .subscribe({
-          next: (value) => resolve(value),
+          next: (value) => {
+            if (value.error) {
+              if (
+                this.exceptionSnackbarService.serverPetition(
+                  value.error,
+                  forbiddenErrors
+                )
+              )
+                resolve(undefined);
+              else reject(value.error);
+            } else resolve(value.data);
+          },
           error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
-            )
-              resolve(undefined);
-            else reject(err);
+            reject(err);
           },
         });
     });
   }
 
+  /**
+   * Gets a blob file
+   * @param url URL of the server
+   * @param forbiddenErrors errors to show with snackbars
+   * @param params params for do a query petition
+   * @returns the petition response
+   */
   async getBlob(
     url: string,
     forbiddenErrors?: ForbiddenErrorInterface[],
@@ -85,16 +100,19 @@ export class HttpPetitions {
             resolve(value);
           },
           error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
-            )
-              resolve(undefined);
-            else reject(err);
+            reject(err);
           },
         });
     });
   }
 
+  /**
+   * Gets the url of a file
+   * @param url URL of the server
+   * @param forbiddenErrors errors to show with snackbars
+   * @param params params for do a query petition
+   * @returns the petition response
+   */
   async getFileUrl(
     url: string,
     forbiddenErrors?: ForbiddenErrorInterface[],
@@ -124,11 +142,7 @@ export class HttpPetitions {
             resolve(sanitizedURL);
           },
           error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
-            )
-              resolve(undefined);
-            else reject(err);
+            reject(err);
           },
         });
     });
@@ -156,20 +170,27 @@ export class HttpPetitions {
     }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
-        .post<Type>(url, body, {
+        .post<HttpResponse<Type>>(url, body, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
           params: sendParams,
         })
         .subscribe({
-          next: (value) => resolve(value),
+          next: (value) => {
+            if (value.error) {
+              if (
+                this.exceptionSnackbarService.serverPetition(
+                  value.error,
+                  forbiddenErrors
+                )
+              )
+                resolve(undefined);
+              else reject(value.error);
+            } else resolve(value.data);
+          },
           error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
-            )
-              resolve(undefined);
-            else reject(err);
+            reject(err);
           },
         });
     });
@@ -197,20 +218,27 @@ export class HttpPetitions {
     }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
-        .put<Type>(url, body, {
+        .put<HttpResponse<Type>>(url, body, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
           params: sendParams,
         })
         .subscribe({
-          next: (value) => resolve(value),
+          next: (value) => {
+            if (value.error) {
+              if (
+                this.exceptionSnackbarService.serverPetition(
+                  value.error,
+                  forbiddenErrors
+                )
+              )
+                resolve(undefined);
+              else reject(value.error);
+            } else resolve(value.data);
+          },
           error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
-            )
-              resolve(undefined);
-            else reject(err);
+            reject(err);
           },
         });
     });
@@ -237,20 +265,27 @@ export class HttpPetitions {
     }
     return new Promise<Type | undefined>((resolve, reject) => {
       this.http
-        .delete<Type>(url, {
+        .delete<HttpResponse<Type>>(url, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')!,
           },
           params: sendParams,
         })
         .subscribe({
-          next: (value) => resolve(value),
+          next: (value) => {
+            if (value.error) {
+              if (
+                this.exceptionSnackbarService.serverPetition(
+                  value.error,
+                  forbiddenErrors
+                )
+              )
+                resolve(undefined);
+              else reject(value.error);
+            } else resolve(value.data);
+          },
           error: (err) => {
-            if (
-              this.exceptionSnackbarService.serverPetition(err, forbiddenErrors)
-            )
-              resolve(undefined);
-            else reject(err);
+            reject(err);
           },
         });
     });

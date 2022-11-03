@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PATHS } from '@app/core/constants/paths.constant';
-import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
-import { Hospital } from '@app/data/interfaces/hospital';
-import { SocialService } from '@app/data/interfaces/social-service';
-import { Student } from '@app/data/interfaces/student';
-import { HospitalsService } from '@app/data/services/hospitals.service';
-import { SocialServicesService } from '@app/data/services/social-services.service';
+import { PATHS } from '@core/constants';
+import { NameValueInterface } from '@core/interfaces';
+import { Hospital, SocialService, Student } from '@data/interfaces';
+import { HospitalsService, SocialServicesService } from '@data/services';
 
 @Component({
   selector: 'app-social-services-page',
@@ -55,7 +52,7 @@ export class SocialServicesPageComponent implements OnInit {
     const periods = await this.socialServicesService.getInitialFinalPeriods();
     this.initialPeriods = periods.map((p) => p.initial);
     this.finalPeriods = periods.map((p) => p.final);
-    this.hospitals = await this.hospitalsService.getHospitals();
+    this.hospitals = await this.hospitalsService.getAll();
     if (periods.length >= 3) {
       this.periodFormControl.controls.initialPeriod.setValue(
         periods[periods.length - 3].initial.value

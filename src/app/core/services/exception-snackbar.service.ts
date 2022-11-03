@@ -1,21 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpResponseError } from '@core/interfaces/http-response.interface';
 
-interface ServerExceptionResponse {
-  statusCode: number;
-  timestamp: Date;
-  path: string;
-  exception: string | any;
-}
-
-/** @class Exception Snackbar Service */
+/** Exception Snackbar service */
 @Injectable({
   providedIn: 'root',
 })
 export class ExceptionSnackbarService {
   constructor(private snackBar: MatSnackBar) {}
 
+  /** Show a snackbar with a server error message */
   private serverException(message: string) {
     this.snackBar.open(`Error del servidor: ${message}`, undefined, {
       duration: 2000,
@@ -25,6 +20,11 @@ export class ExceptionSnackbarService {
     });
   }
 
+  /**
+   * Show a snackbar with a message
+   * @param message message of the forbidden error
+   * @param forbiddenErrors possible message errors and its message to show
+   */
   private forbiddenException(
     message: string,
     forbiddenErrors: { errorMessage: string; snackbarMessage: string }[]
@@ -42,6 +42,7 @@ export class ExceptionSnackbarService {
     }
   }
 
+  /** Show a snackbar with a unauthorized message */
   private unauthorizedException() {
     this.snackBar.open('Petición no autorizada', undefined, {
       duration: 2000,
@@ -51,6 +52,7 @@ export class ExceptionSnackbarService {
     });
   }
 
+  /** Show a snackbar with a server not found message */
   private pageNotFound() {
     this.snackBar.open('Servidor no encontrado', undefined, {
       duration: 2000,
@@ -68,21 +70,28 @@ export class ExceptionSnackbarService {
    * @returns {boolean} `true`: the error was displayed, `false`: the error was not displayed (unknown error)
    */
   serverPetition(
-    error: HttpErrorResponse,
+    error: HttpResponseError,
     forbiddenErrors?: { errorMessage: string; snackbarMessage: string }[]
   ): boolean {
-    if (error.status == 401) {
-      this.unauthorizedException();
-    } else if (error.status == 403 && forbiddenErrors) {
-      const message: ServerExceptionResponse = error.error;
-      this.forbiddenException(message.exception, forbiddenErrors);
-    } else if (error.status == 404) {
-      this.pageNotFound();
-    } else if (error.status == 500) {
-      const message: ServerExceptionResponse = error.error;
-      this.serverException(message.exception);
-    } else {
-      return false;
+    switch (error.statusCode) {
+      case 401:
+        this.unauthorizedException();
+        break;
+      case 403:
+        if (forbiddenErrors) {
+          const message = error.exception;
+          this.forbiddenException(message, forbiddenErrors);
+        }
+        break;
+      case 404:
+        this.pageNotFound();
+        break;
+      case 500:
+        const message = error.exception;
+        this.serverException(message.exception);
+        break;
+      default:
+        return false;
     }
     return true;
   }
@@ -90,11 +99,11 @@ export class ExceptionSnackbarService {
   /**
    * Shows a snackbar depends on the error in the log in page
    * @function serverPetitionLogIn
-   * @param {HttpErrorResponse} error The HttpErrorResponse
+   * @param {HttpResponseError} error The HttpErrorResponse
    * @returns {boolean} `true`: the error was displayed, `false`: the error was not displayed (unknown error)
    */
-  serverPetitionLogIn(error: HttpErrorResponse): boolean {
-    if (error.status == 401) {
+  serverPetitionLogIn(error: HttpResponseError): boolean {
+    if (error.statusCode == 401) {
       this.snackBar.open('Usuario o Contraseña incorrecto', undefined, {
         duration: 2000,
         panelClass: 'accent-snackbar',

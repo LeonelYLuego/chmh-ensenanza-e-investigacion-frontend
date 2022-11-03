@@ -14,11 +14,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AddSocialServicesComponent } from './add-social-services/add-social-services.component';
-import { AppRoutingModule } from '@app/core/application/app-routing.module';
 import { SocialServiceStudentComponent } from './social-service-student/social-service-student.component';
-import { SharedModule } from '@app/shared/shared.module';
 import { SocialServiceGenerateDocumentsComponent } from './social-service-generate-documents/social-service-generate-documents.component';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { SharedModule } from '@shared/shared.module';
+import { SocialServiceRoutingModule } from './social-service-routing.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
   imports: [
     SharedModule,
     CommonModule,
-    AppRoutingModule,
+    SocialServiceRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
@@ -44,11 +44,11 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
     MatChipsModule,
     MatProgressBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   providers: [
     MatDatepickerModule,
-    {provide: MAT_DATE_LOCALE, useValue: 'es-MX'}
-  ]
+    { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
+  ],
 })
 export class SocialServicesModule {}

@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { UsersService } from '@app/data/services/users.service';
+import { UsersService } from '@data/services';
 import { PATHS } from '../constants/paths.constant';
 
 /**
@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     if (await this.usersService.logged()) {
       return true;
     }
-    return this.router.parseUrl(PATHS.LOG_IN);
+    return this.router.parseUrl(`${PATHS.AUTH.BASE_PATH}/${PATHS.AUTH.LOG_IN}`);
   }
 }
 
@@ -47,6 +47,8 @@ export class NotAuthGuard implements CanActivate {
     if (!(await this.usersService.logged())) {
       return true;
     }
-    return this.router.parseUrl(PATHS.PAGE_NOT_FOUND);
+    return this.router.parseUrl(
+      `${PATHS.ERROR.BASE_PATH}/${PATHS.ERROR.PAGE_NOT_FOUND}`
+    );
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Hospital } from '@app/data/interfaces/hospital';
-import { HospitalsService } from '@app/data/services/hospitals.service';
-import { HospitalDialogComponent } from '@app/shared/hospital-dialog/hospital-dialog.component';
+import { Hospital } from '@data/interfaces';
+import { HospitalsService } from '@data/services';
+import { HospitalDialogComponent } from '@shared/hospital-dialog';
 
 @Component({
   selector: 'app-hospitals-page',
@@ -31,7 +31,7 @@ export class HospitalsPageComponent implements OnInit {
    * @async
    */
   async getHospitals(): Promise<void> {
-    this.hospitals = await this.hospitalsService.getHospitals();
+    this.hospitals = await this.hospitalsService.getAll();
   }
 
   /**
@@ -78,7 +78,7 @@ export class HospitalsPageComponent implements OnInit {
    * @param {string} _id _id Hospital
    */
   async deleteHospital(_id: string): Promise<void> {
-    await this.hospitalsService.deleteHospital(_id);
+    await this.hospitalsService.delete(_id);
     await this.getHospitals();
   }
 }

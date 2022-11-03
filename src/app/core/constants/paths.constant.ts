@@ -2,29 +2,39 @@
  * Resources paths
  */
 export const RESOURCE_PATHS = {
-  OTHERS: 'others',
-  SOCIAL_SERVICES: 'social-services',
+  AUTH: 'auth',
+  OTHERS: 'otros',
+  SOCIAL_SERVICES: 'servicios-sociales',
+  ERROR: 'error',
 };
 
 /**
  * Paths for routing
  */
 export const PATHS = {
-  SERVER: 'http://localhost:3000',
+  SERVER: 'http://localhost:3000/api',
   ROOT: '/',
-  LOG_IN: 'log-in',
-  PAGE_NOT_FOUND: '404',
+  ERROR: {
+    BASE_PATH: RESOURCE_PATHS.ERROR,
+    PAGE_NOT_FOUND: '404',
+  },
+  AUTH: {
+    BASE_PATH: RESOURCE_PATHS.AUTH,
+    LOG_IN: 'iniciar-sesion',
+  },
   OTHERS: {
-    BASE: RESOURCE_PATHS.OTHERS,
-    USERS: RESOURCE_PATHS.OTHERS + '/users',
-    SPECIALTIES: RESOURCE_PATHS.OTHERS + '/specialties',
-    STUDENTS: RESOURCE_PATHS.OTHERS + '/students',
-    HOSPITALS: RESOURCE_PATHS.OTHERS + '/hospitals',
+    BASE_PATH: RESOURCE_PATHS.OTHERS,
+    BASE: '',
+    USERS: 'usuarios',
+    SPECIALTIES: 'especialidades',
+    STUDENTS: 'alumnos',
+    HOSPITALS: 'hospitales',
   },
   SOCIAL_SERVICES: {
-    BASE: RESOURCE_PATHS.SOCIAL_SERVICES,
-    ADD: RESOURCE_PATHS.SOCIAL_SERVICES + '/add',
-    STUDENT: RESOURCE_PATHS.SOCIAL_SERVICES + '/:_id',
-    DOCUMENTS: RESOURCE_PATHS.SOCIAL_SERVICES + '/generate-documents'
+    BASE_PATH: RESOURCE_PATHS.SOCIAL_SERVICES,
+    BASE: '',
+    ADD: 'agregar',
+    STUDENT: ':_id',
+    DOCUMENTS: 'generar-documentos',
   },
 };

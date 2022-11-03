@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PATHS, RESOURCE_PATHS } from '@app/core/constants/paths.constant';
-import { UsersService } from '@app/data/services/users.service';
+import { RESOURCE_PATHS } from '@core/constants';
+import { UsersService } from '@data/services';
 
 /** @class Navigation Top Bar Component */
 @Component({

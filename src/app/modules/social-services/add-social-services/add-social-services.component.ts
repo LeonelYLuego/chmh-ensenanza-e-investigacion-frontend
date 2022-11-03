@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
-import { Hospital } from '@app/data/interfaces/hospital';
-import { Specialty } from '@app/data/interfaces/specialty';
-import { Student } from '@app/data/interfaces/student';
-import { HospitalsService } from '@app/data/services/hospitals.service';
-import { SocialServicesService } from '@app/data/services/social-services.service';
-import { SpecialtiesService } from '@app/data/services/specialties.service';
-import { StudentsService } from '@app/data/services/students.service';
+import { NameValueInterface } from '@core/interfaces';
+import { Hospital, Specialty, Student } from '@data/interfaces';
+import {
+  HospitalsService,
+  SocialServicesService,
+  SpecialtiesService,
+  StudentsService,
+} from '@data/services';
 
 interface SocialServiceFormControlInterface {
   student: FormControl<string | null>;
@@ -43,19 +43,19 @@ export class AddSocialServicesComponent implements OnInit {
     private specialtiesService: SpecialtiesService,
     private studentsService: StudentsService,
     private hospitalsService: HospitalsService,
-    private router: Router,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.specialties = await this.specialtiesService.getSpecialties();
-    this.hospitals = await this.hospitalsService.getSocialServiceHospitals();
+    this.specialties = await this.specialtiesService.findAll();
+    this.hospitals = await this.hospitalsService.getSocialServices();
     this.singlePeriods = this.socialServicesService.getSinglePeriods();
   }
 
   async getStudents(specialty: string, generation: number): Promise<void> {
     this.loading = true;
     this.socialServiceFormControls.clear();
-    this.students = await this.studentsService.getStudents(
+    this.students = await this.studentsService.getAll(
       specialty,
       generation
     );
@@ -116,7 +116,7 @@ export class AddSocialServicesComponent implements OnInit {
           });
         })
       );
-      this.router.navigate([".."]);
+      this.router.navigate(['..']);
     }
   }
 }

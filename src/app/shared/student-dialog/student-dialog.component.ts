@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Specialty } from '@app/data/interfaces/specialty';
-import { Student } from '@app/data/interfaces/student';
-import { SpecialtiesService } from '@app/data/services/specialties.service';
-import { StudentsService } from '@app/data/services/students.service';
+import { Specialty, Student } from '@data/interfaces';
+import { SpecialtiesService, StudentsService } from '@data/services';
 
 @Component({
   selector: 'app-student-dialog',
@@ -56,10 +54,7 @@ export class StudentDialogComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // Get specialties
-    this.specialties = await this.specialtiesService.getSpecialties();
-
-    // Get generation
-    // this.generations = await this.specialtiesService.getGenerations(''); //////////////////////////////////// Modify
+    this.specialties = await this.specialtiesService.findAll();
 
     //Checks if the user wants to edit a student
     if (this.data.student) {
@@ -118,6 +113,9 @@ export class StudentDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Clears the generation filter and students when the specialty changes
+   */
   async specialtyValueChange() {
     this.generations = await this.specialtiesService.getGenerations(
       this.studentFormControl.controls.specialty.value!
@@ -183,7 +181,7 @@ export class StudentDialogComponent implements OnInit {
   async addStudent(): Promise<void> {
     if (this.studentFormControl.valid) {
       const data = this.studentFormControl.value;
-      const user = await this.studentsService.addStudent({
+      const user = await this.studentsService.add({
         code: data.code == '' ? undefined : data.code!,
         name: data.name!,
         firstLastName: data.firstLastname!,
@@ -207,20 +205,17 @@ export class StudentDialogComponent implements OnInit {
   async updateStudent(): Promise<void> {
     if (this.studentFormControl.valid) {
       const data = this.studentFormControl.value;
-      const user = await this.studentsService.updateStudent(
-        this.data.student?._id!,
-        {
-          code: data.code == '' ? undefined : data.code!,
-          name: data.name!,
-          firstLastName: data.firstLastname!,
-          secondLastName:
-            data.secondLastname == '' ? undefined : data.secondLastname!,
-          specialty: data.specialty!,
-          lastYearGeneration: data.lastYearGeneration!,
-          phones: data.phones as string[],
-          emails: data.emails as string[],
-        }
-      );
+      const user = await this.studentsService.update(this.data.student?._id!, {
+        code: data.code == '' ? undefined : data.code!,
+        name: data.name!,
+        firstLastName: data.firstLastname!,
+        secondLastName:
+          data.secondLastname == '' ? undefined : data.secondLastname!,
+        specialty: data.specialty!,
+        lastYearGeneration: data.lastYearGeneration!,
+        phones: data.phones as string[],
+        emails: data.emails as string[],
+      });
       if (user) {
         this.close();
       }

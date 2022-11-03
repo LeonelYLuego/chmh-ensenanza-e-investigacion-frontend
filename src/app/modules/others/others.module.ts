@@ -20,12 +20,22 @@ import { StudentsPageComponent } from './pages/students-page/students-page.compo
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HospitalsPageComponent } from './pages/hospitals-page/hospitals-page.component';
+import { OthersRoutingModule } from './others-routing.module';
 
 /** @class Others Module */
 @NgModule({
-  declarations: [OthersPageComponent, UsersPageComponent, UserDialogComponent, SpecialtiesPageComponent, SpecialtyDialogComponent, StudentsPageComponent, HospitalsPageComponent],
+  declarations: [
+    OthersPageComponent,
+    UsersPageComponent,
+    UserDialogComponent,
+    SpecialtiesPageComponent,
+    SpecialtyDialogComponent,
+    StudentsPageComponent,
+    HospitalsPageComponent,
+  ],
   imports: [
     CommonModule,
+    OthersRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,

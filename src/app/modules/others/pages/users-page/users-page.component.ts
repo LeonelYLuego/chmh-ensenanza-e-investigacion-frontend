@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from '@app/data/interfaces/user';
-import { UsersService } from '@app/data/services/users.service';
+import { User } from '@data/interfaces';
+import { UsersService } from '@data/services';
 import { UserDialogComponent } from '../../dialogs/user-dialog/user-dialog.component';
 
 /** @class Users Page Component */
@@ -24,7 +24,7 @@ export class UsersPageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    this.users = await this.usersService.getUsers();
+    this.users = await this.usersService.getAll();
     this.loading = false;
   }
 
@@ -43,7 +43,7 @@ export class UsersPageComponent implements OnInit {
 
     dialogRef
       .afterClosed()
-      .subscribe(async () => (this.users = await this.usersService.getUsers()));
+      .subscribe(async () => (this.users = await this.usersService.getAll()));
   }
 
   /**
@@ -63,7 +63,7 @@ export class UsersPageComponent implements OnInit {
 
     dialogRef
       .afterClosed()
-      .subscribe(async () => (this.users = await this.usersService.getUsers()));
+      .subscribe(async () => (this.users = await this.usersService.getAll()));
   }
 
   /**
@@ -72,7 +72,7 @@ export class UsersPageComponent implements OnInit {
    * @param {string} _id _id of the User
    */
   async delete(_id: string): Promise<void> {
-    await this.usersService.deleteUser(_id);
-    this.users = await this.usersService.getUsers();
+    await this.usersService.delete(_id);
+    this.users = await this.usersService.getAll();
   }
 }

@@ -6,20 +6,21 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { User } from '@app/data/interfaces/user';
+import { User } from '@data/interfaces';
 import { Observable } from 'rxjs';
 import { PATHS } from '../constants/paths.constant';
 
 /**
- * Checks if an user is an administrator
- * @class Administrator Guard
+ * Administrator guard
  * */
 @Injectable({
   providedIn: 'root',
 })
 export class AdministratorGuard implements CanActivate {
   constructor(private router: Router) {}
-
+  /**
+   * Checks if a page can be displayed to a user
+   */
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -32,6 +33,8 @@ export class AdministratorGuard implements CanActivate {
       const user = JSON.parse(localStorage.getItem('user')!) as User;
       if (user.administrator) return true;
     }
-    return this.router.parseUrl(PATHS.PAGE_NOT_FOUND);
+    return this.router.parseUrl(
+      `${PATHS.ERROR.BASE_PATH}/${PATHS.ERROR.PAGE_NOT_FOUND}`
+    );
   }
 }

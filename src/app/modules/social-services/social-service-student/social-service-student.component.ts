@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NameValueInterface } from '@app/core/interfaces/name-value.interface';
-import { Hospital } from '@app/data/interfaces/hospital';
-import { SocialService } from '@app/data/interfaces/social-service';
-import { HospitalsService } from '@app/data/services/hospitals.service';
-import { SocialServicesService } from '@app/data/services/social-services.service';
+import { NameValueInterface } from '@core/interfaces';
+import { Hospital, SocialService } from '@data/interfaces';
+import { HospitalsService, SocialServicesService } from '@data/services';
 
 @Component({
   selector: 'app-social-service-student',
@@ -51,7 +49,7 @@ export class SocialServiceStudentComponent implements OnInit {
     this.loading = true;
     this.socialService = await this.socialServicesService.getSocialService(_id);
     if (this.socialService) {
-      this.hospitals = await this.hospitalsService.getSocialServiceHospitals();
+      this.hospitals = await this.hospitalsService.getSocialServices();
       this.singlePeriods = this.socialServicesService.getSinglePeriods();
       this.socialServiceFormControl.setValue({
         hospital: this.socialService.hospital as string,
