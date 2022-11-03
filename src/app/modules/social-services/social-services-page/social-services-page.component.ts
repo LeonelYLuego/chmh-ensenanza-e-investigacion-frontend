@@ -6,6 +6,7 @@ import { NameValueInterface } from '@core/interfaces';
 import { Hospital, SocialService, Student } from '@data/interfaces';
 import { HospitalsService, SocialServicesService } from '@data/services';
 
+/** Social Service page component */
 @Component({
   selector: 'app-social-services-page',
   templateUrl: './social-services-page.component.html',
@@ -49,10 +50,13 @@ export class SocialServicesPageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
+    //Gets initial and final periods for filters
     const periods = await this.socialServicesService.getInitialFinalPeriods();
     this.initialPeriods = periods.map((p) => p.initial);
     this.finalPeriods = periods.map((p) => p.final);
+    //Gets all Social Services Hospitals
     this.hospitals = await this.hospitalsService.getAll();
+    //If the periods exist, selects the last year registered
     if (periods.length >= 3) {
       this.periodFormControl.controls.initialPeriod.setValue(
         periods[periods.length - 3].initial.value
@@ -61,28 +65,37 @@ export class SocialServicesPageComponent implements OnInit {
         periods[periods.length - 1].final.value
       );
     }
+    //Gets all social services in the period
     if (periods) {
       await this.getSocialServices();
     }
     this.loading = false;
   }
 
+  /**
+   * Gets social services from the server
+   */
   async getSocialServices() {
     this.loading = true;
+    //Clears the social services array
     this.socialServices = [];
     const value = this.periodFormControl.value;
-    const ss = await this.socialServicesService.getSocialServices(
+    //Gets social services from the server
+    const ss = await this.socialServicesService.getAll(
       value.initialPeriod?.year!,
       value.initialPeriod?.period!,
       value.finalPeriod?.year!,
       value.finalPeriod?.period!
     );
+    //Sorts the Social Services Array by specialty
     ss.sort((a, b) => a.value.localeCompare(b.value));
     ss.map((s) => {
       if (s.socialServices.length > 0) {
+        //Adds a specialty to the Social Services array
         this.socialServices.push({
           specialty: s.value,
         });
+        //Sorts the Social Services by Fist Last Name
         s.socialServices.sort((a, b) =>
           (a.student as Student).firstLastName.localeCompare(
             (b.student as Student).firstLastName
@@ -90,9 +103,12 @@ export class SocialServicesPageComponent implements OnInit {
         );
         s.socialServices.map((v) => {
           const student = v.student as Student;
+          //Adds a Social Service to the Social Services Array
           this.socialServices.push({
             _id: v._id,
-            student: `${student.name} ${student.firstLastName} ${student.secondLastName ?? ''}`,
+            student: `${student.name} ${student.firstLastName} ${
+              student.secondLastName ?? ''
+            }`,
             period: this.getPeriod(v.period, v.year),
             hospital: this.getHospital(v.hospital as string)!.name,
             documents: {
@@ -107,6 +123,10 @@ export class SocialServicesPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * Validates if the period is valid
+   * @returns `true` if valid, `false` if invalid
+   */
   private validatePeriod(): boolean {
     const value = this.periodFormControl.value;
     const initial = value.initialPeriod!;
@@ -117,6 +137,9 @@ export class SocialServicesPageComponent implements OnInit {
     );
   }
 
+  /**
+   * Checks if the final period is valid, if is invalid changes it
+   */
   initialPeriodChange() {
     if (this.validatePeriod()) {
       const value = this.periodFormControl.value.initialPeriod!;
@@ -132,6 +155,9 @@ export class SocialServicesPageComponent implements OnInit {
     this.getSocialServices();
   }
 
+  /**
+   * Checks if the initial period is valid, if is invalid changes it
+   */
   finalPeriodChange() {
     if (this.validatePeriod()) {
       const value = this.periodFormControl.value.finalPeriod!;
@@ -147,15 +173,30 @@ export class SocialServicesPageComponent implements OnInit {
     this.getSocialServices();
   }
 
+  /**
+   * Gets all Hospitals in the server
+   * @param _id
+   * @returns
+   */
   getHospital(_id: string): Hospital | undefined {
     return this.hospitals.find((hospital) => hospital._id == _id);
   }
 
+  /**
+   * Gets period in format `Noviembre 2022 - Febrero 2023`
+   * @param period
+   * @param year
+   * @returns the period as string
+   */
   getPeriod(period: number, year: number) {
     return this.socialServicesService.getPeriod(period, year);
   }
 
+  /**
+   * Navigates to the specific Social Service
+   * @param row
+   */
   updateSocialService(row: SocialService) {
-    this.router.navigate(['social-services', row._id!]);
+    this.router.navigate([this.paths.BASE_PATH, row._id!]);
   }
 }

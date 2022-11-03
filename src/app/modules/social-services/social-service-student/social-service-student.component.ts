@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PATHS } from '@core/constants';
 import { NameValueInterface } from '@core/interfaces';
 import { Hospital, SocialService } from '@data/interfaces';
 import { HospitalsService, SocialServicesService } from '@data/services';
+import { SocialServiceDocumentTypes } from '@data/types/social-service-document.type';
 
+/** Social Service Studen component */
 @Component({
   selector: 'app-social-service-student',
   templateUrl: './social-service-student.component.html',
@@ -37,17 +40,26 @@ export class SocialServiceStudentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    //Checks if the id at the url is valid
     this.route.params.subscribe(async (params) => {
       const _id = params['_id'];
       if (/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(_id)) {
         await this.getSocialService(_id);
-      } else this.router.navigate(['/404']);
+      } else
+        this.router.navigate([
+          PATHS.ERROR.BASE_PATH,
+          PATHS.ERROR.PAGE_NOT_FOUND,
+        ]);
     });
   }
 
+  /**
+   * Gets a Social Service
+   * @param _id
+   */
   async getSocialService(_id = this.socialService!._id!) {
     this.loading = true;
-    this.socialService = await this.socialServicesService.getSocialService(_id);
+    this.socialService = await this.socialServicesService.get(_id);
     if (this.socialService) {
       this.hospitals = await this.hospitalsService.getSocialServices();
       this.singlePeriods = this.socialServicesService.getSinglePeriods();
@@ -60,6 +72,7 @@ export class SocialServiceStudentComponent implements OnInit {
         this.reportDocument =
         this.constancyDocument =
           null;
+      //Gets presentation office document
       if (this.socialService.presentationOfficeDocument) {
         this.presentationOfficeDocument =
           await this.socialServicesService.getDocument(
@@ -67,12 +80,14 @@ export class SocialServiceStudentComponent implements OnInit {
             'presentationOfficeDocument'
           );
       }
+      //Gets report document
       if (this.socialService.reportDocument) {
         this.reportDocument = await this.socialServicesService.getDocument(
           this.socialService!._id!,
           'reportDocument'
         );
       }
+      //Gets constancy document
       if (this.socialService.constancyDocument) {
         this.constancyDocument = await this.socialServicesService.getDocument(
           this.socialService!._id!,
@@ -80,14 +95,18 @@ export class SocialServiceStudentComponent implements OnInit {
         );
       }
       this.loading = false;
-    } else this.router.navigate(['/404']);
+    } else
+      this.router.navigate([PATHS.ERROR.BASE_PATH, PATHS.ERROR.PAGE_NOT_FOUND]);
   }
 
+  /**
+   * Updates a Social Service in the server
+   */
   async updateSocialService() {
     if (this.socialServiceFormControl.valid) {
       const values = this.socialServiceFormControl.value;
       this.loading = true;
-      const data = await this.socialServicesService.updateSocialService(
+      const data = await this.socialServicesService.update(
         this.socialService!._id!,
         {
           hospital: values.hospital!,
@@ -101,17 +120,20 @@ export class SocialServiceStudentComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes a Social Service in the server
+   */
   async deleteSocialService() {
-    await this.socialServicesService.deleteSocialService(
-      this.socialService!._id!
-    );
+    await this.socialServicesService.delete(this.socialService!._id!);
     this.router.navigate(['..']);
   }
 
-  async updateFile(
-    event: any,
-    type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument'
-  ) {
+  /**
+   * Updates a Social Service document in the server
+   * @param event
+   * @param type document type
+   */
+  async updateFile(event: any, type: SocialServiceDocumentTypes) {
     this.loading = true;
     const file: File = event.target.files[0];
     if (file) {
@@ -126,9 +148,11 @@ export class SocialServiceStudentComponent implements OnInit {
     }
   }
 
-  async deleteFile(
-    type: 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument'
-  ) {
+  /**
+   * Deletes a Social Service document in the server
+   * @param type
+   */
+  async deleteFile(type: SocialServiceDocumentTypes) {
     this.loading = true;
     await this.socialServicesService.deleteDocument(
       this.socialService!._id!,

@@ -1,7 +1,14 @@
 <mat-card class="main-card">
   <mat-card-title>
     <span class="main-card-title">Servicio Social</span>
-    <button mat-raised-button color="primary" [routerLink]="'/' + paths.ADD" class="main-card-right-button">Agregar Servicio Social</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="'/' + paths.BASE_PATH + '/' + paths.ADD"
+      class="main-card-right-button"
+    >
+      Agregar Servicio Social
+    </button>
   </mat-card-title>
   <mat-divider></mat-divider>
   <div style="margin-bottom: 20px"></div>
@@ -17,9 +24,11 @@
       [formControl]="periodFormControl.controls.initialPeriod"
       (selectionChange)="initialPeriodChange()"
     >
-      <mat-option *ngFor="let period of initialPeriods" [value]="period.value">{{
-        period.name
-      }}</mat-option>
+      <mat-option
+        *ngFor="let period of initialPeriods"
+        [value]="period.value"
+        >{{ period.name }}</mat-option
+      >
     </mat-select>
   </mat-form-field>
   <mat-form-field class="filter-width" appearance="outline">
@@ -33,7 +42,12 @@
       }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button color="primary" class="filter-button" [routerLink]="'/' + paths.DOCUMENTS">
+  <button
+    mat-raised-button
+    color="primary"
+    class="filter-button"
+    [routerLink]="'/' + paths.BASE_PATH + '/' + paths.DOCUMENTS"
+  >
     Generar Oficios de Presentación
   </button>
   <table

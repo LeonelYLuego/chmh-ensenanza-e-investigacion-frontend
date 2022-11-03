@@ -17,6 +17,7 @@ interface SocialServiceFormControlInterface {
   year: FormControl<number | null>;
 }
 
+/** Add Social Service component */
 @Component({
   selector: 'app-add-social-services',
   templateUrl: './add-social-services.component.html',
@@ -52,17 +53,20 @@ export class AddSocialServicesComponent implements OnInit {
     this.singlePeriods = this.socialServicesService.getSinglePeriods();
   }
 
+  /**
+   * Gets all student from a specialty and generation
+   */
   async getStudents(specialty: string, generation: number): Promise<void> {
     this.loading = true;
     this.socialServiceFormControls.clear();
-    this.students = await this.studentsService.getAll(
-      specialty,
-      generation
-    );
+    this.students = await this.studentsService.getAll(specialty, generation);
     this.addStudent();
     this.loading = false;
   }
 
+  /**
+   * Clears students when specialty changes
+   */
   async specialtyValueChange() {
     this.socialServiceFormControls.clear();
     this.students = [];
@@ -73,6 +77,9 @@ export class AddSocialServicesComponent implements OnInit {
     this.generationFormControl.enable();
   }
 
+  /**
+   * Finds students when filter changes
+   */
   async filterChange(): Promise<void> {
     const specialty = this.specialtyFormControl.value;
     const generation = this.generationFormControl.value;
@@ -81,6 +88,9 @@ export class AddSocialServicesComponent implements OnInit {
     }
   }
 
+  /**
+   * Adds a new Student form to the Social Services array
+   */
   addStudent(): void {
     this.socialServiceFormControls.push(
       new FormGroup({
@@ -100,15 +110,22 @@ export class AddSocialServicesComponent implements OnInit {
     );
   }
 
+  /**
+   * Removes a Student form from the Social Services array
+   * @param index
+   */
   removeStudent(index: number): void {
     this.socialServiceFormControls.removeAt(index);
   }
 
+  /**
+   * Adds Social Services array to the server
+   */
   async addSocialServices(): Promise<void> {
     if (this.socialServiceFormControls.valid) {
       await Promise.all(
         this.socialServiceFormControls.value.map(async (value) => {
-          await this.socialServicesService.addSocialService({
+          await this.socialServicesService.add({
             hospital: value.hospital!,
             period: value.period!,
             student: value.student!,

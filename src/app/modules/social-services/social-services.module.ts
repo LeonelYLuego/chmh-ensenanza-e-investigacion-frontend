@@ -20,6 +20,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { SharedModule } from '@shared/shared.module';
 import { SocialServiceRoutingModule } from './social-service-routing.module';
 
+/** Social Service module */
 @NgModule({
   declarations: [
     SocialServicesPageComponent,

@@ -37,6 +37,7 @@ const routes: Routes = [
   },
 ];
 
+/** Others routing module */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
