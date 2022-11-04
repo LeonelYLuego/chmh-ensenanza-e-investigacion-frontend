@@ -29,6 +29,7 @@ export const PATHS = {
     SPECIALTIES: 'especialidades',
     STUDENTS: 'alumnos',
     HOSPITALS: 'hospitales',
+    TEMPLATES: 'plantillas'
   },
   SOCIAL_SERVICES: {
     BASE_PATH: RESOURCE_PATHS.SOCIAL_SERVICES,

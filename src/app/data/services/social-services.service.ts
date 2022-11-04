@@ -51,7 +51,7 @@ export class SocialServicesService {
    */
   async get(_id: string): Promise<SocialService | null> {
     const data = await this.http.get<SocialService | null>(
-      SERVER_RESOURCES.SOCIAL_SERVICES + `/${_id}`,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BY_ID(_id),
       this.forbiddenErrors
     );
     return data ?? null;
@@ -90,7 +90,7 @@ export class SocialServicesService {
       },
     ];
     let data = await this.http.get<SocialServiceBySpecialty[] | null>(
-      SERVER_RESOURCES.SOCIAL_SERVICES,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BASE_ENDPOINT,
       this.forbiddenErrors,
       params
     );
@@ -253,7 +253,7 @@ export class SocialServicesService {
    */
   async add(socialService: SocialService): Promise<SocialService | null> {
     let data = await this.http.post<SocialService>(
-      SERVER_RESOURCES.SOCIAL_SERVICES,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BASE_ENDPOINT,
       socialService,
       this.forbiddenErrors
     );
@@ -271,7 +271,7 @@ export class SocialServicesService {
     socialService: SocialService
   ): Promise<SocialService | null> {
     let data = await this.http.put<SocialService | null>(
-      SERVER_RESOURCES.SOCIAL_SERVICES + `/${_id}`,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BY_ID(_id),
       socialService,
       this.forbiddenErrors
     );
@@ -284,7 +284,7 @@ export class SocialServicesService {
    */
   async delete(_id: string): Promise<void> {
     await this.http.delete<void>(
-      SERVER_RESOURCES.SOCIAL_SERVICES + `/${_id}`,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BY_ID(_id),
       this.forbiddenErrors
     );
   }
@@ -300,7 +300,7 @@ export class SocialServicesService {
     type: SocialServiceDocumentTypes
   ): Promise<SafeResourceUrl | null> {
     let data = await this.http.getFileUrl(
-      SERVER_ENDPOINTS.SOCIAL_SERVICES.DOCUMENT + `/${_id}`,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BY_DOCUMENT_ID(_id),
       this.forbiddenErrors,
       [{ name: 'type', value: type }]
     );
@@ -320,7 +320,7 @@ export class SocialServicesService {
     formData: FormData
   ): Promise<SocialService | null> {
     let data = await this.http.put<SocialService | null>(
-      SERVER_ENDPOINTS.SOCIAL_SERVICES.DOCUMENT + `/${_id}`,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BY_DOCUMENT_ID(_id),
       formData,
       this.forbiddenErrors,
       [{ name: 'type', value: type }]
@@ -338,7 +338,7 @@ export class SocialServicesService {
     type: SocialServiceDocumentTypes
   ): Promise<void> {
     await this.http.delete<void>(
-      SERVER_ENDPOINTS.SOCIAL_SERVICES.DOCUMENT + `/${_id}`,
+      SERVER_ENDPOINTS.SOCIAL_SERVICES.BY_DOCUMENT_ID(_id),
       this.forbiddenErrors,
       [{ name: 'type', value: type }]
     );

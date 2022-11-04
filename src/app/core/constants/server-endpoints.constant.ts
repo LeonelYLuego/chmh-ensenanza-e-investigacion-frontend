@@ -10,6 +10,7 @@ export const SERVER_RESOURCES = {
   SPECIALTIES: PATHS.SERVER + '/specialties',
   USERS: PATHS.SERVER + '/users',
   STUDENTS: PATHS.SERVER + '/students',
+  TEMPLATES: PATHS.SERVER + '/templates'
 };
 
 /**
@@ -46,8 +47,20 @@ export const SERVER_ENDPOINTS = {
     },
   },
   SOCIAL_SERVICES: {
+    BASE_ENDPOINT: SERVER_RESOURCES.SOCIAL_SERVICES,
     PERIODS: SERVER_RESOURCES.SOCIAL_SERVICES + '/periods',
-    DOCUMENT: SERVER_RESOURCES.SOCIAL_SERVICES + '/document',
     GENERATE: SERVER_RESOURCES.SOCIAL_SERVICES + '/generate',
+    BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.SOCIAL_SERVICES}/${_id}`;
+    },
+    BY_DOCUMENT_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.SOCIAL_SERVICES}/document/${_id}`;
+    }
   },
+  TEMPLATES: {
+    BASE_ENDPOINT: SERVER_RESOURCES.TEMPLATES,
+    BY_DOCUMENT: (document: 'socialService') => {
+      return `${SERVER_RESOURCES.TEMPLATES}/${document}`;
+    }
+  }
 };

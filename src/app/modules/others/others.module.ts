@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HospitalsPageComponent } from './pages/hospitals-page/hospitals-page.component';
 import { OthersRoutingModule } from './others-routing.module';
+import { TemplatesPageComponent } from './pages/templates-page/templates-page.component';
 
 /** @class Others Module */
 @NgModule({
@@ -32,6 +33,7 @@ import { OthersRoutingModule } from './others-routing.module';
     SpecialtyDialogComponent,
     StudentsPageComponent,
     HospitalsPageComponent,
+    TemplatesPageComponent,
   ],
   imports: [
     CommonModule,

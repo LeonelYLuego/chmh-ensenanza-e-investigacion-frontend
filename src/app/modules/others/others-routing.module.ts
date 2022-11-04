@@ -6,6 +6,7 @@ import { HospitalsPageComponent } from './pages/hospitals-page';
 import { OthersPageComponent } from './pages/others-page';
 import { SpecialtiesPageComponent } from './pages/specialties-page';
 import { StudentsPageComponent } from './pages/students-page';
+import { TemplatesPageComponent } from './pages/templates-page';
 import { UsersPageComponent } from './pages/users-page';
 
 const routes: Routes = [
@@ -34,6 +35,11 @@ const routes: Routes = [
     path: PATHS.OTHERS.HOSPITALS,
     title: 'Hospitales',
     component: HospitalsPageComponent,
+  },
+  {
+    path: PATHS.OTHERS.TEMPLATES,
+    title: 'Plantillas',
+    component: TemplatesPageComponent,
   },
 ];
 
