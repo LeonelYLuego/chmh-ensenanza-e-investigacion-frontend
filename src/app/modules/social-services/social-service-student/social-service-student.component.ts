@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PATHS } from '@core/constants';
@@ -8,7 +9,7 @@ import { Hospital, SocialService } from '@data/interfaces';
 import { HospitalsService, SocialServicesService } from '@data/services';
 import { SocialServiceDocumentTypes } from '@data/types/social-service-document.type';
 
-/** Social Service Studen component */
+/** Social Service Student component */
 @Component({
   selector: 'app-social-service-student',
   templateUrl: './social-service-student.component.html',
@@ -36,7 +37,8 @@ export class SocialServiceStudentComponent implements OnInit {
     private socialServicesService: SocialServicesService,
     private hospitalsService: HospitalsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -115,7 +117,15 @@ export class SocialServiceStudentComponent implements OnInit {
           year: +values.year!,
         }
       );
-      if (data) this.socialService = data;
+      if (data) {
+        this.socialService = data;
+        this.snackBar.open('Servicio Social editado', undefined, {
+          duration: 2000,
+          panelClass: 'accent-snackbar',
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      }
       this.loading = false;
     }
   }

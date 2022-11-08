@@ -4,7 +4,7 @@ import { SERVER_RESOURCES } from '@core/constants';
 import { HttpPetitions } from '@core/services';
 import { Specialty } from '@data/interfaces';
 import { SpecialtiesService } from '@data/services';
-import to from 'await-to-js';
+import { DeleteDialogComponent } from '@shared/delete-dialog';
 import { SpecialtyDialogComponent } from '../../dialogs/specialty-dialog/specialty-dialog.component';
 
 @Component({
@@ -32,7 +32,7 @@ export class SpecialtiesPageComponent implements OnInit {
   }
 
   /**
-   * Gets the specialtes from the server
+   * Gets the specialties from the server
    * @async
    */
   async getSpecialties(): Promise<void> {
@@ -40,7 +40,7 @@ export class SpecialtiesPageComponent implements OnInit {
   }
 
   /**
-   * Opens the Speciaty dialog for add a Specialty
+   * Opens the Specialty dialog for add a Specialty
    */
   addSpecialtyDialog(): void {
     const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
@@ -79,8 +79,17 @@ export class SpecialtiesPageComponent implements OnInit {
    * Deletes a specified Specialty
    * @param {string} _id _id of the Specialty
    */
-  async deleteSpecialty(_id: string): Promise<void> {
-    await this.specialtiesService.delete(_id);
-    await this.getSpecialties();
+  async deleteSpecialty(_id: string, title: string): Promise<void> {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '500px',
+      data: `a ${title}`,
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result === true) {
+        await this.specialtiesService.delete(_id);
+        await this.getSpecialties();
+      }
+    });
   }
 }

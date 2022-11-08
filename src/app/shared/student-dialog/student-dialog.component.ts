@@ -25,11 +25,11 @@ export class StudentDialogComponent implements OnInit {
   specialties: Specialty[] = [];
   generations: { name: string; value: number }[] = [];
 
-  //Studen Form Control
+  //Student Form Control
   studentFormControl = new FormGroup({
     name: new FormControl('', this.nameValidators),
-    firstLastname: new FormControl('', this.nameValidators),
-    secondLastname: new FormControl('', this.nameOptionalValidators),
+    firstLastName: new FormControl('', this.nameValidators),
+    secondLastName: new FormControl('', this.nameOptionalValidators),
     code: new FormControl('', [Validators.maxLength(64)]),
     specialty: new FormControl<string | null>(null, Validators.required),
     lastYearGeneration: new FormControl<number | null>(
@@ -61,9 +61,9 @@ export class StudentDialogComponent implements OnInit {
       const student = this.data.student;
       this.studentFormControl.setValue({
         code: student.code ?? null,
-        firstLastname: student.firstLastName,
+        firstLastName: student.firstLastName,
         name: student.name,
-        secondLastname: student.secondLastName ?? '',
+        secondLastName: student.secondLastName ?? '',
         specialty: (student.specialty as Specialty)._id!,
         lastYearGeneration: student.lastYearGeneration,
         phones: [],
@@ -184,9 +184,8 @@ export class StudentDialogComponent implements OnInit {
       const user = await this.studentsService.add({
         code: data.code == '' ? undefined : data.code!,
         name: data.name!,
-        firstLastName: data.firstLastname!,
-        secondLastName:
-          data.secondLastname == '' ? undefined : data.secondLastname!,
+        firstLastName: data.firstLastName!,
+        secondLastName: data.secondLastName == ''? null : data.secondLastName,
         specialty: data.specialty!,
         lastYearGeneration: data.lastYearGeneration!,
         phones: data.phones as string[],
@@ -208,9 +207,8 @@ export class StudentDialogComponent implements OnInit {
       const user = await this.studentsService.update(this.data.student?._id!, {
         code: data.code == '' ? undefined : data.code!,
         name: data.name!,
-        firstLastName: data.firstLastname!,
-        secondLastName:
-          data.secondLastname == '' ? undefined : data.secondLastname!,
+        firstLastName: data.firstLastName!,
+        secondLastName: data.secondLastName == ''? null : data.secondLastName,
         specialty: data.specialty!,
         lastYearGeneration: data.lastYearGeneration!,
         phones: data.phones as string[],

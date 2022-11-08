@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>¿Está seguro de eliminar {{ data }}?</h1>
+<div mat-dialog-content>
+  <strong>Todos los elementos relacionados también se eliminaran.</strong>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button
+    mat-raised-button
+    color="warn"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+  >
+    Eliminar
+  </button>
+</div>

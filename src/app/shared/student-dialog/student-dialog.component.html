@@ -6,16 +6,16 @@
       <mat-label>Nombre</mat-label>
       <input matInput [formControl]="studentFormControl.controls.name" />
       <mat-error *ngIf="studentFormControl.controls.name.invalid"
-        >Nombre <strong>Iválido</strong></mat-error
+        >Nombre <strong>Inválido</strong></mat-error
       >
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Apellido Paterno</mat-label>
       <input
         matInput
-        [formControl]="studentFormControl.controls.firstLastname"
+        [formControl]="studentFormControl.controls.firstLastName"
       />
-      <mat-error *ngIf="studentFormControl.controls.firstLastname.invalid"
+      <mat-error *ngIf="studentFormControl.controls.firstLastName.invalid"
         >Apellido Paterno <strong>Inválido</strong></mat-error
       >
     </mat-form-field>
@@ -23,9 +23,9 @@
       <mat-label>Apellido Materno</mat-label>
       <input
         matInput
-        [formControl]="studentFormControl.controls.secondLastname"
+        [formControl]="studentFormControl.controls.secondLastName"
       />
-      <mat-error *ngIf="studentFormControl.controls.secondLastname.invalid"
+      <mat-error *ngIf="studentFormControl.controls.secondLastName.invalid"
         >Apellido Materno <strong>Inválido</strong></mat-error
       >
     </mat-form-field>

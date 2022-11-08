@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Specialty, Student } from '@data/interfaces';
 import { SpecialtiesService, StudentsService } from '@data/services';
+import { DeleteDialogComponent } from '@shared/delete-dialog';
 import { StudentDialogComponent } from '@shared/student-dialog';
 
 @Component({
@@ -26,7 +27,7 @@ export class StudentsPageComponent implements OnInit {
 
   constructor(
     private studentsService: StudentsService,
-    private specialtesService: SpecialtiesService,
+    private specialtiesService: SpecialtiesService,
     private dialog: MatDialog
   ) {}
 
@@ -53,7 +54,7 @@ export class StudentsPageComponent implements OnInit {
    * @async
    */
   async getSpecialties(): Promise<void> {
-    this.specialties = await this.specialtesService.findAll();
+    this.specialties = await this.specialtiesService.findAll();
   }
 
   /**
@@ -62,7 +63,7 @@ export class StudentsPageComponent implements OnInit {
    */
   async specialtySelectionChange(): Promise<void> {
     this.loading = true;
-    this.generations = await this.specialtesService.getGenerations(
+    this.generations = await this.specialtiesService.getGenerations(
       this.specialtyFormControl.value ?? ''
     );
     this.generationFormControl.setValue(null);
@@ -126,11 +127,20 @@ export class StudentsPageComponent implements OnInit {
   }
 
   /**
-   * Deletes the specified Studen in the server
+   * Deletes the specified Student in the server
    * @param {string} _id _id of the Student
    */
-  async deleteStudent(_id: string): Promise<void> {
-    await this.studentsService.delete(_id);
-    await this.getStudents();
+  async deleteStudent(_id: string, title: string): Promise<void> {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '500px',
+      data: `a ${title}`,
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result === true) {
+        await this.studentsService.delete(_id);
+        await this.getStudents();
+      }
+    });
   }
 }

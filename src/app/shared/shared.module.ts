@@ -12,6 +12,7 @@ import { HospitalDialogComponent } from './hospital-dialog/hospital-dialog.compo
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import { MatCardModule } from '@angular/material/card';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 
 /** @class Shared Module */
 @NgModule({
@@ -19,6 +20,7 @@ import { MatCardModule } from '@angular/material/card';
     StudentDialogComponent,
     HospitalDialogComponent,
     StudentInfoComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     CommonModule,

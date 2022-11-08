@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Hospital } from '@data/interfaces';
 import { HospitalsService } from '@data/services';
+import { DeleteDialogComponent } from '@shared/delete-dialog';
 import { HospitalDialogComponent } from '@shared/hospital-dialog';
 
 @Component({
@@ -77,8 +78,17 @@ export class HospitalsPageComponent implements OnInit {
    * @async
    * @param {string} _id _id Hospital
    */
-  async deleteHospital(_id: string): Promise<void> {
-    await this.hospitalsService.delete(_id);
-    await this.getHospitals();
+  async deleteHospital(_id: string, title: string): Promise<void> {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '500px',
+      data: `al ${title}`,
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result === true) {
+        await this.hospitalsService.delete(_id);
+        await this.getHospitals();
+      }
+    });
   }
 }

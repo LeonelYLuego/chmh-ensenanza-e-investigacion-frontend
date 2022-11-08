@@ -15,7 +15,7 @@ export interface Student {
   firstLastName: string;
 
   /** @property {string} secondLastName */
-  secondLastName?: string;
+  secondLastName?: string | null;
 
   /** @property {Specialty | string} specialty */
   specialty: Specialty | string;

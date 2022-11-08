@@ -42,8 +42,8 @@
     <table mat-table [dataSource]="students" class="full-width">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Nombre</th>
-        <td mat-cell *matCellDef="let user">
-          {{ user.name }} {{ user.firstLastName }} {{ user.secondLastName }}
+        <td mat-cell *matCellDef="let student">
+          {{ student.name }} {{ student.firstLastName }} {{ student.secondLastName }}
         </td>
       </ng-container>
       <ng-container matColumnDef="update">
@@ -64,7 +64,7 @@
           <button
             mat-raised-button
             color="warn"
-            (click)="deleteStudent(student._id)"
+            (click)="deleteStudent(student._id, student.name + ' ' + student.firstLastName + ' ' + student.secondLastName)"
           >
             Eliminar
           </button>

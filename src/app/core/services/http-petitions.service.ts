@@ -96,8 +96,20 @@ export class HttpPetitions {
           responseType: 'blob',
         })
         .subscribe({
-          next: (value) => {
-            resolve(value);
+          next: async (value) => {
+            if (value.type == 'application/json') {
+              const content = JSON.parse(
+                await value.text()
+              ) as HttpResponse<void>;
+              if (
+                this.exceptionSnackbarService.serverPetition(
+                  content.error!,
+                  forbiddenErrors
+                )
+              )
+                resolve(undefined);
+              else reject(content.error);
+            } else resolve(value);
           },
           error: (err) => {
             reject(err);
@@ -136,10 +148,18 @@ export class HttpPetitions {
         })
         .subscribe({
           next: (value) => {
-            const fileURL = URL.createObjectURL(value);
-            const sanitizedURL =
-              this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
-            resolve(sanitizedURL);
+            if ((value as any).error) {
+              this.exceptionSnackbarService.serverPetition(
+                (value as any).error,
+                forbiddenErrors
+              );
+              resolve(undefined);
+            } else {
+              const fileURL = URL.createObjectURL(value as Blob);
+              const sanitizedURL =
+                this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+              resolve(sanitizedURL);
+            }
           },
           error: (err) => {
             reject(err);

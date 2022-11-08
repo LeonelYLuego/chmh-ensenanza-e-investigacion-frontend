@@ -40,6 +40,10 @@ export class SocialServicesService {
       errorMessage: 'file must be a pdf',
       snackbarMessage: 'El archivo debe ser un PDF',
     },
+    {
+      errorMessage: 'not template found',
+      snackbarMessage: 'No se encontró la plantilla',
+    },
   ];
 
   constructor(private http: HttpPetitions) {}

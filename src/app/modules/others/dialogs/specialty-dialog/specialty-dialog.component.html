@@ -10,7 +10,7 @@
       >Especialidad <strong>Inválida</strong></mat-error>
     </mat-form-field>
     <mat-form-field class="full-width">
-      <mat-label>Duración</mat-label>
+      <mat-label>Duración (años)</mat-label>
       <input matInput [formControl]="duration" type="number" min="1" max="6" value="3">
       <mat-error
         *ngIf="duration.invalid"
