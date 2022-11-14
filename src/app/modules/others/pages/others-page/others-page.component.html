@@ -42,7 +42,14 @@
       </button>
     </mat-grid-tile>
     <mat-grid-tile>
-      <button mat-raised-button class="button-card" color="primary" disabled>
+      <button
+        mat-raised-button
+        class="button-card"
+        color="primary"
+        [routerLink]="
+          '/' + paths.OTHERS.BASE_PATH + '/' + paths.OTHERS.ROTATION_SERVICES
+        "
+      >
         <div class="word-wrap">Servicios a Rotar</div>
       </button>
     </mat-grid-tile>

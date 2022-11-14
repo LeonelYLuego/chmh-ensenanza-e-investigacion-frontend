@@ -106,10 +106,9 @@ export class SpecialtiesService {
       const today = new Date();
       let month = today.getMonth() + 1,
         year = today.getFullYear();
-
       //If is january or february
       if (month == 1 || month == 2) year -= 1;
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 5 + specialty.duration; i++) {
         let generation = year - i + ' - ' + (year - i + specialty.duration);
         if (i < specialty.duration) generation += ' (' + (i + 1) + ' año)';
         generations.push({

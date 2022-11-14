@@ -11,7 +11,7 @@ export class ExceptionSnackbarService {
   constructor(private snackBar: MatSnackBar) {}
 
   /** Show a snackbar with a server error message */
-  private serverException(message: string) {
+  private serverException(message: string): void {
     this.snackBar.open(`Error del servidor: ${message}`, undefined, {
       duration: 2000,
       panelClass: 'warn-snackbar',
@@ -28,7 +28,7 @@ export class ExceptionSnackbarService {
   private forbiddenException(
     message: string,
     forbiddenErrors: { errorMessage: string; snackbarMessage: string }[]
-  ) {
+  ): void {
     for (let errorMessage of forbiddenErrors) {
       if (errorMessage.errorMessage == message) {
         this.snackBar.open(errorMessage.snackbarMessage, undefined, {
@@ -37,13 +37,14 @@ export class ExceptionSnackbarService {
           horizontalPosition: 'end',
           verticalPosition: 'bottom',
         });
-        break;
+        return;
       }
     }
+    this.serverException(message);
   }
 
   /** Show a snackbar with a unauthorized message */
-  private unauthorizedException() {
+  private unauthorizedException(): void {
     this.snackBar.open('Petición no autorizada', undefined, {
       duration: 2000,
       panelClass: 'warn-snackbar',
@@ -53,7 +54,7 @@ export class ExceptionSnackbarService {
   }
 
   /** Show a snackbar with a server not found message */
-  private pageNotFound() {
+  private pageNotFound(): void {
     this.snackBar.open('Servidor no encontrado', undefined, {
       duration: 2000,
       panelClass: 'warn-snackbar',

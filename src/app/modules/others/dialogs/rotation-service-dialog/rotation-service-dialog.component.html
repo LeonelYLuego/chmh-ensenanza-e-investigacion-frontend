@@ -1,0 +1,42 @@
+<h1 mat-dialog-title *ngIf="data.rotationService">Editar Servicio a Rotar</h1>
+<h1 mat-dialog-title *ngIf="!data.rotationService">Agregar Servicio a Rotar</h1>
+<form
+  (submit)="
+    data.rotationService ? updateRotationService() : addRotationService()
+  "
+>
+  <mat-dialog-content>
+    <mat-form-field class="full-width">
+      <mat-label>Especialidad</mat-label>
+      <mat-select [formControl]="rotationServiceFormControl.controls.specialty">
+        <mat-option
+          *ngFor="let specialty of specialties"
+          [value]="specialty._id"
+          >{{ specialty.value }}</mat-option
+        >
+      </mat-select>
+      <mat-error *ngIf="rotationServiceFormControl.controls.specialty.invalid"
+        >Especialidad <strong>Inválida</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Servicio a Rotar</mat-label>
+      <input
+        matInput
+        [formControl]="rotationServiceFormControl.controls.value"
+      />
+      <mat-error *ngIf="rotationServiceFormControl.controls.value.invalid"
+        >Servicio a Rotar <strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancelar</button>
+    <button mat-raised-button color="accent" *ngIf="data.rotationService">
+      Editar
+    </button>
+    <button mat-raised-button color="primary" *ngIf="!data.rotationService">
+      Agregar
+    </button>
+  </mat-dialog-actions>
+</form>

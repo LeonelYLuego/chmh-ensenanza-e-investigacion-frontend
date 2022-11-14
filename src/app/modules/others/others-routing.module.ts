@@ -4,6 +4,7 @@ import { PATHS } from '@core/constants';
 import { AdministratorGuard } from '@core/guards';
 import { HospitalsPageComponent } from './pages/hospitals-page';
 import { OthersPageComponent } from './pages/others-page';
+import { RotationServicesPageComponent } from './pages/rotation-services-page';
 import { SpecialtiesPageComponent } from './pages/specialties-page';
 import { StudentsPageComponent } from './pages/students-page';
 import { TemplatesPageComponent } from './pages/templates-page';
@@ -40,6 +41,11 @@ const routes: Routes = [
     path: PATHS.OTHERS.TEMPLATES,
     title: 'Plantillas',
     component: TemplatesPageComponent,
+  },
+  {
+    path: PATHS.OTHERS.ROTATION_SERVICES,
+    title: 'Servicios a Rotar',
+    component: RotationServicesPageComponent,
   },
 ];
 
