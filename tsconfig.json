@@ -25,6 +25,7 @@
       "@error-pages/*": ["app/modules/error-pages/*"],
       "@others/*": ["app/modules/others/*"],
       "@social-services/*": ["app/modules/social-services/*"],
+      "@optional-mobilities/*": ["app/modules/optional-mobilities/*"],
       "@data/*": ["app/data/*"],
       "@env": ["environments/environment"],
     },

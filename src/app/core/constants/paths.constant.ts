@@ -5,6 +5,7 @@ export const RESOURCE_PATHS = {
   AUTH: 'auth',
   OTHERS: 'otros',
   SOCIAL_SERVICES: 'servicios-sociales',
+  OPTIONAL_MOBILITIES: 'movilidades-optativas',
   ERROR: 'error',
 };
 
@@ -38,5 +39,10 @@ export const PATHS = {
     ADD: 'agregar',
     STUDENT: ':_id',
     DOCUMENTS: 'generar-documentos',
+  },
+  OPTIONAL_MOBILITIES: {
+    BASE_PATH: RESOURCE_PATHS.OPTIONAL_MOBILITIES,
+    BASE: '',
+    ADD: 'agregar'
   },
 };

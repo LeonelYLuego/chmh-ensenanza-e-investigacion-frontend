@@ -15,6 +15,7 @@ import { AuthModule } from '@auth/auth.module';
 import { ErrorPagesModule } from '@error-pages/error-pages.module';
 import { OthersModule } from '@others/others.module';
 import { SocialServicesModule } from '@social-services/social-services.module';
+import { OptionalMobilitiesModule } from 'app/modules/optional-mobilities/optional-mobilities.module';
 
 /** Application Module */
 @NgModule({
@@ -33,6 +34,7 @@ import { SocialServicesModule } from '@social-services/social-services.module';
     ErrorPagesModule,
     OthersModule,
     SocialServicesModule,
+    OptionalMobilitiesModule,
 
     MatToolbarModule,
     MatButtonModule,

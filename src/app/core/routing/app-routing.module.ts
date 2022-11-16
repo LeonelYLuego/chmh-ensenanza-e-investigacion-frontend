@@ -36,6 +36,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: RESOURCE_PATHS.OPTIONAL_MOBILITIES,
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('@optional-mobilities/optional-mobilities.module').then(
+        (m) => m.OptionalMobilitiesModule
+      ),
+  },
+  {
     path: '**',
     redirectTo: `${PATHS.ERROR.BASE_PATH}/${PATHS.ERROR.PAGE_NOT_FOUND}`,
   },
