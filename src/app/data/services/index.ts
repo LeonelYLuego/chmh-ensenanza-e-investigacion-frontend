@@ -4,3 +4,4 @@ export * from './specialties.service';
 export * from './students.service';
 export * from './users.service';
 export * from './rotation-services.service';
+export * from './optional-mobilities.service';

@@ -12,6 +12,7 @@ export const SERVER_RESOURCES = {
   STUDENTS: PATHS.SERVER + '/students',
   TEMPLATES: PATHS.SERVER + '/templates',
   ROTATION_SERVICES: PATHS.SERVER + '/rotation-services',
+  OPTIONAL_MOBILITIES: PATHS.SERVER + '/optional-mobilities',
 };
 
 /**
@@ -56,18 +57,24 @@ export const SERVER_ENDPOINTS = {
     },
     BY_DOCUMENT_ID: (_id: string) => {
       return `${SERVER_RESOURCES.SOCIAL_SERVICES}/document/${_id}`;
-    }
+    },
   },
   TEMPLATES: {
     BASE_ENDPOINT: SERVER_RESOURCES.TEMPLATES,
     BY_DOCUMENT: (document: 'socialService') => {
       return `${SERVER_RESOURCES.TEMPLATES}/${document}`;
-    }
+    },
   },
   ROTATION_SERVICES: {
     BASE_ENDPOINT: SERVER_RESOURCES.ROTATION_SERVICES,
     BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.ROTATION_SERVICES}/${_id}`;
     },
-  }
+  },
+  OPTIONAL_MOBILITIES: {
+    BASE_ENDPOINT: SERVER_RESOURCES.OPTIONAL_MOBILITIES,
+    BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/${_id}`;
+    },
+  },
 };

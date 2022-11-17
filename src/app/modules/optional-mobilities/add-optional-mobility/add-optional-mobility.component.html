@@ -58,41 +58,41 @@
       </mat-form-field>
       <br />
       <mat-form-field appearance="outline" class="long-width">
-        <mat-label>Fecha Inicio</mat-label>
+        <mat-label>Fecha de Inicio</mat-label>
         <input
           matInput
           [matDatepicker]="initialPicker"
           [formControl]="optionalMobilityFormControl.controls.initialDate"
         />
-        <mat-hint>DD/MM/AAAA</mat-hint>
+        <mat-hint>MM/YYYY</mat-hint>
         <mat-datepicker-toggle
           matSuffix
           [for]="initialPicker"
         ></mat-datepicker-toggle>
-        <mat-datepicker #initialPicker></mat-datepicker>
-        <mat-error
-          *ngIf="optionalMobilityFormControl.controls.initialDate.invalid"
-          >Fecha Inicial <strong>Inválida</strong></mat-error
-        >
+        <mat-datepicker
+          #initialPicker
+          startView="multi-year"
+          (monthSelected)="setInitialMonthAndYear($event, initialPicker)"
+        ></mat-datepicker>
       </mat-form-field>
       <br />
       <mat-form-field appearance="outline" class="long-width">
-        <mat-label>Fecha Finalización</mat-label>
+        <mat-label>Fecha de Finalización</mat-label>
         <input
           matInput
           [matDatepicker]="finalPicker"
           [formControl]="optionalMobilityFormControl.controls.finalDate"
         />
-        <mat-hint>DD/MM/AAAA</mat-hint>
+        <mat-hint>MM/YYYY</mat-hint>
         <mat-datepicker-toggle
           matSuffix
           [for]="finalPicker"
         ></mat-datepicker-toggle>
-        <mat-datepicker #finalPicker></mat-datepicker>
-        <mat-error
-          *ngIf="optionalMobilityFormControl.controls.finalDate.invalid"
-          >Fecha Final <strong>Inválida</strong></mat-error
-        >
+        <mat-datepicker
+          #finalPicker
+          startView="multi-year"
+          (monthSelected)="setFinalMonthAndYear($event, finalPicker)"
+        ></mat-datepicker>
       </mat-form-field>
       <br />
       <mat-form-field appearance="outline" class="long-width">

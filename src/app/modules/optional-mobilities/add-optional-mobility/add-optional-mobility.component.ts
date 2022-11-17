@@ -1,6 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS,
+} from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { Router } from '@angular/router';
+import { PATHS } from '@core/constants';
+import {
   Hospital,
   RotationService,
   Specialty,
@@ -8,15 +20,38 @@ import {
 } from '@data/interfaces';
 import {
   HospitalsService,
+  OptionalMobilitiesService,
   RotationServicesService,
   SpecialtiesService,
   StudentsService,
 } from '@data/services';
+import { Moment } from 'moment';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-add-optional-mobility',
   templateUrl: './add-optional-mobility.component.html',
   styleUrls: ['./add-optional-mobility.component.css'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class AddOptionalMobilityComponent implements OnInit {
   loading = false;
@@ -53,10 +88,12 @@ export class AddOptionalMobilityComponent implements OnInit {
   rotationServices: RotationService[] = [];
 
   constructor(
+    private optionalMobilitiesService: OptionalMobilitiesService,
     private specialtiesServices: SpecialtiesService,
     private rotationServicesService: RotationServicesService,
     private studentsService: StudentsService,
-    private hospitalsService: HospitalsService
+    private hospitalsService: HospitalsService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -96,10 +133,44 @@ export class AddOptionalMobilityComponent implements OnInit {
     }
   }
 
+  setInitialMonthAndYear(
+    normalizedMonthAndYear: any,
+    datepicker: MatDatepicker<Moment>
+  ) {
+    this.optionalMobilityFormControl.controls.initialDate.setValue(
+      normalizedMonthAndYear._d
+    );
+    datepicker.close();
+  }
+
+  setFinalMonthAndYear(
+    normalizedMonthAndYear: any,
+    datepicker: MatDatepicker<Moment>
+  ) {
+    normalizedMonthAndYear = new Date(
+      normalizedMonthAndYear._d.getFullYear(),
+      normalizedMonthAndYear._d.getMonth() + 1,
+      0
+    );
+    this.optionalMobilityFormControl.controls.finalDate.setValue(
+      normalizedMonthAndYear
+    );
+    datepicker.close();
+  }
+
   async addOptionalMobility(): Promise<void> {
     if (this.optionalMobilityFormControl.valid) {
       const value = this.optionalMobilityFormControl.value;
-      console.log(value);
+      if (
+        await this.optionalMobilitiesService.add({
+          student: value.student!,
+          hospital: value.hospital!,
+          initialDate: value.initialDate!,
+          finalDate: value.finalDate!,
+          rotationService: value.rotationService!,
+        })
+      )
+        this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
     }
   }
 }
