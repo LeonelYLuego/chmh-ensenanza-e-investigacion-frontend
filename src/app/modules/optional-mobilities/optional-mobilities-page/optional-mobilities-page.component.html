@@ -12,4 +12,36 @@
   </mat-card-title>
   <mat-divider></mat-divider>
   <div style="margin-bottom: 20px"></div>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-icon matPrefix>search</mat-icon>
+    <mat-label>Buscador</mat-label>
+    <input matInput disabled />
+  </mat-form-field>
+  <br />
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Fecha Inicial</mat-label>
+    <mat-select
+      [formControl]="intervalFormControl.controls.initialDate"
+      (selectionChange)="initialDateChanged()"
+    >
+      <mat-option
+        *ngFor="let initialMonth of interval.initialMonths"
+        [value]="initialMonth.value"
+        >{{ initialMonth.name }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Fecha Final</mat-label>
+    <mat-select
+      [formControl]="intervalFormControl.controls.finalDate"
+      (selectionChange)="finalDateChanged()"
+    >
+      <mat-option
+        *ngFor="let finalMonth of interval.finalMonths"
+        [value]="finalMonth.value"
+        >{{ finalMonth.name }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
 </mat-card>

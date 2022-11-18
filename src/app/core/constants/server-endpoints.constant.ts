@@ -76,5 +76,6 @@ export const SERVER_ENDPOINTS = {
     BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/${_id}`;
     },
+    INTERVAL: SERVER_RESOURCES.OPTIONAL_MOBILITIES + '/interval',
   },
 };

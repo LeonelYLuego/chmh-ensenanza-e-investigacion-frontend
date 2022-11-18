@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [OptionalMobilitiesPageComponent, AddOptionalMobilityComponent],
@@ -27,7 +28,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatDatepickerModule,
     MatInputModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatIconModule,
   ],
 })
 export class OptionalMobilitiesModule {}

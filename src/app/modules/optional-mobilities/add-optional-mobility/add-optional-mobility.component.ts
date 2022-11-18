@@ -147,13 +147,8 @@ export class AddOptionalMobilityComponent implements OnInit {
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
   ) {
-    normalizedMonthAndYear = new Date(
-      normalizedMonthAndYear._d.getFullYear(),
-      normalizedMonthAndYear._d.getMonth() + 1,
-      0
-    );
     this.optionalMobilityFormControl.controls.finalDate.setValue(
-      normalizedMonthAndYear
+      normalizedMonthAndYear._d
     );
     datepicker.close();
   }
@@ -166,7 +161,11 @@ export class AddOptionalMobilityComponent implements OnInit {
           student: value.student!,
           hospital: value.hospital!,
           initialDate: value.initialDate!,
-          finalDate: value.finalDate!,
+          finalDate: new Date(
+            value.finalDate!.getFullYear(),
+            value.finalDate!.getMonth() + 1,
+            0
+          ),
           rotationService: value.rotationService!,
         })
       )
