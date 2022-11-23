@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PATHS } from '@core/constants';
 import { OptionalMobility } from '@data/interfaces';
-import { OptionalMobilitiesService } from '@data/services';
+import { OptionalMobilitiesService, StudentsService } from '@data/services';
 
 @Component({
   selector: 'app-optional-mobilities-page',
@@ -25,8 +25,11 @@ export class OptionalMobilitiesPageComponent implements OnInit {
     ]),
   });
   optionalMobilities: OptionalMobility[] = [];
+  displayedColumns = ['student', 'hospital', 'rotationService'];
 
-  constructor(private optionalMobilitiesService: OptionalMobilitiesService) {}
+  constructor(
+    private optionalMobilitiesService: OptionalMobilitiesService,
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.interval = await this.optionalMobilitiesService.interval();
@@ -60,6 +63,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.finalDate.setValue(
         this.interval.finalMonths[index].value
       );
+      this.getOptionalMobilities();
     }
   }
 
@@ -78,11 +82,14 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.initialDate.setValue(
         this.interval.initialMonths[index].value
       );
+      this.getOptionalMobilities();
     }
   }
 
   async getOptionalMobilities(): Promise<void> {
-    this.optionalMobilities = await this.optionalMobilitiesService.getAll();
-    console.log(this.optionalMobilities);
+    this.optionalMobilities = await this.optionalMobilitiesService.getAll(
+      this.intervalFormControl.controls.initialDate.value!,
+      this.intervalFormControl.controls.finalDate.value!
+    );
   }
 }

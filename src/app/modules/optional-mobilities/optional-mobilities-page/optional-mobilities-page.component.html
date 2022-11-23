@@ -44,4 +44,27 @@
       >
     </mat-select>
   </mat-form-field>
+  <!-- ['student', 'hospital', 'rotationService', 'period', 'documents'] -->
+  <table mat-table [dataSource]="optionalMobilities" class="full-width">
+    <ng-container matColumnDef="student">
+      <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+      <td mat-cell *matCellDef="let optionalMobility">
+        {{ optionalMobility.student.name }}
+        {{ optionalMobility.student.firstLastName }}
+        {{ optionalMobility.student.secondLastName }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="hospital">
+      <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+      <td mat-cell *matCellDef="let optionalMobility">
+        {{ optionalMobility.hospital.name }}
+    </ng-container>
+    <ng-container matColumnDef="rotationService">
+      <th mat-header-cell *matHeaderCellDef>Servicio a Rotar</th>
+      <td mat-cell *matCellDef="let optionalMobility">
+        {{ optionalMobility.rotationService.value }}
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
 </mat-card>

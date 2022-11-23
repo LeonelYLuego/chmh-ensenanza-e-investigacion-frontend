@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [OptionalMobilitiesPageComponent, AddOptionalMobilityComponent],
@@ -30,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatProgressBarModule,
     MatIconModule,
+    MatTableModule,
   ],
 })
 export class OptionalMobilitiesModule {}

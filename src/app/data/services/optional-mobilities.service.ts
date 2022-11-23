@@ -19,10 +19,23 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
-  async getAll(): Promise<OptionalMobility[]> {
+  async getAll(
+    initialDate: Date,
+    finalDate: Date
+  ): Promise<OptionalMobility[]> {
     const data = await this.http.get<OptionalMobility[]>(
       SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.BASE_ENDPOINT,
-      this.forbiddenErrors
+      this.forbiddenErrors,
+      [
+        {
+          name: 'initialDate',
+          value: initialDate.toISOString(),
+        },
+        {
+          name: 'finalDate',
+          value: finalDate.toISOString(),
+        },
+      ]
     );
     return data ?? [];
   }
