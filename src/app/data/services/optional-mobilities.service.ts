@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { SERVER_ENDPOINTS } from '@core/constants';
 import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
-import { OptionalMobility } from '@data/interfaces';
+import {
+  OptionalMobility,
+  OptionalMobilityBySpecialtyDto,
+} from '@data/interfaces';
 
 @Injectable()
 export class OptionalMobilitiesService {
@@ -22,8 +25,8 @@ export class OptionalMobilitiesService {
   async getAll(
     initialDate: Date,
     finalDate: Date
-  ): Promise<OptionalMobility[]> {
-    const data = await this.http.get<OptionalMobility[]>(
+  ): Promise<OptionalMobilityBySpecialtyDto[]> {
+    const data = await this.http.get<OptionalMobilityBySpecialtyDto[]>(
       SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.BASE_ENDPOINT,
       this.forbiddenErrors,
       [
@@ -134,5 +137,13 @@ export class OptionalMobilitiesService {
       }
     }
     return { initialMonths, finalMonths };
+  }
+
+  getPeriod(initialDate: Date, finalDate: Date): string {
+    return `${initialDate.getDate()} de ${
+      this.months[initialDate.getMonth()]
+    } de ${initialDate.getFullYear()} - ${finalDate.getDate()} de ${
+      this.months[finalDate.getMonth()]
+    } de ${finalDate.getFullYear()}`;
   }
 }

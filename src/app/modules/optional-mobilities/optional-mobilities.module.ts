@@ -14,9 +14,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatChipsModule } from '@angular/material/chips';
+import { OptionalMobilityStudentComponent } from './optional-mobility-student/optional-mobility-student.component';
+import { StudentDialogComponent } from '@shared/student-dialog';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [OptionalMobilitiesPageComponent, AddOptionalMobilityComponent],
+  declarations: [OptionalMobilitiesPageComponent, AddOptionalMobilityComponent, OptionalMobilityStudentComponent],
   imports: [
     CommonModule,
     OptionalMobilitiesRoutingModule,
@@ -32,6 +36,8 @@ import { MatTableModule } from '@angular/material/table';
     MatProgressBarModule,
     MatIconModule,
     MatTableModule,
+    MatChipsModule,
+    SharedModule,
   ],
 })
 export class OptionalMobilitiesModule {}

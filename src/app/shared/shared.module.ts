@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import { MatCardModule } from '@angular/material/card';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { HospitalInfoComponent } from './hospital-info/hospital-info.component';
 
 /** @class Shared Module */
 @NgModule({
@@ -21,6 +22,7 @@ import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
     HospitalDialogComponent,
     StudentInfoComponent,
     DeleteDialogComponent,
+    HospitalInfoComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +37,6 @@ import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
     MatCheckboxModule,
     MatCardModule,
   ],
-  exports: [StudentInfoComponent],
+  exports: [StudentInfoComponent, HospitalInfoComponent],
 })
 export class SharedModule {}

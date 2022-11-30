@@ -134,7 +134,7 @@ export class HospitalDialogComponent implements OnInit {
   }
 
   /**
-   * Disapears the address form controls
+   * Disappears the address form controls
    */
   removeAddress(): void {
     this.addressFormControl.controls.country.setValue('');

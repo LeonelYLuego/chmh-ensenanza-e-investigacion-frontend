@@ -59,7 +59,7 @@ export class SocialServiceStudentComponent implements OnInit {
    * Gets a Social Service
    * @param _id
    */
-  async getSocialService(_id = this.socialService!._id!) {
+  async getSocialService(_id = this.socialService!._id!): Promise<void> {
     this.loading = true;
     this.socialService = await this.socialServicesService.get(_id);
     if (this.socialService) {
@@ -104,7 +104,7 @@ export class SocialServiceStudentComponent implements OnInit {
   /**
    * Updates a Social Service in the server
    */
-  async updateSocialService() {
+  async updateSocialService(): Promise<void> {
     if (this.socialServiceFormControl.valid) {
       const values = this.socialServiceFormControl.value;
       this.loading = true;
@@ -133,7 +133,7 @@ export class SocialServiceStudentComponent implements OnInit {
   /**
    * Deletes a Social Service in the server
    */
-  async deleteSocialService() {
+  async deleteSocialService(): Promise<void> {
     await this.socialServicesService.delete(this.socialService!._id!);
     this.router.navigate(['..']);
   }
@@ -162,7 +162,7 @@ export class SocialServiceStudentComponent implements OnInit {
    * Deletes a Social Service document in the server
    * @param type
    */
-  async deleteFile(type: SocialServiceDocumentTypes) {
+  async deleteFile(type: SocialServiceDocumentTypes): Promise<void> {
     this.loading = true;
     await this.socialServicesService.deleteDocument(
       this.socialService!._id!,

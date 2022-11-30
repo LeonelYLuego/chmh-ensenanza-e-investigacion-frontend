@@ -25,3 +25,11 @@ export interface OptionalMobility {
 
   __v?: number;
 }
+
+export interface OptionalMobilityBySpecialtyDto {
+  _id: string;
+
+  value: string;
+
+  optionalMobilities: OptionalMobility[];
+}

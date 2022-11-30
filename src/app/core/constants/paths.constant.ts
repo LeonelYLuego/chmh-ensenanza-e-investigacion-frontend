@@ -43,6 +43,7 @@ export const PATHS = {
   OPTIONAL_MOBILITIES: {
     BASE_PATH: RESOURCE_PATHS.OPTIONAL_MOBILITIES,
     BASE: '',
-    ADD: 'agregar'
+    ADD: 'agregar',
+    STUDENT: ':_id',
   },
 };

@@ -1,0 +1,87 @@
+<mat-card class="main-card">
+  <mat-card-title>
+    <span class="main-card-title">Estudiante de Movilidad Optativa</span>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-card-content *ngIf="!loading && optionalMobility">
+    <app-student-info [id]="optionalMobility.student"></app-student-info>
+    <div style="margin: 20px"></div>
+    <app-hospital-info [id]="optionalMobility.hospital"></app-hospital-info>
+    <div style="margin: 20px"></div>
+    <h2>Datos de la Movilidad Optativa</h2>
+    <mat-form-field class="large-input input">
+      <mat-label> Hospital </mat-label>
+      <mat-select [formControl]="optionalMobilityFormControl.controls.hospital">
+        <mat-option *ngFor="let hospital of hospitals" [value]="hospital._id">{{
+          hospital.name
+        }}</mat-option>
+      </mat-select>
+      <mat-error>Hospital <strong>Inválido</strong></mat-error>
+    </mat-form-field>
+    <mat-form-field class="short-input input">
+      <mat-label>Fecha de Inicio</mat-label>
+      <input
+        matInput
+        [matDatepicker]="initialPicker"
+        [formControl]="optionalMobilityFormControl.controls.initialDate"
+      />
+      <mat-hint>MM/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="initialPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #initialPicker
+        startView="multi-year"
+        (monthSelected)="setInitialMonthAndYear($event, initialPicker)"
+      ></mat-datepicker>
+      <mat-error>Fecha de Inicio <strong>Inválida</strong></mat-error>
+    </mat-form-field>
+    <mat-form-field class="short-input input">
+      <mat-label>Fecha de Finalización</mat-label>
+      <input
+        matInput
+        [matDatepicker]="finalPicker"
+        [formControl]="optionalMobilityFormControl.controls.finalDate"
+      />
+      <mat-hint>MM/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="finalPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #finalPicker
+        startView="multi-year"
+        (monthSelected)="setFinalMonthAndYear($event, finalPicker)"
+      ></mat-datepicker>
+      <mat-error>Fecha de Finalización <strong>Inválida</strong></mat-error>
+    </mat-form-field>
+    <mat-form-field class="short-input input">
+      <mat-label> Servicio a Rotar </mat-label>
+      <mat-select
+        [formControl]="optionalMobilityFormControl.controls.rotationService"
+      >
+        <mat-option
+          *ngFor="let rotationService of rotationServices"
+          [value]="rotationService._id"
+          >{{ rotationService.value }}</mat-option
+        >
+      </mat-select>
+      <mat-error>Servicio a Rotar <strong>Inválido</strong></mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="updateOptionalMobility()">
+      Editar Movilidad Optativa
+    </button>
+    <span style="margin-left: 10px"></span>
+    <button mat-raised-button color="warn" (click)="deleteOptionalMobility()">
+      Eliminar Movilidad Optativa
+    </button>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PATHS } from '@core/constants';
-import { OptionalMobility } from '@data/interfaces';
-import { OptionalMobilitiesService, StudentsService } from '@data/services';
+import {
+  Hospital,
+  OptionalMobility,
+  RotationService,
+  Specialty,
+  Student,
+} from '@data/interfaces';
+import { OptionalMobilitiesService } from '@data/services';
 
 @Component({
   selector: 'app-optional-mobilities-page',
@@ -24,11 +31,31 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       Validators.required,
     ]),
   });
-  optionalMobilities: OptionalMobility[] = [];
-  displayedColumns = ['student', 'hospital', 'rotationService'];
+  optionalMobilities: {
+    specialty?: Specialty;
+    _id?: string;
+    student?: Student;
+    hospital?: Hospital;
+    rotationService?: RotationService;
+    period?: string;
+    documents?: {
+      solicitudeDocument?: string;
+      presentationOfficeDocument?: string;
+      acceptanceDocument?: string;
+      evaluationDocument?: string;
+    };
+  }[] = [];
+  displayedColumns = [
+    'student',
+    'hospital',
+    'rotationService',
+    'period',
+    'documents',
+  ];
 
   constructor(
     private optionalMobilitiesService: OptionalMobilitiesService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -63,8 +90,8 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.finalDate.setValue(
         this.interval.finalMonths[index].value
       );
-      this.getOptionalMobilities();
     }
+    this.getOptionalMobilities();
   }
 
   finalDateChanged(): void {
@@ -82,14 +109,59 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.initialDate.setValue(
         this.interval.initialMonths[index].value
       );
-      this.getOptionalMobilities();
     }
+    this.getOptionalMobilities();
   }
 
   async getOptionalMobilities(): Promise<void> {
-    this.optionalMobilities = await this.optionalMobilitiesService.getAll(
+    this.loading = true;
+    this.optionalMobilities = [];
+    const data = await this.optionalMobilitiesService.getAll(
       this.intervalFormControl.controls.initialDate.value!,
       this.intervalFormControl.controls.finalDate.value!
     );
+    data.sort((a, b) => a.value.localeCompare(b.value));
+    data.map((specialty) => {
+      this.optionalMobilities.push({
+        specialty: {
+          _id: specialty._id,
+          value: specialty.value,
+          duration: NaN,
+        },
+      });
+      ((specialty as any).optionalMobilities as OptionalMobility[]).sort(
+        (a, b) =>
+          (a.student as Student).firstLastName.localeCompare(
+            (b.student as Student).firstLastName
+          )
+      );
+      ((specialty as any).optionalMobilities as OptionalMobility[]).map(
+        (optionalMobility) => {
+          this.optionalMobilities.push({
+            _id: optionalMobility._id,
+            hospital: optionalMobility.hospital as Hospital,
+            student: optionalMobility.student as Student,
+            rotationService:
+              optionalMobility.rotationService as RotationService,
+            period: this.optionalMobilitiesService.getPeriod(
+              new Date(optionalMobility.initialDate),
+              new Date(optionalMobility.finalDate)
+            ),
+            documents: {
+              acceptanceDocument: optionalMobility.acceptanceDocument,
+              evaluationDocument: optionalMobility.evaluationDocument,
+              presentationOfficeDocument:
+                optionalMobility.presentationOfficeDocument,
+              solicitudeDocument: optionalMobility.solicitudeDocument,
+            },
+          });
+        }
+      );
+    });
+    this.loading = false;
+  }
+
+  async updateOptionalMobility(row: OptionalMobility) {
+    this.router.navigate([this.paths.BASE_PATH, row._id!]);
   }
 }
