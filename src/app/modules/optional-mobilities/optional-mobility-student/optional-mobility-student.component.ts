@@ -26,6 +26,8 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OptionalMobilityDocumentTypes } from '@data/types/optional-mobility-document.type';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 export const MY_FORMATS = {
   parse: {
@@ -64,6 +66,10 @@ export class OptionalMobilityStudentComponent implements OnInit {
     finalDate: new FormControl<Date>(new Date(), [Validators.required]),
     rotationService: new FormControl<string>('', [Validators.required]),
   });
+  solicitudeDocument: SafeResourceUrl | null = null;
+  presentationOfficeDocument: SafeResourceUrl | null = null;
+  acceptanceDocument: SafeResourceUrl | null = null;
+  evaluationDocument: SafeResourceUrl | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -88,7 +94,9 @@ export class OptionalMobilityStudentComponent implements OnInit {
     });
   }
 
-  async getOptionalMobility(_id: string): Promise<void> {
+  async getOptionalMobility(
+    _id: string = this.optionalMobility!._id!
+  ): Promise<void> {
     this.loading = true;
     this.optionalMobility = await this.optionalMobilitiesService.get(_id);
     if (this.optionalMobility) {
@@ -99,18 +107,45 @@ export class OptionalMobilityStudentComponent implements OnInit {
       this.rotationServices = await this.rotationServicesService.getAll(
         (student!.specialty as Specialty)._id!
       );
-      this.optionalMobilityFormControl.controls.hospital.setValue(
-        this.optionalMobility.hospital as string
-      );
-      this.optionalMobilityFormControl.controls.initialDate.setValue(
-        this.optionalMobility.initialDate
-      );
-      this.optionalMobilityFormControl.controls.finalDate.setValue(
-        this.optionalMobility.finalDate
-      );
-      this.optionalMobilityFormControl.controls.rotationService.setValue(
-        this.optionalMobility.rotationService as string
-      );
+      this.optionalMobilityFormControl.setValue({
+        hospital: this.optionalMobility.hospital as string,
+        initialDate: this.optionalMobility.initialDate,
+        finalDate: this.optionalMobility.finalDate,
+        rotationService: this.optionalMobility.rotationService as string,
+      });
+      this.solicitudeDocument =
+        this.presentationOfficeDocument =
+        this.acceptanceDocument =
+        this.evaluationDocument =
+          null;
+      if (this.optionalMobility.solicitudeDocument) {
+        this.solicitudeDocument =
+          await this.optionalMobilitiesService.getDocument(
+            this.optionalMobility!._id!,
+            'solicitudeDocument'
+          );
+      }
+      if (this.optionalMobility.presentationOfficeDocument) {
+        this.presentationOfficeDocument =
+          await this.optionalMobilitiesService.getDocument(
+            this.optionalMobility!._id!,
+            'presentationOfficeDocument'
+          );
+      }
+      if (this.optionalMobility.acceptanceDocument) {
+        this.acceptanceDocument =
+          await this.optionalMobilitiesService.getDocument(
+            this.optionalMobility!._id!,
+            'acceptanceDocument'
+          );
+      }
+      if (this.optionalMobility.evaluationDocument) {
+        this.evaluationDocument =
+          await this.optionalMobilitiesService.getDocument(
+            this.optionalMobility!._id!,
+            'evaluationDocument'
+          );
+      }
       this.loading = false;
     } else
       this.router.navigate([PATHS.ERROR.BASE_PATH, PATHS.ERROR.PAGE_NOT_FOUND]);
@@ -171,5 +206,32 @@ export class OptionalMobilityStudentComponent implements OnInit {
   async deleteOptionalMobility(): Promise<void> {
     await this.optionalMobilitiesService.delete(this.optionalMobility!._id!);
     this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
+  }
+
+  async updateFile(
+    event: any,
+    type: OptionalMobilityDocumentTypes
+  ): Promise<void> {
+    this.loading = true;
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.optionalMobilitiesService.updateDocument(
+        this.optionalMobility!._id!,
+        type,
+        formData
+      );
+      await this.getOptionalMobility();
+    }
+  }
+
+  async deleteFile(type: OptionalMobilityDocumentTypes): Promise<void> {
+    this.loading = true;
+    await this.optionalMobilitiesService.deleteDocument(
+      this.optionalMobility!._id!,
+      type
+    );
+    await this.getOptionalMobility();
   }
 }

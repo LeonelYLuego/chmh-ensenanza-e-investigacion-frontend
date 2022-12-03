@@ -77,6 +77,191 @@
     <button mat-raised-button color="warn" (click)="deleteOptionalMobility()">
       Eliminar Movilidad Optativa
     </button>
+    <h2>Documentos</h2>
+    <h3>
+      Solicitud
+      <button
+        *ngIf="!optionalMobility.solicitudeDocument"
+        (click)="solicitudeDocumentUploader.click()"
+        mat-raised-button
+        color="primary"
+        class="document-button"
+      >
+        Agregar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.solicitudeDocument"
+        (click)="solicitudeDocumentUploader.click()"
+        mat-raised-button
+        color="accent"
+        class="document-button"
+      >
+        Editar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.solicitudeDocument"
+        (click)="deleteFile('solicitudeDocument')"
+        mat-raised-button
+        color="warn"
+        class="document-button"
+      >
+        Eliminar Archivo
+      </button>
+    </h3>
+    <input
+      hidden
+      accept=".pdf"
+      type="file"
+      #solicitudeDocumentUploader
+      (change)="updateFile($event, 'solicitudeDocument')"
+    />
+    <div *ngIf="optionalMobility.solicitudeDocument">
+      <iframe
+        *ngIf="solicitudeDocument"
+        [src]="solicitudeDocument"
+        width="100%"
+        height="600"
+      >
+      </iframe>
+    </div>
+    <h3>
+      Aceptación
+      <button
+        *ngIf="!optionalMobility.acceptanceDocument"
+        (click)="acceptanceDocumentUploader.click()"
+        mat-raised-button
+        color="primary"
+        class="document-button"
+      >
+        Agregar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.acceptanceDocument"
+        (click)="acceptanceDocumentUploader.click()"
+        mat-raised-button
+        color="accent"
+        class="document-button"
+      >
+        Editar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.acceptanceDocument"
+        (click)="deleteFile('acceptanceDocument')"
+        mat-raised-button
+        color="warn"
+        class="document-button"
+      >
+        Eliminar Archivo
+      </button>
+    </h3>
+    <input
+      hidden
+      accept=".pdf"
+      type="file"
+      #acceptanceDocumentUploader
+      (change)="updateFile($event, 'acceptanceDocument')"
+    />
+    <div *ngIf="optionalMobility.acceptanceDocument">
+      <iframe
+        *ngIf="acceptanceDocument"
+        [src]="acceptanceDocument"
+        width="100%"
+        height="600"
+      >
+      </iframe>
+    </div>
+    <h3>
+      Oficio de Presentación
+      <button
+        *ngIf="!optionalMobility.presentationOfficeDocument"
+        (click)="presentationOfficeDocumentUploader.click()"
+        mat-raised-button
+        color="primary"
+        class="document-button"
+      >
+        Agregar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.presentationOfficeDocument"
+        (click)="presentationOfficeDocumentUploader.click()"
+        mat-raised-button
+        color="accent"
+        class="document-button"
+      >
+        Editar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.presentationOfficeDocument"
+        (click)="deleteFile('presentationOfficeDocument')"
+        mat-raised-button
+        color="warn"
+        class="document-button"
+      >
+        Eliminar Archivo
+      </button>
+    </h3>
+    <input
+      hidden
+      accept=".pdf"
+      type="file"
+      #presentationOfficeDocumentUploader
+      (change)="updateFile($event, 'presentationOfficeDocument')"
+    />
+    <div *ngIf="optionalMobility.presentationOfficeDocument">
+      <iframe
+        *ngIf="presentationOfficeDocument"
+        [src]="presentationOfficeDocument"
+        width="100%"
+        height="600"
+      >
+      </iframe>
+    </div>
+    <h3>
+      Aceptación
+      <button
+        *ngIf="!optionalMobility.evaluationDocument"
+        (click)="evaluationDocumentUploader.click()"
+        mat-raised-button
+        color="primary"
+        class="document-button"
+      >
+        Agregar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.evaluationDocument"
+        (click)="evaluationDocumentUploader.click()"
+        mat-raised-button
+        color="accent"
+        class="document-button"
+      >
+        Editar Archivo
+      </button>
+      <button
+        *ngIf="optionalMobility.evaluationDocument"
+        (click)="deleteFile('evaluationDocument')"
+        mat-raised-button
+        color="warn"
+        class="document-button"
+      >
+        Eliminar Archivo
+      </button>
+    </h3>
+    <input
+      hidden
+      accept=".pdf"
+      type="file"
+      #evaluationDocumentUploader
+      (change)="updateFile($event, 'evaluationDocument')"
+    />
+    <div *ngIf="optionalMobility.evaluationDocument">
+      <iframe
+        *ngIf="evaluationDocument"
+        [src]="evaluationDocument"
+        width="100%"
+        height="600"
+      >
+      </iframe>
+    </div>
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-raised-button color="basic" routerLink="..">Cancelar</button>

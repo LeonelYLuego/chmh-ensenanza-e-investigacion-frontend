@@ -77,5 +77,8 @@ export const SERVER_ENDPOINTS = {
       return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/${_id}`;
     },
     INTERVAL: SERVER_RESOURCES.OPTIONAL_MOBILITIES + '/interval',
+    BY_DOCUMENT_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/document/${_id}`;
+    },
   },
 };

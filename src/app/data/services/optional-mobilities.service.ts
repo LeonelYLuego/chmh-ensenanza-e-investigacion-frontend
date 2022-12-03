@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { SERVER_ENDPOINTS } from '@core/constants';
 import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
@@ -6,6 +7,7 @@ import {
   OptionalMobility,
   OptionalMobilityBySpecialtyDto,
 } from '@data/interfaces';
+import { OptionalMobilityDocumentTypes } from '@data/types/optional-mobility-document.type';
 
 @Injectable()
 export class OptionalMobilitiesService {
@@ -145,5 +147,42 @@ export class OptionalMobilitiesService {
     } de ${initialDate.getFullYear()} - ${finalDate.getDate()} de ${
       this.months[finalDate.getMonth()]
     } de ${finalDate.getFullYear()}`;
+  }
+
+  async getDocument(
+    _id: string,
+    type: OptionalMobilityDocumentTypes
+  ): Promise<SafeResourceUrl | null> {
+    let data = await this.http.getFileUrl(
+      SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.BY_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+    return data ?? null;
+  }
+
+  async updateDocument(
+    _id: string,
+    type: OptionalMobilityDocumentTypes,
+    formData: FormData
+  ): Promise<OptionalMobility | null> {
+    let data = await this.http.put<OptionalMobility | null>(
+      SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.BY_DOCUMENT_ID(_id),
+      formData,
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+    return data ?? null;
+  }
+
+  async deleteDocument(
+    _id: string,
+    type: OptionalMobilityDocumentTypes
+  ): Promise<void> {
+    await this.http.delete<void>(
+      SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.BY_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
   }
 }
