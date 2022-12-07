@@ -4,17 +4,49 @@
   <mat-dialog-content>
     <mat-form-field class="full-width">
       <mat-label>Especialidad</mat-label>
-      <input matInput [formControl]="value" />
-      <mat-error
-        *ngIf="value.hasError('required') || value.hasError('minlength')"
-      >Especialidad <strong>Inválida</strong></mat-error>
+      <input matInput [formControl]="specialtyFormControl.controls.value" />
+      <mat-error *ngIf="specialtyFormControl.controls.value.invalid"
+        >Especialidad <strong>Inválida</strong></mat-error
+      >
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Duración (años)</mat-label>
-      <input matInput [formControl]="duration" type="number" min="1" max="6" value="3">
+      <input
+        matInput
+        [formControl]="specialtyFormControl.controls.duration"
+        type="number"
+        min="1"
+        max="6"
+        value="3"
+      />
+      <mat-error *ngIf="specialtyFormControl.controls.duration.invalid"
+        >Duración <strong>Inválida</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Jefe de Servicio</mat-label>
+      <input
+        matInput
+        [formControl]="specialtyFormControl.controls.headOfService"
+      />
+      <mat-error *ngIf="specialtyFormControl.controls.headOfService.invalid"
+        >Jefe de Servicio <strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Profesor Titular</mat-label>
+      <input
+        matInput
+        [formControl]="
+          specialtyFormControl.controls.tenuredPostgraduateProfessor
+        "
+      />
       <mat-error
-        *ngIf="duration.invalid"
-      >Duración <strong>Inválida</strong></mat-error>
+        *ngIf="
+          specialtyFormControl.controls.tenuredPostgraduateProfessor.invalid
+        "
+        >Profesor Titular <strong>Inválido</strong></mat-error
+      >
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

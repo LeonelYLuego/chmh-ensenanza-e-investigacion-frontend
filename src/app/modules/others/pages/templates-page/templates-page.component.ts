@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TemplatesService } from '@data/services/templates.service';
 
 @Component({
@@ -7,11 +8,25 @@ import { TemplatesService } from '@data/services/templates.service';
   styleUrls: ['./templates-page.component.css'],
 })
 export class TemplatesPageComponent implements OnInit {
-  constructor(private templatesService: TemplatesService) {}
+  constructor(
+    private templatesService: TemplatesService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {}
 
-  async updateSocialServicePresentationOfficeTemplate(event: any) {
+  showEditedSnackBar(): void {
+    this.snackBar.open('Plantilla Actualizada', undefined, {
+      duration: 2000,
+      panelClass: 'accent-snackbar',
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+    });
+  }
+
+  async updateSocialServicePresentationOfficeTemplate(
+    event: any
+  ): Promise<void> {
     const file: File = event.target.files[0];
     if (file) {
       const formData = new FormData();
@@ -21,6 +36,7 @@ export class TemplatesPageComponent implements OnInit {
         'presentationOfficeDocument',
         formData
       );
+      this.showEditedSnackBar();
     }
   }
 }

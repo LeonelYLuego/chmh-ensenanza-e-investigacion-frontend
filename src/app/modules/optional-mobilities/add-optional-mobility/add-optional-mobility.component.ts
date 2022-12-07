@@ -10,6 +10,7 @@ import {
   MAT_DATE_FORMATS,
 } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PATHS } from '@core/constants';
 import {
@@ -25,6 +26,8 @@ import {
   SpecialtiesService,
   StudentsService,
 } from '@data/services';
+import { HospitalDialogComponent } from '@shared/hospital-dialog';
+import { RotationServiceDialogComponent } from '@shared/rotation-service-dialog';
 import { Moment } from 'moment';
 
 export const MY_FORMATS = {
@@ -93,7 +96,8 @@ export class AddOptionalMobilityComponent implements OnInit {
     private rotationServicesService: RotationServicesService,
     private studentsService: StudentsService,
     private hospitalsService: HospitalsService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -170,6 +174,44 @@ export class AddOptionalMobilityComponent implements OnInit {
         })
       )
         this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
+    }
+  }
+
+  async addHospitalDialog(): Promise<void> {
+    const dialogRef = this.dialog.open(HospitalDialogComponent, {
+      maxWidth: '500px',
+      width: '80%',
+      position: {
+        top: '10px',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(async () => {
+      this.hospitals = await this.hospitalsService.getAll();
+    });
+  }
+
+  async addRotationServiceDialog(): Promise<void> {
+    if (this.optionalMobilityFormControl.controls.specialty.value) {
+      const dialogRef = this.dialog.open(RotationServiceDialogComponent, {
+        maxWidth: '500px',
+        width: '80%',
+        position: {
+          top: '10px',
+        },
+        data: {
+          specialty:
+            this.optionalMobilityFormControl.controls.specialty.value ??
+            undefined,
+          disableSpecialty: true,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe(async () => {
+        this.rotationServices = await this.rotationServicesService.getAll(
+          this.optionalMobilityFormControl.controls.specialty.value!
+        );
+      });
     }
   }
 }

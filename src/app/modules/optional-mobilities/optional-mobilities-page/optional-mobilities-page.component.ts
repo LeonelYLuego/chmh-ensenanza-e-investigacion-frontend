@@ -127,6 +127,8 @@ export class OptionalMobilitiesPageComponent implements OnInit {
           _id: specialty._id,
           value: specialty.value,
           duration: NaN,
+          headOfService: '',
+          tenuredPostgraduateProfessor: '',
         },
       });
       ((specialty as any).optionalMobilities as OptionalMobility[]).sort(

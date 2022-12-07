@@ -2,3 +2,7 @@
     width: 100%;
     max-width: 500px;
 }
+
+.add-dialog-button {
+    margin-left: 20px;
+}

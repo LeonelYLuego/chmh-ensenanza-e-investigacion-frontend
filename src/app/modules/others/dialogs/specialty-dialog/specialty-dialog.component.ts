@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Specialty } from '@data/interfaces';
 import { SpecialtiesService } from '@data/services';
@@ -11,17 +11,37 @@ import { SpecialtiesService } from '@data/services';
 })
 /** @class Specialty Dialog Component */
 export class SpecialtyDialogComponent implements OnInit {
-  value = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  duration = new FormControl<number | string>('', [Validators.required, Validators.min(1), Validators.max(6)]);
+  specialtyFormControl = new FormGroup({
+    value: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    duration: new FormControl<number | string>('', [
+      Validators.required,
+      Validators.min(1),
+      Validators.max(6),
+    ]),
+    tenuredPostgraduateProfessor: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(128),
+    ]),
+    headOfService: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(128),
+    ]),
+  });
 
   constructor(
     private dialogRef: MatDialogRef<SpecialtyDialogComponent>,
     private specialtiesService: SpecialtiesService,
     @Inject(MAT_DIALOG_DATA) public data: Specialty | undefined
   ) {
-    if (data){
-      this.value.setValue(data.value);
-      this.duration.setValue(data.duration);
+    if (data) {
+      this.specialtyFormControl.setValue({
+        value: data.value,
+        duration: data.duration,
+        headOfService: data.headOfService,
+        tenuredPostgraduateProfessor: data.tenuredPostgraduateProfessor,
+      });
     }
   }
 
@@ -32,25 +52,32 @@ export class SpecialtyDialogComponent implements OnInit {
    * @async
    */
   async addSpecialty(): Promise<void> {
-    if (this.value.valid)
+    if (this.specialtyFormControl.valid) {
+      const values = this.specialtyFormControl.value;
       if (
         await this.specialtiesService.add({
-          value: this.value.value!,
-          duration: this.duration.value as number
+          value: values.value!,
+          duration: values.duration as number,
+          headOfService: values.headOfService!,
+          tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
         })
       )
         this.close();
+    }
   }
 
   /**
    * Sends the dialog data to the server to update the Specialty
    */
   async updateSpecialty(): Promise<void> {
-    if (this.value.valid) {
+    if (this.specialtyFormControl.valid) {
+      const values = this.specialtyFormControl.value;
       if (
         await this.specialtiesService.update(this.data!._id!, {
-          value: this.value.value!,
-          duration: this.duration.value as number
+          value: values.value!,
+          duration: values.duration as number,
+          headOfService: values.headOfService!,
+          tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
         })
       )
         this.close();

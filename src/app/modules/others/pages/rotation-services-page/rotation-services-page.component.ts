@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { RotationService, Specialty } from '@data/interfaces';
 import { RotationServicesService, SpecialtiesService } from '@data/services';
-import { RotationServiceDialogComponent } from '@others/dialogs/rotation-service-dialog';
+import { RotationServiceDialogComponent } from '@shared/rotation-service-dialog';
 import { DeleteDialogComponent } from '@shared/delete-dialog';
 
 @Component({

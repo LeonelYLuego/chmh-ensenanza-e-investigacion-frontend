@@ -110,6 +110,14 @@
           >Hospital <strong>Inválido</strong></mat-error
         >
       </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addHospitalDialog()"
+        class="add-dialog-button"
+      >
+        Agregar Hospital
+      </button>
       <br />
       <mat-form-field appearance="outline" class="long-width">
         <mat-label>Servicio a Rotar</mat-label>
@@ -127,6 +135,15 @@
           >Servicio a Rotar <strong>Inválido</strong></mat-error
         >
       </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addRotationServiceDialog()"
+        class="add-dialog-button"
+        [disabled]="!optionalMobilityFormControl.controls.specialty.value"
+      >
+        Agregar Servicio a Rotar
+      </button>
     </mat-card-content>
   </form>
   <mat-card-actions align="end">

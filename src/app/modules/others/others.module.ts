@@ -23,7 +23,7 @@ import { HospitalsPageComponent } from './pages/hospitals-page/hospitals-page.co
 import { OthersRoutingModule } from './others-routing.module';
 import { TemplatesPageComponent } from './pages/templates-page/templates-page.component';
 import { RotationServicesPageComponent } from './pages/rotation-services-page/rotation-services-page.component';
-import { RotationServiceDialogComponent } from './dialogs/rotation-service-dialog/rotation-service-dialog.component';
+import { RotationServiceDialogComponent } from '../../shared/rotation-service-dialog/rotation-service-dialog.component';
 
 /** @class Others Module */
 @NgModule({

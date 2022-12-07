@@ -9,5 +9,11 @@ export interface Specialty {
   /** @property {number} duration */
   duration: number;
 
+  /** @property {string} tenuredPostgraduateProfessor */
+  tenuredPostgraduateProfessor: string;
+
+  /** @property {string} headOfService */
+  headOfService: string;
+
   __v?: number;
 }

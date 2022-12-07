@@ -28,6 +28,7 @@ export class RotationServiceDialogComponent implements OnInit {
     public data: {
       rotationService: RotationService | undefined;
       specialty: string | undefined;
+      disableSpecialty: boolean | undefined;
     },
     private rotationServicesService: RotationServicesService,
     private specialtiesService: SpecialtiesService
@@ -45,6 +46,8 @@ export class RotationServiceDialogComponent implements OnInit {
         this.rotationServiceFormControl.controls.specialty.setValue(
           this.data.specialty
         );
+        if (this.data.disableSpecialty)
+          this.rotationServiceFormControl.controls.specialty.disable();
       } else {
         if (this.specialties.length > 0) {
           this.rotationServiceFormControl.controls.specialty.setValue(
