@@ -41,6 +41,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Optional Mobility Student component */
 @Component({
   selector: 'app-optional-mobility-student',
   templateUrl: './optional-mobility-student.component.html',
@@ -82,6 +83,7 @@ export class OptionalMobilityStudentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    //Validates if the param id is correct
     this.route.params.subscribe(async (params) => {
       const _id = params['_id'];
       if (/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(_id)) {
@@ -94,16 +96,22 @@ export class OptionalMobilityStudentComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets the Optional Mobility
+   * @param _id
+   */
   async getOptionalMobility(
     _id: string = this.optionalMobility!._id!
   ): Promise<void> {
     this.loading = true;
     this.optionalMobility = await this.optionalMobilitiesService.get(_id);
     if (this.optionalMobility) {
+      //Gets all Hospitals
       this.hospitals = await this.hospitalsService.getAll();
       const student = await this.studentsService.get(
         this.optionalMobility.student as string
       );
+      //Gets all Rotation Service based on the Student Specialty
       this.rotationServices = await this.rotationServicesService.getAll(
         (student!.specialty as Specialty)._id!
       );
@@ -118,7 +126,9 @@ export class OptionalMobilityStudentComponent implements OnInit {
         this.acceptanceDocument =
         this.evaluationDocument =
           null;
+      //If the document exists
       if (this.optionalMobility.solicitudeDocument) {
+        //Gets the document and saves it in the variable
         this.solicitudeDocument =
           await this.optionalMobilitiesService.getDocument(
             this.optionalMobility!._id!,
@@ -151,6 +161,11 @@ export class OptionalMobilityStudentComponent implements OnInit {
       this.router.navigate([PATHS.ERROR.BASE_PATH, PATHS.ERROR.PAGE_NOT_FOUND]);
   }
 
+  /**
+   * Gets the month and year of the date picker and sets it to the initial date
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setInitialMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -161,6 +176,11 @@ export class OptionalMobilityStudentComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Gets the month and year of the date picker and sets it to the final date
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setFinalMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -171,6 +191,9 @@ export class OptionalMobilityStudentComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Sends the information to the server to update an Optional Mobility
+   */
   async updateOptionalMobility(): Promise<void> {
     if (this.optionalMobilityFormControl.valid) {
       const values = this.optionalMobilityFormControl.value;
@@ -190,6 +213,7 @@ export class OptionalMobilityStudentComponent implements OnInit {
           student: this.optionalMobility!.student,
         }
       );
+      //If the Optional Mobility is updated shows a SnackBar to notify the user
       if (data) {
         this.optionalMobility = data;
         this.snackBar.open('Movilidad Optativa editada', undefined, {
@@ -203,11 +227,19 @@ export class OptionalMobilityStudentComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes a Optional Mobility in the server
+   */
   async deleteOptionalMobility(): Promise<void> {
     await this.optionalMobilitiesService.delete(this.optionalMobility!._id!);
     this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
   }
 
+  /**
+   * Updates the specified Optional Mobility document in the server
+   * @param event
+   * @param type
+   */
   async updateFile(
     event: any,
     type: OptionalMobilityDocumentTypes
@@ -226,6 +258,10 @@ export class OptionalMobilityStudentComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes the specified Optional Mobility document in the server
+   * @param type
+   */
   async deleteFile(type: OptionalMobilityDocumentTypes): Promise<void> {
     this.loading = true;
     await this.optionalMobilitiesService.deleteDocument(

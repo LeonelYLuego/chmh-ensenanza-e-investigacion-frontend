@@ -4,12 +4,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Specialty } from '@data/interfaces';
 import { SpecialtiesService } from '@data/services';
 
+/** @class Specialty Dialog Component */
 @Component({
   selector: 'app-specialty-dialog',
   templateUrl: './specialty-dialog.component.html',
   styleUrls: ['./specialty-dialog.component.css'],
 })
-/** @class Specialty Dialog Component */
 export class SpecialtyDialogComponent implements OnInit {
   specialtyFormControl = new FormGroup({
     value: new FormControl('', [Validators.required, Validators.minLength(3)]),

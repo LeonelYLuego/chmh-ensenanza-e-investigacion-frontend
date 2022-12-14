@@ -4,6 +4,7 @@ import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
 import { SocialServiceDocumentTypes } from '@data/types/social-service-document.type';
 
+/** Templates service */
 @Injectable()
 export class TemplatesService {
   readonly forbiddenErrors: ForbiddenErrorInterface[] = [
@@ -15,6 +16,12 @@ export class TemplatesService {
 
   constructor(private http: HttpPetitions) {}
 
+  /**
+   * Updates a Temple in the server
+   * @param document
+   * @param type
+   * @param formData
+   */
   async update(
     document: 'socialService',
     type: SocialServiceDocumentTypes,

@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SERVER_RESOURCES } from '@core/constants';
-import { HttpPetitions } from '@core/services';
 import { Specialty } from '@data/interfaces';
 import { SpecialtiesService } from '@data/services';
 import { DeleteDialogComponent } from '@shared/delete-dialog';
 import { SpecialtyDialogComponent } from '../../dialogs/specialty-dialog/specialty-dialog.component';
 
+/** @class Specialties Page Component */
 @Component({
   selector: 'app-specialties-page',
   templateUrl: './specialties-page.component.html',
   styleUrls: ['./specialties-page.component.css'],
 })
-/** @class Specialties Page Component */
 export class SpecialtiesPageComponent implements OnInit {
   specialties: Specialty[] = [];
   err: any;
@@ -20,7 +18,6 @@ export class SpecialtiesPageComponent implements OnInit {
   loading = false;
 
   constructor(
-    private http: HttpPetitions,
     private dialog: MatDialog,
     private specialtiesService: SpecialtiesService
   ) {}

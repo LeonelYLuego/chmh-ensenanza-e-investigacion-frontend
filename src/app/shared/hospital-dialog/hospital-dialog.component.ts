@@ -4,12 +4,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Hospital } from '@data/interfaces';
 import { HospitalsService } from '@data/services';
 
+/** @class Hospital Dialog Component */
 @Component({
   selector: 'app-hospital-dialog',
   templateUrl: './hospital-dialog.component.html',
   styleUrls: ['./hospital-dialog.component.css'],
 })
-/** @class Hospital Dialog Component */
 export class HospitalDialogComponent implements OnInit {
   private textValidators = [
     Validators.required,

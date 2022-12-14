@@ -7,6 +7,7 @@ import { PATHS, SERVER_ENDPOINTS } from '@core/constants';
 import { HttpResponse } from '@core/interfaces/http-response.interface';
 import { ForbiddenErrorInterface } from '@core/interfaces';
 
+/** Users service */
 @Injectable({
   providedIn: 'root',
 })
@@ -88,7 +89,7 @@ export class UsersService {
   }
 
   /**
-   * Gets if the User is logged in based on the token storaged in local storage
+   * Gets if the User is logged in based on the token storage in local storage
    * @async
    * @function logged
    * @returns {Promise<boolean>} `true`: the user is logged, `false` the user is not logged

@@ -8,6 +8,7 @@ import {
   SpecialtiesService,
 } from '@data/services';
 
+/** Social Service generate document component */
 @Component({
   selector: 'app-social-service-generate-documents',
   templateUrl: './social-service-generate-documents.component.html',
@@ -48,6 +49,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
+    //Sets the fist value of hospital and specialties to all
     this.hospitals = (
       [
         {
@@ -82,6 +84,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     this.loading = false;
   }
 
+  //Validates a period
   private validatePeriod(): boolean {
     const value = this.filtersFormControl.value;
     const initial = value.initialPeriod!;
@@ -92,6 +95,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     );
   }
 
+  //If the initial period change and is greater than final period, final period will be equal to initial period
   initialPeriodChange() {
     if (this.validatePeriod()) {
       const value = this.filtersFormControl.value.initialPeriod!;
@@ -106,6 +110,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     }
   }
 
+  //If the final period change and is below than initial period, initial period will be equal to final period
   finalPeriodChange() {
     if (this.validatePeriod()) {
       const value = this.filtersFormControl.value.finalPeriod!;
@@ -120,9 +125,11 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     }
   }
 
+  //Send the information to the server to generate the documents
   async generate() {
     if (this.filtersFormControl.valid) {
       const values = this.filtersFormControl.value;
+      //Receives a zip file as blob object
       const blob = await this.socialServicesService.generateDocuments(
         values.initialNumberOfDocuments!,
         values.dateOfDocuments!,
@@ -135,6 +142,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
       );
 
       if (blob) {
+        //Creates an url and opens it
         var url = window.URL.createObjectURL(blob);
         var anchor = document.createElement('a');
         anchor.download = 'Oficios de Presentación.zip';

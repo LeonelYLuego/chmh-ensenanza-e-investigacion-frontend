@@ -11,6 +11,7 @@ import {
 } from '@data/interfaces';
 import { OptionalMobilitiesService } from '@data/services';
 
+/** Optional Mobilities page component */
 @Component({
   selector: 'app-optional-mobilities-page',
   templateUrl: './optional-mobilities-page.component.html',
@@ -59,6 +60,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    //Gets the interval to find the Optional Mobilities
     this.interval = await this.optionalMobilitiesService.interval();
     if (
       this.interval.initialMonths.length > 0 &&
@@ -75,6 +77,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
     }
   }
 
+  /** If the initial date change and it is greater than the final date, sets the final date equal to the initial date */
   initialDateChanged(): void {
     if (
       this.intervalFormControl.controls.initialDate.value!.getTime() >
@@ -94,6 +97,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
     this.getOptionalMobilities();
   }
 
+  /** If the final date change and it is less than the initial date, sets the initial date equal to the final date */
   finalDateChanged(): void {
     if (
       this.intervalFormControl.controls.finalDate.value!.getTime() <
@@ -113,6 +117,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
     this.getOptionalMobilities();
   }
 
+  /** Gets Optional Mobilities */
   async getOptionalMobilities(): Promise<void> {
     this.loading = true;
     this.optionalMobilities = [];
@@ -120,6 +125,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.initialDate.value!,
       this.intervalFormControl.controls.finalDate.value!
     );
+    //Sorts the Optional Mobilities by Specialty
     data.sort((a, b) => a.value.localeCompare(b.value));
     data.map((specialty) => {
       this.optionalMobilities.push({
@@ -131,6 +137,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
           tenuredPostgraduateProfessor: '',
         },
       });
+      //Sorts the Optional Mobilities by Student
       ((specialty as any).optionalMobilities as OptionalMobility[]).sort(
         (a, b) =>
           (a.student as Student).firstLastName.localeCompare(
@@ -139,6 +146,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       );
       ((specialty as any).optionalMobilities as OptionalMobility[]).map(
         (optionalMobility) => {
+          //Add the Optional Mobility to the array of Optional Mobilities
           this.optionalMobilities.push({
             _id: optionalMobility._id,
             hospital: optionalMobility.hospital as Hospital,
@@ -163,6 +171,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /** Opens the Optional Mobility Student page */
   async updateOptionalMobility(row: OptionalMobility) {
     this.router.navigate([this.paths.BASE_PATH, row._id!]);
   }

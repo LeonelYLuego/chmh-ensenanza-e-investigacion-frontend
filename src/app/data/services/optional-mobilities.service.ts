@@ -9,13 +9,40 @@ import {
 } from '@data/interfaces';
 import { OptionalMobilityDocumentTypes } from '@data/types/optional-mobility-document.type';
 
+/** Optional Mobilities service */
 @Injectable()
 export class OptionalMobilitiesService {
   err: any;
-  forbiddenErrors: ForbiddenErrorInterface[] = [];
+  forbiddenErrors: ForbiddenErrorInterface[] = [
+    {
+      errorMessage: 'optional mobility not found',
+      snackbarMessage: 'Movilidad Optativa no encontrada',
+    },
+    {
+      errorMessage: 'optional mobility not modified',
+      snackbarMessage: 'Movilidad Optativa no editada',
+    },
+    {
+      errorMessage: 'optional mobility not deleted',
+      snackbarMessage: 'Movilidad Optativa no eliminada',
+    },
+    {
+      errorMessage: 'document not found',
+      snackbarMessage: 'Documento no encontrado',
+    },
+    {
+      errorMessage: 'file must be a pdf',
+      snackbarMessage: 'El archivo debe ser un PDF',
+    },
+  ];
 
   constructor(private http: HttpPetitions) {}
 
+  /**
+   * Gets a Optional Mobility from the server by Id
+   * @param _id Optional Mobility primary key
+   * @returns The found Optional Mobility
+   */
   async get(_id: string): Promise<OptionalMobility | null> {
     const data = await this.http.get<OptionalMobility>(
       SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.BY_ID(_id),
@@ -24,6 +51,12 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Gets all Optional Mobilities by Date from the server
+   * @param initialDate
+   * @param finalDate
+   * @returns The found Optional Mobilities
+   */
   async getAll(
     initialDate: Date,
     finalDate: Date
@@ -45,6 +78,11 @@ export class OptionalMobilitiesService {
     return data ?? [];
   }
 
+  /**
+   * Adds a Optional Mobility in the server
+   * @param optionalMobility
+   * @returns The created Optional Mobility
+   */
   async add(
     optionalMobility: OptionalMobility
   ): Promise<OptionalMobility | null> {
@@ -56,6 +94,12 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Updates a Optional Mobility in the server by Id
+   * @param _id Optional Mobility primary key
+   * @param optionalMobility
+   * @returns The updated Optional Mobility
+   */
   async update(
     _id: string,
     optionalMobility: OptionalMobility
@@ -68,6 +112,10 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Deletes a Optional Mobility in the server by Id
+   * @param _id Optional Mobility primary key
+   */
   async delete(_id: string): Promise<void> {
     await this.http.delete<void>(
       SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.BY_ID(_id),
@@ -75,6 +123,7 @@ export class OptionalMobilitiesService {
     );
   }
 
+  /** Returns the last day of the specified month and year */
   lastDayOfTheMonth(year: number, month: number): number {
     switch (month + 1) {
       case 1:
@@ -97,6 +146,7 @@ export class OptionalMobilitiesService {
     }
   }
 
+  /** Months as String */
   readonly months = [
     'enero',
     'febrero',
@@ -112,6 +162,10 @@ export class OptionalMobilitiesService {
     'diciembre',
   ];
 
+  /**
+   * Gets the intervals for search
+   * @returns The intervals
+   */
   async interval(): Promise<{
     initialMonths: { name: string; value: Date }[];
     finalMonths: { name: string; value: Date }[];
@@ -141,6 +195,12 @@ export class OptionalMobilitiesService {
     return { initialMonths, finalMonths };
   }
 
+  /**
+   * Gets a period as String
+   * @param initialDate
+   * @param finalDate
+   * @returns The period as String
+   */
   getPeriod(initialDate: Date, finalDate: Date): string {
     return `${initialDate.getDate()} de ${
       this.months[initialDate.getMonth()]
@@ -149,6 +209,12 @@ export class OptionalMobilitiesService {
     } de ${finalDate.getFullYear()}`;
   }
 
+  /**
+   * Gets a Document from the server by the Optional Mobility Id and document type
+   * @param _id Optional Mobility primary key
+   * @param type Document type
+   * @returns The found document
+   */
   async getDocument(
     _id: string,
     type: OptionalMobilityDocumentTypes
@@ -161,6 +227,13 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Updates a Document in the server by the Optional Mobility Id and document type
+   * @param _id Optional Mobility primary key
+   * @param type Document type
+   * @param formData Document
+   * @returns The modified Optional Mobility
+   */
   async updateDocument(
     _id: string,
     type: OptionalMobilityDocumentTypes,
@@ -175,6 +248,11 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Deletes a Document in the server by deh Optional Mobility Id and document type
+   * @param _id Optional Mobility primary key
+   * @param type Document type
+   */
   async deleteDocument(
     _id: string,
     type: OptionalMobilityDocumentTypes

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TemplatesService } from '@data/services/templates.service';
 
+/** Templates page component */
 @Component({
   selector: 'app-templates-page',
   templateUrl: './templates-page.component.html',
@@ -15,6 +16,9 @@ export class TemplatesPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Shows a SnackBar when a template is updated
+   */
   showEditedSnackBar(): void {
     this.snackBar.open('Plantilla Actualizada', undefined, {
       duration: 2000,
@@ -24,6 +28,10 @@ export class TemplatesPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Sends the information to the server to update a Template
+   * @param event
+   */
   async updateSocialServicePresentationOfficeTemplate(
     event: any
   ): Promise<void> {

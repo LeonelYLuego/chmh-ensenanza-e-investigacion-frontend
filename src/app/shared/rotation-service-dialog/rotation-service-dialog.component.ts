@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RotationService, Specialty } from '@data/interfaces';
 import { RotationServicesService, SpecialtiesService } from '@data/services';
 
+/** Rotation Service dialog component */
 @Component({
   selector: 'app-rotation-service-dialog',
   templateUrl: './rotation-service-dialog.component.html',
@@ -58,6 +59,9 @@ export class RotationServiceDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the information to the server to add a Rotation Service
+   */
   async addRotationService(): Promise<void> {
     if (this.rotationServiceFormControl.valid) {
       const value = this.rotationServiceFormControl.value;
@@ -71,6 +75,9 @@ export class RotationServiceDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the information to the server to update a Rotation Service
+   */
   async updateRotationService(): Promise<void> {
     if (this.rotationServiceFormControl.valid) {
       const value = this.rotationServiceFormControl.value;
@@ -87,6 +94,9 @@ export class RotationServiceDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Closes the dialog
+   */
   close(): void {
     this.dialogRef.close();
   }

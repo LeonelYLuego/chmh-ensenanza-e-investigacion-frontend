@@ -16,9 +16,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { OptionalMobilityStudentComponent } from './optional-mobility-student/optional-mobility-student.component';
-import { StudentDialogComponent } from '@shared/student-dialog';
 import { SharedModule } from '@shared/shared.module';
 
+/** Optional Mobilities module */
 @NgModule({
   declarations: [OptionalMobilitiesPageComponent, AddOptionalMobilityComponent, OptionalMobilityStudentComponent],
   imports: [

@@ -6,12 +6,12 @@ import { SpecialtiesService, StudentsService } from '@data/services';
 import { DeleteDialogComponent } from '@shared/delete-dialog';
 import { StudentDialogComponent } from '@shared/student-dialog';
 
+/** @class Student Page Component */
 @Component({
   selector: 'app-students-page',
   templateUrl: './students-page.component.html',
   styleUrls: ['./students-page.component.css'],
 })
-/** @class Student Page Component */
 export class StudentsPageComponent implements OnInit {
   err: any;
   loading = false;

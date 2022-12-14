@@ -42,6 +42,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Add Optional Mobility component */
 @Component({
   selector: 'app-add-optional-mobility',
   templateUrl: './add-optional-mobility.component.html',
@@ -105,6 +106,7 @@ export class AddOptionalMobilityComponent implements OnInit {
     this.hospitals = await this.hospitalsService.getAll();
   }
 
+  /** If Specialty changed gets Rotation Services and Generations */
   async specialtyChanged(): Promise<void> {
     if (this.optionalMobilityFormControl.controls.specialty.valid) {
       this.generations = await this.specialtiesServices.getGenerations(
@@ -123,6 +125,7 @@ export class AddOptionalMobilityComponent implements OnInit {
     }
   }
 
+  /** If generations changed gets Students */
   async generationChanged(): Promise<void> {
     if (this.optionalMobilityFormControl.controls.generation.valid) {
       this.students = await this.studentsService.getAll(
@@ -137,6 +140,7 @@ export class AddOptionalMobilityComponent implements OnInit {
     }
   }
 
+  /** Sets initial date when a year and month is selected */
   setInitialMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -147,6 +151,7 @@ export class AddOptionalMobilityComponent implements OnInit {
     datepicker.close();
   }
 
+  /** Sets final date when a year and month is selected */
   setFinalMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -157,6 +162,7 @@ export class AddOptionalMobilityComponent implements OnInit {
     datepicker.close();
   }
 
+  /** Sends the information to the server to add a Optional Mobility */
   async addOptionalMobility(): Promise<void> {
     if (this.optionalMobilityFormControl.valid) {
       const value = this.optionalMobilityFormControl.value;
@@ -177,6 +183,7 @@ export class AddOptionalMobilityComponent implements OnInit {
     }
   }
 
+  /** Opens a Hospital dialog to add a Hospital */
   async addHospitalDialog(): Promise<void> {
     const dialogRef = this.dialog.open(HospitalDialogComponent, {
       maxWidth: '500px',
@@ -186,11 +193,13 @@ export class AddOptionalMobilityComponent implements OnInit {
       },
     });
 
+    /** Gets again the hospitals */
     dialogRef.afterClosed().subscribe(async () => {
       this.hospitals = await this.hospitalsService.getAll();
     });
   }
 
+  /** Opens a Rotation Service dialog to add a Rotation Service */
   async addRotationServiceDialog(): Promise<void> {
     if (this.optionalMobilityFormControl.controls.specialty.value) {
       const dialogRef = this.dialog.open(RotationServiceDialogComponent, {
@@ -207,6 +216,7 @@ export class AddOptionalMobilityComponent implements OnInit {
         },
       });
 
+      /** Gets again the Rotation Services */
       dialogRef.afterClosed().subscribe(async () => {
         this.rotationServices = await this.rotationServicesService.getAll(
           this.optionalMobilityFormControl.controls.specialty.value!

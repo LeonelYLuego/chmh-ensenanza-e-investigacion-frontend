@@ -1,1 +1,5 @@
-export type SocialServiceDocumentTypes = 'presentationOfficeDocument' | 'reportDocument' | 'constancyDocument';
+/** @type Social Service Document type */
+export type SocialServiceDocumentTypes =
+  | 'presentationOfficeDocument'
+  | 'reportDocument'
+  | 'constancyDocument';

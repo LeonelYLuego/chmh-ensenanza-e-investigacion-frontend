@@ -4,6 +4,7 @@ import { Hospital } from '@data/interfaces';
 import { HospitalsService } from '@data/services';
 import { HospitalDialogComponent } from '@shared/hospital-dialog';
 
+/** Hospital Info component */
 @Component({
   selector: 'app-hospital-info',
   templateUrl: './hospital-info.component.html',
@@ -25,6 +26,7 @@ export class HospitalInfoComponent implements OnInit {
     await this.getHospital();
   }
 
+  /** Gets the hospital from the server */
   async getHospital(): Promise<void> {
     this.hospital = await this.hospitalsService.get(
       (this.id as Hospital)._id
@@ -32,6 +34,7 @@ export class HospitalInfoComponent implements OnInit {
         : (this.id as string)
     );
     if (this.hospital) {
+      //Format the phones, emails and hospital to show
       this.phones = '';
       this.hospital.phones.map((phone) => {
         this.phones += phone + ', ';
@@ -45,6 +48,7 @@ export class HospitalInfoComponent implements OnInit {
     }
   }
 
+  /** Opens the hospital dialog to modify the Hospital */
   updateHospitalDialog(): void {
     const dialogRef = this.dialog.open(HospitalDialogComponent, {
       maxWidth: '500px',

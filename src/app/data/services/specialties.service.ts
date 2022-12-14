@@ -4,10 +4,10 @@ import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
 import { Specialty } from '../interfaces/specialty';
 
+/** Specialties service */
 @Injectable({
   providedIn: 'root',
 })
-/** @class Specialties Service */
 export class SpecialtiesService {
   err: any;
   forbiddenErrors: ForbiddenErrorInterface[] = [

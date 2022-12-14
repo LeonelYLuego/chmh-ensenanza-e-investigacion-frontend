@@ -6,6 +6,7 @@ import { RotationServicesService, SpecialtiesService } from '@data/services';
 import { RotationServiceDialogComponent } from '@shared/rotation-service-dialog';
 import { DeleteDialogComponent } from '@shared/delete-dialog';
 
+/** Rotation Service page component */
 @Component({
   selector: 'app-rotation-services-page',
   templateUrl: './rotation-services-page.component.html',
@@ -28,6 +29,9 @@ export class RotationServicesPageComponent implements OnInit {
     this.specialties = await this.specialtiesService.findAll();
   }
 
+  /**
+   * Gets all Rotation Services by Specialty from the server
+   */
   async getRotationServices(): Promise<void> {
     this.loading = true;
     if (this.specialtyFormControl.value) {
@@ -38,10 +42,16 @@ export class RotationServicesPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * If Specialties input change gets again all Rotation Services
+   */
   async specialtiesSelectionChange(): Promise<void> {
     await this.getRotationServices();
   }
 
+  /**
+   * Opens the Rotation Service dialog to add a new Rotation Service
+   */
   addRotationService(): void {
     const dialogRef = this.dialog.open(RotationServiceDialogComponent, {
       maxWidth: '500px',
@@ -59,6 +69,10 @@ export class RotationServicesPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens the Rotation Service dialog to update a new Rotation Service
+   * @param rotationService
+   */
   updateRotationService(rotationService: RotationService): void {
     const dialogRef = this.dialog.open(RotationServiceDialogComponent, {
       maxWidth: '500px',
@@ -76,6 +90,11 @@ export class RotationServicesPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens the Delete dialog to confirm the deletion of a new Rotation Service
+   * @param _id
+   * @param title
+   */
   async deleteRotationService(_id: string, title: string): Promise<void> {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '500px',
