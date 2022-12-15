@@ -20,7 +20,11 @@ import { SharedModule } from '@shared/shared.module';
 
 /** Optional Mobilities module */
 @NgModule({
-  declarations: [OptionalMobilitiesPageComponent, AddOptionalMobilityComponent, OptionalMobilityStudentComponent],
+  declarations: [
+    OptionalMobilitiesPageComponent,
+    AddOptionalMobilityComponent,
+    OptionalMobilityStudentComponent,
+  ],
   imports: [
     CommonModule,
     OptionalMobilitiesRoutingModule,

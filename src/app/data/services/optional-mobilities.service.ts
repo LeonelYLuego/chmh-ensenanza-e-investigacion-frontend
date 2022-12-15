@@ -12,7 +12,6 @@ import { OptionalMobilityDocumentTypes } from '@data/types/optional-mobility-doc
 /** Optional Mobilities service */
 @Injectable()
 export class OptionalMobilitiesService {
-  err: any;
   forbiddenErrors: ForbiddenErrorInterface[] = [
     {
       errorMessage: 'optional mobility not found',

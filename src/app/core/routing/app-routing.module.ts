@@ -44,6 +44,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: RESOURCE_PATHS.OBLIGATORY_MOBILITIES,
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('@obligatory-mobilities/obligatory-mobilities.module').then(
+        (m) => m.ObligatoryMobilitiesModule
+      ),
+  },
+  {
     path: '**',
     redirectTo: `${PATHS.ERROR.BASE_PATH}/${PATHS.ERROR.PAGE_NOT_FOUND}`,
   },

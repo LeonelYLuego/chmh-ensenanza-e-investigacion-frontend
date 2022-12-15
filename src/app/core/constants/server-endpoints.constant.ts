@@ -13,6 +13,7 @@ export const SERVER_RESOURCES = {
   TEMPLATES: PATHS.SERVER + '/templates',
   ROTATION_SERVICES: PATHS.SERVER + '/rotation-services',
   OPTIONAL_MOBILITIES: PATHS.SERVER + '/optional-mobilities',
+  OBLIGATORY_MOBILITIES: PATHS.SERVER + '/obligatory-mobilities',
 };
 
 /**
@@ -79,6 +80,12 @@ export const SERVER_ENDPOINTS = {
     INTERVAL: SERVER_RESOURCES.OPTIONAL_MOBILITIES + '/interval',
     BY_DOCUMENT_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/document/${_id}`;
+    },
+  },
+  OBLIGATORY_MOBILITIES: {
+    BASE_ENDPOINT: SERVER_RESOURCES.OBLIGATORY_MOBILITIES,
+    BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/${_id}`;
     },
   },
 };

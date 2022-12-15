@@ -16,6 +16,7 @@ import { ErrorPagesModule } from '@error-pages/error-pages.module';
 import { OthersModule } from '@others/others.module';
 import { SocialServicesModule } from '@social-services/social-services.module';
 import { OptionalMobilitiesModule } from 'app/modules/optional-mobilities/optional-mobilities.module';
+import { ObligatoryMobilitiesModule } from 'app/modules/obligatory-mobilities/obligatory-mobilities.module';
 
 /** Application Module */
 @NgModule({
@@ -35,6 +36,7 @@ import { OptionalMobilitiesModule } from 'app/modules/optional-mobilities/option
     OthersModule,
     SocialServicesModule,
     OptionalMobilitiesModule,
+    ObligatoryMobilitiesModule,
 
     MatToolbarModule,
     MatButtonModule,

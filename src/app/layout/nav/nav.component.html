@@ -1,8 +1,14 @@
 <mat-toolbar color="primary" class="nav-bar">
   <span><img src="assets/images/logo-nav.png" /></span>
-  <button mat-button [routerLink]="'/' + paths.SOCIAL_SERVICES">Servicio Social</button>
-  <button mat-button>Movilidades Obligatorias</button>
-  <button mat-button [routerLink]="'/' + paths.OPTIONAL_MOBILITIES">Movilidades Optativas</button>
+  <button mat-button [routerLink]="'/' + paths.SOCIAL_SERVICES">
+    Servicio Social
+  </button>
+  <button mat-button [routerLink]="'/' + paths.OBLIGATORY_MOBILITIES">
+    Movilidades Obligatorias
+  </button>
+  <button mat-button [routerLink]="'/' + paths.OPTIONAL_MOBILITIES">
+    Movilidades Optativas
+  </button>
   <button mat-button>Rotantes</button>
   <button mat-button [routerLink]="'/' + paths.OTHERS">Otros</button>
   <span class="spacer-flex"></span>
