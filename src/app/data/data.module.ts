@@ -5,7 +5,7 @@ import { SpecialtiesService } from './services/specialties.service';
 import { HospitalsService } from './services/hospitals.service';
 import { SocialServicesService } from './services/social-services.service';
 import { TemplatesService } from './services/templates.service';
-import { OptionalMobilitiesService, RotationServicesService } from './services';
+import { ObligatoryMobilitiesService, OptionalMobilitiesService, RotationServicesService } from './services';
 
 @NgModule({
   declarations: [],
@@ -18,6 +18,7 @@ import { OptionalMobilitiesService, RotationServicesService } from './services';
     TemplatesService,
     RotationServicesService,
     OptionalMobilitiesService,
+    ObligatoryMobilitiesService,
   ],
 })
 export class DataModule {}

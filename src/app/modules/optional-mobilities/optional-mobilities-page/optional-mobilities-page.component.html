@@ -65,7 +65,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="hospital">
-        <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+        <th mat-header-cell *matHeaderCellDef>Hospital</th>
         <td
           mat-cell
           *matCellDef="let optionalMobility"
@@ -112,27 +112,35 @@
               *ngIf="optionalMobility.documents.solicitudeDocument"
               color="solicitude"
               selected
-            >Solicitud</mat-chip>
+              >Solicitud</mat-chip
+            >
             <mat-chip
               *ngIf="optionalMobility.documents.presentationOfficeDocument"
               color="presentation-office"
               selected
-            >Oficio de Presentación</mat-chip>
+              >Oficio de Presentación</mat-chip
+            >
             <mat-chip
               *ngIf="optionalMobility.documents.acceptanceDocument"
               color="acceptance"
               selected
-            >Aceptación</mat-chip>
+              >Aceptación</mat-chip
+            >
             <mat-chip
               *ngIf="optionalMobility.documents.evaluationDocument"
               color="evaluation"
               selected
-            >Evaluación</mat-chip>
+              >Evaluación</mat-chip
+            >
           </mat-chip-list>
         </td></ng-container
       >
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="updateOptionalMobility(row)"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="updateOptionalMobility(row)"
+      ></tr>
     </table>
   </mat-card-content>
   <mat-card-footer *ngIf="loading">

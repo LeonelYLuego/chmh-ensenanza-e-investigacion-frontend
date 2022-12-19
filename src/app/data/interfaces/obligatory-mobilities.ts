@@ -29,3 +29,9 @@ export interface ObligatoryMobilityBySpecialty {
 
   obligatoryMobilities: ObligatoryMobility[];
 }
+
+export interface ObligatoryMobilityInterval {
+  initialMonths: { name: string; value: Date }[];
+  
+  finalMonths: { name: string; value: Date }[];
+}

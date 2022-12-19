@@ -50,5 +50,6 @@ export const PATHS = {
   OBLIGATORY_MOBILITIES: {
     BASE_PATH: RESOURCE_PATHS.OBLIGATORY_MOBILITIES,
     BASE: '',
+    ADD: 'agregar',
   },
 };

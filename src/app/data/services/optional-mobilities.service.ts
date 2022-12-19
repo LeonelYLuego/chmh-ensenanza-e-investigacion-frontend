@@ -33,6 +33,10 @@ export class OptionalMobilitiesService {
       errorMessage: 'file must be a pdf',
       snackbarMessage: 'El archivo debe ser un PDF',
     },
+    {
+      errorMessage: 'optional mobility interval not found',
+      snackbarMessage: 'Intervalo de Movilidades Optativas no encontrado'
+    }
   ];
 
   constructor(private http: HttpPetitions) {}
