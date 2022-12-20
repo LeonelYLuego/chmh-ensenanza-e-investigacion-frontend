@@ -81,6 +81,12 @@ export const SERVER_ENDPOINTS = {
     BY_DOCUMENT_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/document/${_id}`;
     },
+    CANCEL_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/cancel/${_id}`;
+    },
+    UNCANCEL_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/uncancel/${_id}`;
+    },
   },
   OBLIGATORY_MOBILITIES: {
     BASE_ENDPOINT: SERVER_RESOURCES.OBLIGATORY_MOBILITIES,

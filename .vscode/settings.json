@@ -26,5 +26,9 @@
         ".browserslistrc",
         "node_modules",
         ".angular"
+    ],
+    "cSpell.words": [
+        "uncancel",
+        "UNCANCEL"
     ]
 }

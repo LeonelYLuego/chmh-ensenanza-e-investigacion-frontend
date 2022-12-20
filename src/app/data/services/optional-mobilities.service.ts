@@ -35,8 +35,8 @@ export class OptionalMobilitiesService {
     },
     {
       errorMessage: 'optional mobility interval not found',
-      snackbarMessage: 'Intervalo de Movilidades Optativas no encontrado'
-    }
+      snackbarMessage: 'Intervalo de Movilidades Optativas no encontrado',
+    },
   ];
 
   constructor(private http: HttpPetitions) {}
@@ -265,5 +265,23 @@ export class OptionalMobilitiesService {
       this.forbiddenErrors,
       [{ name: 'type', value: type }]
     );
+  }
+
+  async cancel(_id: string): Promise<OptionalMobility | null> {
+    const data = await this.http.put<OptionalMobility>(
+      SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.CANCEL_ID(_id),
+      this.forbiddenErrors
+    );
+
+    return data ?? null;
+  }
+
+  async uncancel(_id: string): Promise<OptionalMobility | null> {
+    const data = await this.http.put<OptionalMobility>(
+      SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.UNCANCEL_ID(_id),
+      this.forbiddenErrors
+    );
+
+    return data ?? null;
   }
 }

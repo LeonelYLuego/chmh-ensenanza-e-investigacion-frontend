@@ -15,3 +15,7 @@
   float: right;
   margin-left: 10px;
 }
+
+.canceled-text {
+  color: red;
+}

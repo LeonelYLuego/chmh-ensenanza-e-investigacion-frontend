@@ -365,9 +365,7 @@ export class SocialServicesService {
       },
       {
         name: 'dateOfDocuments',
-        value: `${
-          dateOfDocuments.getMonth() + 1
-        }/${dateOfDocuments.getDate()}/${dateOfDocuments.getFullYear()}`,
+        value: dateOfDocuments.toISOString(),
       },
       {
         name: 'initialPeriod',

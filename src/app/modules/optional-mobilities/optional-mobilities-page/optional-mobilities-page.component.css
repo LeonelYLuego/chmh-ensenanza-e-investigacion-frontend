@@ -21,3 +21,7 @@
 .chip {
   margin-top: 5px !important;
 }
+
+.canceled-text {
+  color: red;
+}

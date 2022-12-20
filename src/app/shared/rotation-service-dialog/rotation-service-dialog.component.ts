@@ -64,11 +64,10 @@ export class RotationServiceDialogComponent implements OnInit {
    */
   async addRotationService(): Promise<void> {
     if (this.rotationServiceFormControl.valid) {
-      const value = this.rotationServiceFormControl.value;
       if (
         await this.rotationServicesService.add({
-          specialty: value.specialty!,
-          value: value.value!,
+          specialty: this.rotationServiceFormControl.controls.specialty.value!,
+          value: this.rotationServiceFormControl.controls.value.value!,
         })
       )
         this.close();
@@ -80,13 +79,13 @@ export class RotationServiceDialogComponent implements OnInit {
    */
   async updateRotationService(): Promise<void> {
     if (this.rotationServiceFormControl.valid) {
-      const value = this.rotationServiceFormControl.value;
       if (
         await this.rotationServicesService.update(
           this.data!.rotationService!._id!,
           {
-            specialty: value.specialty!,
-            value: value.value!,
+            specialty:
+              this.rotationServiceFormControl.controls.specialty.value!,
+            value: this.rotationServiceFormControl.controls.value.value!,
           }
         )
       )

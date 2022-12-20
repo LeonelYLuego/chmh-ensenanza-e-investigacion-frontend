@@ -39,6 +39,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
     hospital?: Hospital;
     rotationService?: RotationService;
     period?: string;
+    canceled?: boolean;
     documents?: {
       solicitudeDocument?: string;
       presentationOfficeDocument?: string;
@@ -157,6 +158,7 @@ export class OptionalMobilitiesPageComponent implements OnInit {
               new Date(optionalMobility.initialDate),
               new Date(optionalMobility.finalDate)
             ),
+            canceled: optionalMobility.canceled,
             documents: {
               acceptanceDocument: optionalMobility.acceptanceDocument,
               evaluationDocument: optionalMobility.evaluationDocument,

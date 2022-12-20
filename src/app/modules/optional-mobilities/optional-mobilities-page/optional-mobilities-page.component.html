@@ -107,32 +107,37 @@
           *matCellDef="let optionalMobility"
           [style.display]="optionalMobility.specialty ? 'none' : ''"
         >
-          <mat-chip-list *ngIf="!optionalMobility.specialty">
-            <mat-chip
-              *ngIf="optionalMobility.documents.solicitudeDocument"
-              color="solicitude"
-              selected
-              >Solicitud</mat-chip
+          <span *ngIf="!optionalMobility.specialty">
+            <mat-chip-list *ngIf="!optionalMobility.canceled">
+              <mat-chip
+                *ngIf="optionalMobility.documents.solicitudeDocument"
+                color="solicitude"
+                selected
+                >Solicitud</mat-chip
+              >
+              <mat-chip
+                *ngIf="optionalMobility.documents.presentationOfficeDocument"
+                color="presentation-office"
+                selected
+                >Oficio de Presentación</mat-chip
+              >
+              <mat-chip
+                *ngIf="optionalMobility.documents.acceptanceDocument"
+                color="acceptance"
+                selected
+                >Aceptación</mat-chip
+              >
+              <mat-chip
+                *ngIf="optionalMobility.documents.evaluationDocument"
+                color="evaluation"
+                selected
+                >Evaluación</mat-chip
+              >
+            </mat-chip-list>
+            <span *ngIf="optionalMobility.canceled" class="canceled-text"
+              >Cancelado</span
             >
-            <mat-chip
-              *ngIf="optionalMobility.documents.presentationOfficeDocument"
-              color="presentation-office"
-              selected
-              >Oficio de Presentación</mat-chip
-            >
-            <mat-chip
-              *ngIf="optionalMobility.documents.acceptanceDocument"
-              color="acceptance"
-              selected
-              >Aceptación</mat-chip
-            >
-            <mat-chip
-              *ngIf="optionalMobility.documents.evaluationDocument"
-              color="evaluation"
-              selected
-              >Evaluación</mat-chip
-            >
-          </mat-chip-list>
+          </span>
         </td></ng-container
       >
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

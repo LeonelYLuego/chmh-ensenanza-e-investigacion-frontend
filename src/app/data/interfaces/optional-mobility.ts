@@ -35,6 +35,9 @@ export interface OptionalMobility {
   hospital: Hospital | string;
 
   /** @property */
+  canceled?: boolean;
+
+  /** @property */
   __v?: number;
 }
 
