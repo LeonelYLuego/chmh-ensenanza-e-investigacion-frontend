@@ -32,20 +32,21 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
     ]),
   });
   obligatoryMobilities: {
-    specialty?: Specialty;
-    _id?: string;
-    student?: Student;
-    hospital?: Hospital;
-    rotationService?: RotationService;
-    period?: string;
-    documents?: {
-      presentationOfficeDocument?: string;
-      evaluationDocument?: string;
-    };
+    name: string;
+    specialties: {
+      specialty?: string;
+      _id?: string;
+      student?: Student;
+      rotationService?: RotationService;
+      period?: string;
+      documents?: {
+        presentationOfficeDocument?: string;
+        evaluationDocument?: string;
+      };
+    }[];
   }[] = [];
   displayedColumns = [
     'student',
-    'hospital',
     'rotationService',
     'period',
     'documents',
@@ -79,28 +80,19 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.initialDate.value!,
       this.intervalFormControl.controls.finalDate.value!
     );
-    data.sort((a, b) => a.value.localeCompare(b.value));
-    data.map((specialty) => {
+    data.map((hospital) => {
       this.obligatoryMobilities.push({
-        specialty: {
-          _id: specialty._id,
-          value: specialty.value,
-          duration: NaN,
-          headOfService: '',
-          tenuredPostgraduateProfessor: '',
-        },
+        name: hospital.name,
+        specialties: [],
       });
-      ((specialty as any).optionalMobilities as ObligatoryMobility[]).sort(
-        (a, b) =>
-          (a.student as Student).firstLastName.localeCompare(
-            (b.student as Student).firstLastName
-          )
-      );
-      ((specialty as any).optionalMobilities as ObligatoryMobility[]).map(
-        (obligatoryMobility) => {
-          this.obligatoryMobilities.push({
+      const hospitalIndex = this.obligatoryMobilities.length - 1;
+      hospital.specialties.map((specialty) => {
+        this.obligatoryMobilities[hospitalIndex].specialties.push({
+          specialty: specialty.value,
+        });
+        specialty.obligatoryMobilities.map((obligatoryMobility) => {
+          this.obligatoryMobilities[hospitalIndex].specialties.push({
             _id: obligatoryMobility._id,
-            hospital: obligatoryMobility.hospital as Hospital,
             student: obligatoryMobility.student as Student,
             rotationService:
               obligatoryMobility.rotationService as RotationService,
@@ -114,8 +106,8 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
                 obligatoryMobility.presentationOfficeDocument,
             },
           });
-        }
-      );
+        });
+      });
     });
     this.loading = false;
   }

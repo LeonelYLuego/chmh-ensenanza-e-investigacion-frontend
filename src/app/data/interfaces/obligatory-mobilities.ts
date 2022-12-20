@@ -22,7 +22,15 @@ export interface ObligatoryMobility {
   __v?: number;
 }
 
-export interface ObligatoryMobilityBySpecialty {
+export interface ObligatoryMobilityByHospital {
+  _id: string;
+
+  name: string;
+
+  specialties: ObligatoryMobilityBySpecialty[];
+}
+
+interface ObligatoryMobilityBySpecialty {
   _id: string;
 
   value: string;

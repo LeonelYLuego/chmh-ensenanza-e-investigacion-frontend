@@ -4,7 +4,7 @@ import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
 import {
   ObligatoryMobility,
-  ObligatoryMobilityBySpecialty,
+  ObligatoryMobilityByHospital,
   ObligatoryMobilityInterval,
 } from '@data/interfaces';
 
@@ -25,8 +25,8 @@ export class ObligatoryMobilitiesService {
   async getAll(
     initialDate: Date,
     finalDate: Date
-  ): Promise<ObligatoryMobilityBySpecialty[]> {
-    const data = await this.http.get<ObligatoryMobilityBySpecialty[]>(
+  ): Promise<ObligatoryMobilityByHospital[]> {
+    const data = await this.http.get<ObligatoryMobilityByHospital[]>(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BASE_ENDPOINT,
       this.forbiddenErrors,
       [
