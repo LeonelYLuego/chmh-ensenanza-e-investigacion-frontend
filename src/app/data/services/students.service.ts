@@ -17,15 +17,15 @@ export class StudentsService {
     },
     {
       errorMessage: 'student not found',
-      snackbarMessage: 'Estudiante no encontrado',
+      snackbarMessage: 'Alumno no encontrado',
     },
     {
       errorMessage: 'student not modified',
-      snackbarMessage: 'Estudiante no modificado',
+      snackbarMessage: 'Alumno no modificado',
     },
     {
       errorMessage: 'student not deleted',
-      snackbarMessage: 'Estudiante no eliminado',
+      snackbarMessage: 'Alumno no eliminado',
     },
   ];
 

@@ -1,0 +1,110 @@
+<mat-card class="main-card">
+  <mat-card-title>
+    <span class="main-card-title">Agregar Movilidad Obligatoria</span>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-card-content *ngIf="!loading">
+    <mat-form-field class="filter-width" appearance="outline">
+      <mat-label>Especialidad</mat-label>
+      <mat-select
+        [formControl]="filtersFormControl.controls.specialty"
+        (selectionChange)="getGenerationsAndRotationServices()"
+      >
+        <mat-option
+          *ngFor="let specialty of specialties"
+          [value]="specialty._id"
+          >{{ specialty.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="filter-width" appearance="outline">
+      <mat-label>Generación</mat-label>
+      <mat-select
+        [formControl]="filtersFormControl.controls.generation"
+        (selectionChange)="getStudents()"
+      >
+        <mat-option
+          *ngFor="let generation of generations"
+          [value]="generation.value"
+          >{{ generation.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="filter-width" appearance="outline">
+      <mat-label>Fecha de Inicio</mat-label>
+      <input
+        matInput
+        [matDatepicker]="initialPicker"
+        [formControl]="filtersFormControl.controls.initialDate"
+      />
+      <mat-hint>MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="initialPicker">
+      </mat-datepicker-toggle>
+      <mat-datepicker
+        #initialPicker
+        startView="multi-year"
+        (monthSelected)="setInitialMonthAndYear($event, initialPicker)"
+      ></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="filter-width" appearance="outline">
+      <mat-label>Fecha de Finalización</mat-label>
+      <input
+        matInput
+        [matDatepicker]="finalPicker"
+        [formControl]="filtersFormControl.controls.finalDate"
+      />
+      <mat-hint>MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="finalPicker">
+      </mat-datepicker-toggle>
+      <mat-datepicker
+        #finalPicker
+        startView="multi-year"
+        (monthSelected)="setFinalMonthAndYear($event, finalPicker)"
+      ></mat-datepicker>
+    </mat-form-field>
+    <div *ngFor="let obligatoryMobility of obligatoryMobilities">
+      <h2>Alumno</h2>
+      <mat-form-field>
+        <mat-label>Alumno</mat-label>
+        <mat-select [formControl]="obligatoryMobility.student">
+          <mat-option *ngFor="let student of students" [value]="student._id"
+            >{{ student.name }} {{ student.firstLastName }}
+            {{ student.secondLastName }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <h3>Movilidades Obligatorias</h3>
+      <div *ngFor="let month of obligatoryMobility.months">
+        <span>{{
+          getMontAndYearAsString(month.value.month, month.value.year)
+        }}</span>
+        <mat-form-field>
+          <mat-label>Hospital</mat-label>
+          <mat-select [formControl]="month.hospital">
+            <mat-option
+              *ngFor="let hospital of hospitals"
+              [value]="hospital._id"
+              >{{ hospital.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Servicio a Rotar</mat-label>
+          <mat-select [formControl]="month.rotationService">
+            <mat-option
+              *ngFor="let rotationService of rotationServices"
+              [value]="rotationService._id"
+              >{{ rotationService.value }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="addStudent()">
+        Agregar Alumno
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

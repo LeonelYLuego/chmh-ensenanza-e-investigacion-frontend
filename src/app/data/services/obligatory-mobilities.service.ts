@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SERVER_ENDPOINTS } from '@core/constants';
+import {
+  lastDayOfTheMonth,
+  monthToString,
+} from '@core/functions/date.function';
 import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
 import {
@@ -74,43 +78,6 @@ export class ObligatoryMobilitiesService {
     );
   }
 
-  lastDayOfTheMonth(year: number, month: number): number {
-    switch (month + 1) {
-      case 1:
-      case 3:
-      case 5:
-      case 7:
-      case 8:
-      case 10:
-      case 12:
-        return 31;
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        return 30;
-      case 2:
-        return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ? 29 : 28;
-      default:
-        return NaN;
-    }
-  }
-
-  readonly months = [
-    'enero',
-    'febrero',
-    'marzo',
-    'abril',
-    'mayo',
-    'junio',
-    'julio',
-    'agosto',
-    'septiembre',
-    'octubre',
-    'noviembre',
-    'diciembre',
-  ];
-
   async interval(): Promise<ObligatoryMobilityInterval> {
     let data = await this.http.get<{
       initialYear: number;
@@ -122,13 +89,13 @@ export class ObligatoryMobilitiesService {
       for (let year = data.initialYear; year <= data.finalYear; year++) {
         for (let month = 0; month < 12; month++) {
           initialMonths.push({
-            name: `1 de ${this.months[month]} de ${year}`,
+            name: `1 de ${monthToString(month)} de ${year}`,
             value: new Date(year, month, 1),
           });
           finalMonths.push({
-            name: `${this.lastDayOfTheMonth(year, month)} de ${
-              this.months[month]
-            } de ${year}`,
+            name: `${lastDayOfTheMonth(year, month)} de ${monthToString(
+              month
+            )} de ${year}`,
             value: new Date(year, month + 1, 0),
           });
         }
@@ -138,10 +105,10 @@ export class ObligatoryMobilitiesService {
   }
 
   getPeriod(initialDate: Date, finalDate: Date): string {
-    return `${initialDate.getDate()} de ${
-      this.months[initialDate.getMonth()]
-    } de ${initialDate.getFullYear()} - ${finalDate.getDate()} de ${
-      this.months[finalDate.getMonth()]
-    } de ${finalDate.getFullYear()}`;
+    return `${initialDate.getDate()} de ${monthToString(
+      initialDate.getMonth()
+    )} de ${initialDate.getFullYear()} - ${finalDate.getDate()} de ${monthToString(
+      finalDate.getMonth()
+    )} de ${finalDate.getFullYear()}`;
   }
 }

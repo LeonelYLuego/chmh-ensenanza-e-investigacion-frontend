@@ -13,9 +13,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
+import { AddObligatoryMobilityComponent } from './add-obligatory-mobility/add-obligatory-mobility.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
-  declarations: [ObligatoryMobilitiesPageComponent],
+  declarations: [ObligatoryMobilitiesPageComponent, AddObligatoryMobilityComponent],
   imports: [
     CommonModule,
     ObligatoryMobilitiesRoutingModule,
@@ -31,6 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatChipsModule,
     MatButtonModule,
+    MatDatepickerModule,
   ],
 })
 export class ObligatoryMobilitiesModule {}
