@@ -213,6 +213,7 @@ export class AddOptionalMobilityComponent implements OnInit {
             this.optionalMobilityFormControl.controls.specialty.value ??
             undefined,
           disableSpecialty: true,
+          incoming: false,
         },
       });
 

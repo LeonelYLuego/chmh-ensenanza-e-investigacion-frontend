@@ -47,6 +47,18 @@ const routes: Routes = [
     title: 'Servicios a Rotar',
     component: RotationServicesPageComponent,
   },
+  {
+    path: PATHS.OTHERS.INCOMING_SPECIALTIES,
+    title: 'Especialidades Externas',
+    component: SpecialtiesPageComponent,
+    data: { incoming: true },
+  },
+  {
+    path: PATHS.OTHERS.INCOMING_ROTATION_SERVICES,
+    title: 'Servicios a Rotar Externos',
+    component: RotationServicesPageComponent,
+    data: { incoming: true },
+  },
 ];
 
 /** Others routing module */

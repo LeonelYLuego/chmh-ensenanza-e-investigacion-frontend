@@ -1,0 +1,17 @@
+.date-obligatory-mobility {
+  display: inline-block;
+  width: 200px;
+}
+
+.large-input {
+  width: 500px;
+}
+
+.short-input {
+  width: 200px;
+}
+
+.input {
+  max-width: 100%;
+  margin-right: 10px;
+}

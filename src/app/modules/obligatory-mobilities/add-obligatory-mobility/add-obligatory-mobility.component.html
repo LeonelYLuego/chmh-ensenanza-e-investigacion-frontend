@@ -37,6 +37,7 @@
         matInput
         [matDatepicker]="initialPicker"
         [formControl]="filtersFormControl.controls.initialDate"
+        (focusout)="dateChanged()"
       />
       <mat-hint>MM/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="initialPicker">
@@ -44,7 +45,9 @@
       <mat-datepicker
         #initialPicker
         startView="multi-year"
-        (monthSelected)="setInitialMonthAndYear($event, initialPicker)"
+        (monthSelected)="
+          setInitialMonthAndYear($event, initialPicker); dateChanged()
+        "
       ></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="filter-width" appearance="outline">
@@ -53,6 +56,7 @@
         matInput
         [matDatepicker]="finalPicker"
         [formControl]="filtersFormControl.controls.finalDate"
+        (focusout)="dateChanged()"
       />
       <mat-hint>MM/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="finalPicker">
@@ -60,12 +64,15 @@
       <mat-datepicker
         #finalPicker
         startView="multi-year"
-        (monthSelected)="setFinalMonthAndYear($event, finalPicker)"
+        (monthSelected)="
+          setFinalMonthAndYear($event, finalPicker); dateChanged()
+        "
       ></mat-datepicker>
     </mat-form-field>
-    <div *ngFor="let obligatoryMobility of obligatoryMobilities">
-      <h2>Alumno</h2>
-      <mat-form-field>
+    <div style="margin-bottom: 20px"></div>
+    <div *ngFor="let obligatoryMobility of obligatoryMobilities; let i = index">
+      <h2>Alumno {{ i + 1 }}</h2>
+      <mat-form-field class="large-input input">
         <mat-label>Alumno</mat-label>
         <mat-select [formControl]="obligatoryMobility.student">
           <mat-option *ngFor="let student of students" [value]="student._id"
@@ -74,12 +81,15 @@
           >
         </mat-select>
       </mat-form-field>
+      <button mat-icon-button>
+        <mat-icon color="warn" (click)="removeStudent(i)">close</mat-icon>
+      </button>
       <h3>Movilidades Obligatorias</h3>
       <div *ngFor="let month of obligatoryMobility.months">
-        <span>{{
+        <span class="date-obligatory-mobility">{{
           getMontAndYearAsString(month.value.month, month.value.year)
         }}</span>
-        <mat-form-field>
+        <mat-form-field class="short-input input">
           <mat-label>Hospital</mat-label>
           <mat-select [formControl]="month.hospital">
             <mat-option
@@ -89,7 +99,7 @@
             >
           </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="short-input input">
           <mat-label>Servicio a Rotar</mat-label>
           <mat-select [formControl]="month.rotationService">
             <mat-option
@@ -102,9 +112,24 @@
       </div>
     </div>
     <div>
-      <button mat-raised-button color="primary" (click)="addStudent()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addStudent()"
+        [disabled]="students.length == 0"
+      >
         Agregar Alumno
       </button>
     </div>
   </mat-card-content>
+  <mat-card-actions align="end">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="addObligatoryMobility()"
+      [disabled]="obligatoryMobilities.length == 0"
+    >
+      Agregar Movilidad Optativa
+    </button>
+  </mat-card-actions>
 </mat-card>

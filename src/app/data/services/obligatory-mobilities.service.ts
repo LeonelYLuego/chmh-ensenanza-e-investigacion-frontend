@@ -14,7 +14,12 @@ import {
 
 @Injectable()
 export class ObligatoryMobilitiesService {
-  forbiddenErrors: ForbiddenErrorInterface[] = [];
+  forbiddenErrors: ForbiddenErrorInterface[] = [
+    {
+      errorMessage: 'obligatory mobility interval not found',
+      snackbarMessage: 'Intervalo de Movilidades Obligatorias no encontrado',
+    },
+  ];
 
   constructor(private http: HttpPetitions) {}
 
@@ -104,11 +109,9 @@ export class ObligatoryMobilitiesService {
     return { initialMonths, finalMonths };
   }
 
-  getPeriod(initialDate: Date, finalDate: Date): string {
-    return `${initialDate.getDate()} de ${monthToString(
-      initialDate.getMonth()
-    )} de ${initialDate.getFullYear()} - ${finalDate.getDate()} de ${monthToString(
-      finalDate.getMonth()
-    )} de ${finalDate.getFullYear()}`;
+  getPeriod(date: Date): string {
+    let monthString = monthToString(date.getMonth());
+    monthString = monthString.charAt(0).toUpperCase() + monthString.slice(1);
+    return `${monthString} de ${date.getFullYear()}`;
   }
 }

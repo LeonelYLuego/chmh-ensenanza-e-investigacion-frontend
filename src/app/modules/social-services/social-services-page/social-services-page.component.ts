@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PATHS } from '@core/constants';
 import { NameValueInterface } from '@core/interfaces';
@@ -35,11 +35,11 @@ export class SocialServicesPageComponent implements OnInit {
     initialPeriod: new FormControl<{
       year: number;
       period: number;
-    } | null>(null),
+    } | null>(null, [Validators.required]),
     finalPeriod: new FormControl<{
       year: number;
       period: number;
-    } | null>(null),
+    } | null>(null, [Validators.required]),
   });
 
   constructor(
@@ -49,7 +49,6 @@ export class SocialServicesPageComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.loading = true;
     //Gets initial and final periods for filters
     const periods = await this.socialServicesService.getInitialFinalPeriods();
     this.initialPeriods = periods.map((p) => p.initial);
@@ -66,10 +65,9 @@ export class SocialServicesPageComponent implements OnInit {
       );
     }
     //Gets all social services in the period
-    if (periods) {
+    if (periods.length > 0) {
       await this.getSocialServices();
     }
-    this.loading = false;
   }
 
   /**

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { Specialty } from '@data/interfaces';
 import { SpecialtiesService } from '@data/services';
 import { DeleteDialogComponent } from '@shared/delete-dialog';
@@ -16,16 +17,21 @@ export class SpecialtiesPageComponent implements OnInit {
   err: any;
   displayedColumns: string[] = ['specialty', 'update', 'delete'];
   loading = false;
+  incoming = false;
 
   constructor(
     private dialog: MatDialog,
-    private specialtiesService: SpecialtiesService
+    private specialtiesService: SpecialtiesService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.loading = true;
-    this.getSpecialties();
-    this.loading = false;
+    this.route.data.subscribe(async (v) => {
+      if (v['incoming']) {
+        this.incoming = true;
+      }
+      await this.getSpecialties();
+    });
   }
 
   /**
@@ -33,7 +39,9 @@ export class SpecialtiesPageComponent implements OnInit {
    * @async
    */
   async getSpecialties(): Promise<void> {
-    this.specialties = await this.specialtiesService.findAll();
+    this.loading = true;
+    this.specialties = await this.specialtiesService.findAll(this.incoming);
+    this.loading = false;
   }
 
   /**
@@ -43,9 +51,8 @@ export class SpecialtiesPageComponent implements OnInit {
     const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
       maxWidth: '500px',
       width: '80%',
-      position: {
-        top: '10px',
-      },
+      position: { top: '10px' },
+      data: { incoming: this.incoming },
     });
 
     dialogRef.afterClosed().subscribe(async () => {
@@ -61,10 +68,8 @@ export class SpecialtiesPageComponent implements OnInit {
     const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
       maxWidth: '500px',
       width: '80%',
-      position: {
-        top: '10px',
-      },
-      data: specialty,
+      position: { top: '10px' },
+      data: { specialty, incoming: this.incoming },
     });
 
     dialogRef.afterClosed().subscribe(async () => {
@@ -84,7 +89,7 @@ export class SpecialtiesPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result === true) {
-        await this.specialtiesService.delete(_id);
+        await this.specialtiesService.delete(_id, this.incoming);
         await this.getSpecialties();
       }
     });

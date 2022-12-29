@@ -33,14 +33,16 @@ export class SpecialtyDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<SpecialtyDialogComponent>,
     private specialtiesService: SpecialtiesService,
-    @Inject(MAT_DIALOG_DATA) public data: Specialty | undefined
+    @Inject(MAT_DIALOG_DATA)
+    public data: { specialty?: Specialty; incoming: boolean }
   ) {
-    if (data) {
+    if (data.specialty) {
       this.specialtyFormControl.setValue({
-        value: data.value,
-        duration: data.duration,
-        headOfService: data.headOfService,
-        tenuredPostgraduateProfessor: data.tenuredPostgraduateProfessor,
+        value: data.specialty.value,
+        duration: data.specialty.duration,
+        headOfService: data.specialty.headOfService,
+        tenuredPostgraduateProfessor:
+          data.specialty.tenuredPostgraduateProfessor,
       });
     }
   }
@@ -55,12 +57,15 @@ export class SpecialtyDialogComponent implements OnInit {
     if (this.specialtyFormControl.valid) {
       const values = this.specialtyFormControl.value;
       if (
-        await this.specialtiesService.add({
-          value: values.value!,
-          duration: values.duration as number,
-          headOfService: values.headOfService!,
-          tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
-        })
+        await this.specialtiesService.add(
+          {
+            value: values.value!,
+            duration: values.duration as number,
+            headOfService: values.headOfService!,
+            tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
+          },
+          this.data.incoming
+        )
       )
         this.close();
     }
@@ -73,12 +78,16 @@ export class SpecialtyDialogComponent implements OnInit {
     if (this.specialtyFormControl.valid) {
       const values = this.specialtyFormControl.value;
       if (
-        await this.specialtiesService.update(this.data!._id!, {
-          value: values.value!,
-          duration: values.duration as number,
-          headOfService: values.headOfService!,
-          tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
-        })
+        await this.specialtiesService.update(
+          this.data!.specialty!._id!,
+          {
+            value: values.value!,
+            duration: values.duration as number,
+            headOfService: values.headOfService!,
+            tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
+          },
+          this.data.incoming
+        )
       )
         this.close();
     }

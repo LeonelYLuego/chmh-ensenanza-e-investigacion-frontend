@@ -31,14 +31,11 @@ export class SpecialtiesService {
 
   constructor(private http: HttpPetitions) {}
 
-  /**
-   * Gets all Specialties from the server
-   * @async
-   * @returns {Promise<Specialty[]>} the found Specialties
-   */
-  async findAll(): Promise<Specialty[]> {
+  async findAll(incoming = false): Promise<Specialty[]> {
     let data = await this.http.get<Specialty[]>(
-      SERVER_ENDPOINTS.SPECIALTIES.BASE_ENDPOINT,
+      incoming
+        ? SERVER_ENDPOINTS.SPECIALTIES.INCOMING
+        : SERVER_ENDPOINTS.SPECIALTIES.BASE_ENDPOINT,
       this.forbiddenErrors
     );
     return data ?? [];
@@ -50,9 +47,11 @@ export class SpecialtiesService {
    * @param {Specialty} specialty
    * @returns {Promise<Specialty | null>} the added Specialty
    */
-  async add(specialty: Specialty): Promise<Specialty | null> {
+  async add(specialty: Specialty, incoming = false): Promise<Specialty | null> {
     let data = await this.http.post<Specialty>(
-      SERVER_ENDPOINTS.SPECIALTIES.BASE_ENDPOINT,
+      incoming
+        ? SERVER_ENDPOINTS.SPECIALTIES.INCOMING
+        : SERVER_ENDPOINTS.SPECIALTIES.BASE_ENDPOINT,
       specialty,
       this.forbiddenErrors
     );
@@ -66,9 +65,15 @@ export class SpecialtiesService {
    * @param {Specialty} specialty
    * @returns {Promise<Specialty | null>} the updated Specialty
    */
-  async update(_id: string, specialty: Specialty): Promise<Specialty | null> {
+  async update(
+    _id: string,
+    specialty: Specialty,
+    incoming = false
+  ): Promise<Specialty | null> {
     let data = await this.http.put<Specialty>(
-      SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
+      incoming
+        ? SERVER_ENDPOINTS.SPECIALTIES.INCOMING_BY_ID(_id)
+        : SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
       specialty,
       this.forbiddenErrors
     );
@@ -80,9 +85,11 @@ export class SpecialtiesService {
    * @async
    * @param {string} _id
    */
-  async delete(_id: string): Promise<void> {
+  async delete(_id: string, incoming = false): Promise<void> {
     await this.http.delete(
-      SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
+      incoming
+        ? SERVER_ENDPOINTS.SPECIALTIES.INCOMING_BY_ID(_id)
+        : SERVER_ENDPOINTS.SPECIALTIES.BY_ID(_id),
       this.forbiddenErrors
     );
   }

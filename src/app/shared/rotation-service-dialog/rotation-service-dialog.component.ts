@@ -30,13 +30,16 @@ export class RotationServiceDialogComponent implements OnInit {
       rotationService: RotationService | undefined;
       specialty: string | undefined;
       disableSpecialty: boolean | undefined;
+      incoming: boolean;
     },
     private rotationServicesService: RotationServicesService,
     private specialtiesService: SpecialtiesService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.specialties = await this.specialtiesService.findAll();
+    this.specialties = await this.specialtiesService.findAll(
+      this.data.incoming
+    );
     if (this.data.rotationService) {
       this.rotationServiceFormControl.setValue({
         specialty: this.data.rotationService.specialty as string,
@@ -65,10 +68,14 @@ export class RotationServiceDialogComponent implements OnInit {
   async addRotationService(): Promise<void> {
     if (this.rotationServiceFormControl.valid) {
       if (
-        await this.rotationServicesService.add({
-          specialty: this.rotationServiceFormControl.controls.specialty.value!,
-          value: this.rotationServiceFormControl.controls.value.value!,
-        })
+        await this.rotationServicesService.add(
+          {
+            specialty:
+              this.rotationServiceFormControl.controls.specialty.value!,
+            value: this.rotationServiceFormControl.controls.value.value!,
+          },
+          this.data.incoming
+        )
       )
         this.close();
     }
@@ -86,7 +93,8 @@ export class RotationServiceDialogComponent implements OnInit {
             specialty:
               this.rotationServiceFormControl.controls.specialty.value!,
             value: this.rotationServiceFormControl.controls.value.value!,
-          }
+          },
+          this.data.incoming
         )
       )
         this.close();

@@ -44,6 +44,10 @@ export class SocialServicesService {
       errorMessage: 'not template found',
       snackbarMessage: 'No se encontró la plantilla',
     },
+    {
+      errorMessage: 'social service period not found',
+      snackbarMessage: 'Periodo de Servicio Sociales no encontrado',
+    }
   ];
 
   constructor(private http: HttpPetitions) {}

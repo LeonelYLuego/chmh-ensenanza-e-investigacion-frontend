@@ -35,6 +35,10 @@ export const SERVER_ENDPOINTS = {
     BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.SPECIALTIES}/${_id}`;
     },
+    INCOMING: SERVER_RESOURCES.SPECIALTIES + '/incoming',
+    INCOMING_BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.SPECIALTIES}/incoming/${_id}`;
+    },
   },
   STUDENTS: {
     BASE_PATH: SERVER_RESOURCES.STUDENTS,
@@ -70,6 +74,10 @@ export const SERVER_ENDPOINTS = {
     BASE_ENDPOINT: SERVER_RESOURCES.ROTATION_SERVICES,
     BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.ROTATION_SERVICES}/${_id}`;
+    },
+    INCOMING: SERVER_RESOURCES.ROTATION_SERVICES + '/incoming',
+    INCOMING_BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.ROTATION_SERVICES}/incoming/${_id}`;
     },
   },
   OPTIONAL_MOBILITIES: {

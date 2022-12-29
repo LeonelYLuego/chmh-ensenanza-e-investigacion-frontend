@@ -33,6 +33,8 @@ export const PATHS = {
     HOSPITALS: 'hospitales',
     TEMPLATES: 'plantillas',
     ROTATION_SERVICES: 'servicios-a-rotar',
+    INCOMING_SPECIALTIES: 'especialidades-externas',
+    INCOMING_ROTATION_SERVICES: 'servicios-a-rotar-externos',
   },
   SOCIAL_SERVICES: {
     BASE_PATH: RESOURCE_PATHS.SOCIAL_SERVICES,

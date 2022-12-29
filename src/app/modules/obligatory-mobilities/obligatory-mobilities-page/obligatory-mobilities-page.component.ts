@@ -45,12 +45,7 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
       };
     }[];
   }[] = [];
-  displayedColumns = [
-    'student',
-    'rotationService',
-    'period',
-    'documents',
-  ];
+  displayedColumns = ['student', 'rotationService', 'period', 'documents'];
 
   constructor(
     private obligatoryMobilitiesService: ObligatoryMobilitiesService
@@ -69,8 +64,8 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.finalDate.setValue(
         this.intervals.finalMonths[this.intervals.finalMonths.length - 1].value
       );
+      await this.getObligatoryMobilities();
     }
-    await this.getObligatoryMobilities();
   }
 
   async getObligatoryMobilities(): Promise<void> {
@@ -97,8 +92,7 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
             rotationService:
               obligatoryMobility.rotationService as RotationService,
             period: this.obligatoryMobilitiesService.getPeriod(
-              new Date(obligatoryMobility.initialDate),
-              new Date(obligatoryMobility.finalDate)
+              new Date(obligatoryMobility.date)
             ),
             documents: {
               evaluationDocument: obligatoryMobility.evaluationDocument,

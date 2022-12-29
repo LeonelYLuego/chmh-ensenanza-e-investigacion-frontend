@@ -33,9 +33,14 @@ export class RotationServicesService {
    * @param specialty Specialty primary key
    * @returns The found Rotation Services
    */
-  async getAll(specialty: string): Promise<RotationService[]> {
+  async getAll(
+    specialty: string,
+    incoming = false
+  ): Promise<RotationService[]> {
     let data = await this.http.get<RotationService[]>(
-      SERVER_ENDPOINTS.ROTATION_SERVICES.BASE_ENDPOINT,
+      incoming
+        ? SERVER_ENDPOINTS.ROTATION_SERVICES.INCOMING
+        : SERVER_ENDPOINTS.ROTATION_SERVICES.BASE_ENDPOINT,
       this.forbiddenErrors,
       [{ name: 'specialty', value: specialty }]
     );
@@ -47,9 +52,11 @@ export class RotationServicesService {
    * @param _id Rotation Service primary key
    * @returns The found Rotation Service
    */
-  async get(_id: string): Promise<RotationService | null> {
+  async get(_id: string, incoming = false): Promise<RotationService | null> {
     let data = await this.http.get<RotationService>(
-      SERVER_ENDPOINTS.ROTATION_SERVICES.BY_ID(_id),
+      incoming
+        ? SERVER_ENDPOINTS.ROTATION_SERVICES.INCOMING_BY_ID(_id)
+        : SERVER_ENDPOINTS.ROTATION_SERVICES.BY_ID(_id),
       this.forbiddenErrors
     );
     return data || null;
@@ -60,9 +67,14 @@ export class RotationServicesService {
    * @param rotationService
    * @returns The created Rotation Service
    */
-  async add(rotationService: RotationService): Promise<RotationService | null> {
+  async add(
+    rotationService: RotationService,
+    incoming = false
+  ): Promise<RotationService | null> {
     let data = await this.http.post<RotationService>(
-      SERVER_ENDPOINTS.ROTATION_SERVICES.BASE_ENDPOINT,
+      incoming
+        ? SERVER_ENDPOINTS.ROTATION_SERVICES.INCOMING
+        : SERVER_ENDPOINTS.ROTATION_SERVICES.BASE_ENDPOINT,
       rotationService,
       this.forbiddenErrors
     );
@@ -77,10 +89,13 @@ export class RotationServicesService {
    */
   async update(
     _id: string,
-    rotationService: RotationService
+    rotationService: RotationService,
+    incoming = false
   ): Promise<RotationService | null> {
     let data = await this.http.put<RotationService>(
-      SERVER_ENDPOINTS.ROTATION_SERVICES.BY_ID(_id),
+      incoming
+        ? SERVER_ENDPOINTS.ROTATION_SERVICES.INCOMING_BY_ID(_id)
+        : SERVER_ENDPOINTS.ROTATION_SERVICES.BY_ID(_id),
       rotationService,
       this.forbiddenErrors
     );
@@ -91,9 +106,11 @@ export class RotationServicesService {
    * Deletes a Rotation Service in the server by Id
    * @param _id Rotation Service primary key
    */
-  async delete(_id: string): Promise<void> {
+  async delete(_id: string, incoming = false): Promise<void> {
     await this.http.delete<void>(
-      SERVER_ENDPOINTS.ROTATION_SERVICES.BY_ID(_id),
+      incoming
+        ? SERVER_ENDPOINTS.ROTATION_SERVICES.INCOMING_BY_ID(_id)
+        : SERVER_ENDPOINTS.ROTATION_SERVICES.BY_ID(_id),
       this.forbiddenErrors
     );
   }

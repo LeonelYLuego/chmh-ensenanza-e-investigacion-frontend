@@ -10,6 +10,8 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { Router } from '@angular/router';
+import { PATHS } from '@core/constants';
 import { monthToString } from '@core/functions/date.function';
 import {
   Hospital,
@@ -19,6 +21,7 @@ import {
 } from '@data/interfaces';
 import {
   HospitalsService,
+  ObligatoryMobilitiesService,
   RotationServicesService,
   SpecialtiesService,
   StudentsService,
@@ -82,10 +85,12 @@ export class AddObligatoryMobilityComponent implements OnInit {
   }[] = [];
 
   constructor(
+    private obligatoryMobilitiesService: ObligatoryMobilitiesService,
     private specialtiesService: SpecialtiesService,
     private studentsService: StudentsService,
     private hospitalsService: HospitalsService,
-    private rotationServicesService: RotationServicesService
+    private rotationServicesService: RotationServicesService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -123,6 +128,9 @@ export class AddObligatoryMobilityComponent implements OnInit {
       this.rotationServices = await this.rotationServicesService.getAll(
         this.filtersFormControl.controls.specialty.value!
       );
+      this.students = [];
+      this.rotationServices = [];
+      this.obligatoryMobilities = [];
     }
   }
 
@@ -133,6 +141,16 @@ export class AddObligatoryMobilityComponent implements OnInit {
         values.specialty!,
         values.generation!
       );
+      this.obligatoryMobilities = [];
+    }
+  }
+
+  async dateChanged(): Promise<void> {
+    if (this.obligatoryMobilities.length == 0) this.getStudents();
+    else {
+      this.obligatoryMobilities.map((student) => {
+        student.months.map((month) => {});
+      });
     }
   }
 
@@ -180,6 +198,41 @@ export class AddObligatoryMobilityComponent implements OnInit {
         student: new FormControl('', [Validators.required]),
         months,
       });
+    }
+  }
+
+  removeStudent(index: number): void {
+    this.obligatoryMobilities.splice(index, 1);
+  }
+
+  async addObligatoryMobility(): Promise<void> {
+    let valid = true;
+    this.obligatoryMobilities.map((student) => {
+      student.student.markAsTouched();
+      if (student.student.invalid) valid = false;
+      student.months.map((month) => {
+        month.hospital.markAllAsTouched();
+        if (month.hospital.invalid) valid = false;
+        month.rotationService.markAllAsTouched();
+        if (month.rotationService.invalid) valid = false;
+      });
+    });
+    if (valid) {
+      await Promise.all(
+        this.obligatoryMobilities.map(async (student) => {
+          await Promise.all(
+            student.months.map(async (month) => {
+              this.obligatoryMobilitiesService.add({
+                date: new Date(month.value.year, month.value.month, 1),
+                hospital: month.hospital.value!,
+                rotationService: month.rotationService.value!,
+                student: student.student.value!,
+              });
+            })
+          );
+        })
+      );
+      this.router.navigate([PATHS.OBLIGATORY_MOBILITIES.BASE_PATH]);
     }
   }
 }
