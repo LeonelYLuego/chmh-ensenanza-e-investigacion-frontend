@@ -14,6 +14,7 @@ export const SERVER_RESOURCES = {
   ROTATION_SERVICES: PATHS.SERVER + '/rotation-services',
   OPTIONAL_MOBILITIES: PATHS.SERVER + '/optional-mobilities',
   OBLIGATORY_MOBILITIES: PATHS.SERVER + '/obligatory-mobilities',
+  INCOMING_STUDENTS: PATHS.SERVER + '/incoming-students',
 };
 
 /**
@@ -102,5 +103,12 @@ export const SERVER_ENDPOINTS = {
       return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/${_id}`;
     },
     INTERVAL: SERVER_RESOURCES.OBLIGATORY_MOBILITIES + '/interval',
+  },
+  INCOMING_STUDENTS: {
+    BASE_ENDPOINT: SERVER_RESOURCES.INCOMING_STUDENTS,
+    BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.INCOMING_STUDENTS}/${_id}`;
+    },
+    INTERVAL: SERVER_RESOURCES.INCOMING_STUDENTS + '/interval',
   },
 };

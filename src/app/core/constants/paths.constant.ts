@@ -7,6 +7,7 @@ export const RESOURCE_PATHS = {
   SOCIAL_SERVICES: 'servicios-sociales',
   OPTIONAL_MOBILITIES: 'movilidades-optativas',
   OBLIGATORY_MOBILITIES: 'movilidades-obligatorias',
+  INCOMING_STUDENTS: 'rotantes',
   ERROR: 'error',
 };
 
@@ -51,6 +52,11 @@ export const PATHS = {
   },
   OBLIGATORY_MOBILITIES: {
     BASE_PATH: RESOURCE_PATHS.OBLIGATORY_MOBILITIES,
+    BASE: '',
+    ADD: 'agregar',
+  },
+  INCOMING_STUDENTS: {
+    BASE_PATH: RESOURCE_PATHS.INCOMING_STUDENTS,
     BASE: '',
     ADD: 'agregar',
   },

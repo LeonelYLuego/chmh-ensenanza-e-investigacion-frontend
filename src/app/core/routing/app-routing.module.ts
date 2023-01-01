@@ -52,6 +52,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: RESOURCE_PATHS.INCOMING_STUDENTS,
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('@incoming-students/incoming-students-routing.module').then(
+        (m) => m.IncomingStudentsRoutingModule
+      ),
+  },
+  {
     path: '**',
     redirectTo: `${PATHS.ERROR.BASE_PATH}/${PATHS.ERROR.PAGE_NOT_FOUND}`,
   },

@@ -17,6 +17,7 @@ import { OthersModule } from '@others/others.module';
 import { SocialServicesModule } from '@social-services/social-services.module';
 import { OptionalMobilitiesModule } from 'app/modules/optional-mobilities/optional-mobilities.module';
 import { ObligatoryMobilitiesModule } from 'app/modules/obligatory-mobilities/obligatory-mobilities.module';
+import { IncomingStudentsModule } from 'app/modules/incoming-students/incoming-students.module';
 
 /** Application Module */
 @NgModule({
@@ -37,6 +38,7 @@ import { ObligatoryMobilitiesModule } from 'app/modules/obligatory-mobilities/ob
     SocialServicesModule,
     OptionalMobilitiesModule,
     ObligatoryMobilitiesModule,
+    IncomingStudentsModule,
 
     MatToolbarModule,
     MatButtonModule,

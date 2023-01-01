@@ -1,4 +1,5 @@
 export * from './hospitals.service';
+export * from './incoming-students.service';
 export * from './obligatory-mobilities.service';
 export * from './optional-mobilities.service';
 export * from './rotation-services.service';

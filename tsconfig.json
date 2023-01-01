@@ -27,6 +27,7 @@
       "@social-services/*": ["app/modules/social-services/*"],
       "@optional-mobilities/*": ["app/modules/optional-mobilities/*"],
       "@obligatory-mobilities/*": ["app/modules/obligatory-mobilities/*"],
+      "@incoming-students/*": ["app/modules/incoming-students/*"],
       "@data/*": ["app/data/*"],
       "@env": ["environments/environment"],
     },
