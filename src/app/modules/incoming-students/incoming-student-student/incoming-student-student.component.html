@@ -1,0 +1,32 @@
+<mat-card class="main-card">
+  <mat-card-title>
+    <span class="main-card-title">Rotante</span>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-card-content *ngIf="!loading && incomingStudent">
+    <app-incoming-student-info
+      [id]="incomingStudent"
+    ></app-incoming-student-info>
+    <div style="margin-bottom: 20px"></div>
+    <app-hospital-info [id]="incomingStudent.hospital"></app-hospital-info>
+    <div *ngIf="!incomingStudent.canceled">
+      <mat-form-field class="large-input input">
+        <mat-label>Hospital</mat-label>
+        <mat-select></mat-select>
+      </mat-form-field>
+      <mat-form-field class="short-input input">
+        <mat-label>Fecha de Inicio</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="short-input input">
+        <mat-label>Fecha de Finalización</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field class="short-input input">
+        <mat-label>Servicio a Rotar</mat-label>
+        <mat-select></mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

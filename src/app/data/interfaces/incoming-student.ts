@@ -36,3 +36,9 @@ export interface IncomingStudent {
 
   __v?: number;
 }
+
+export interface IncomingStudentsInterval {
+  initialMonths: { name: string; value: Date }[];
+
+  finalMonths: { name: string; value: Date }[];
+}

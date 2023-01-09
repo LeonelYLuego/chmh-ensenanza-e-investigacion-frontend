@@ -129,7 +129,6 @@ export class AddObligatoryMobilityComponent implements OnInit {
         this.filtersFormControl.controls.specialty.value!
       );
       this.students = [];
-      this.rotationServices = [];
       this.obligatoryMobilities = [];
     }
   }

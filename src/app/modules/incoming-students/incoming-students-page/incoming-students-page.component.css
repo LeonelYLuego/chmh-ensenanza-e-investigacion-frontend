@@ -1,0 +1,7 @@
+.mat-row .mat-cell {
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  background-color: rgb(241, 241, 241);
+}

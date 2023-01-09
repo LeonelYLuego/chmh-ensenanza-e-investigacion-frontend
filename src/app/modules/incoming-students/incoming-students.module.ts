@@ -13,9 +13,19 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatChipsModule } from '@angular/material/chips';
+import { IncomingStudentStudentComponent } from './incoming-student-student/incoming-student-student.component';
+import { SharedModule } from '@shared/shared.module';
+import { IncomingStudentInfoComponent } from './incoming-student-info/incoming-student-info.component';
 
 @NgModule({
-  declarations: [IncomingStudentsPageComponent, AddIncomingStudentComponent],
+  declarations: [
+    IncomingStudentsPageComponent,
+    AddIncomingStudentComponent,
+    IncomingStudentStudentComponent,
+    IncomingStudentInfoComponent,
+  ],
   imports: [
     CommonModule,
     IncomingStudentsRoutingModule,
@@ -28,6 +38,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatDatepickerModule,
     MatProgressBarModule,
+    MatTableModule,
+    MatChipsModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
   ],

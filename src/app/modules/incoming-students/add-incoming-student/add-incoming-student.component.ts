@@ -10,6 +10,7 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PATHS } from '@core/constants';
 import { Hospital, RotationService, Specialty } from '@data/interfaces';
@@ -19,6 +20,8 @@ import {
   RotationServicesService,
   SpecialtiesService,
 } from '@data/services';
+import { HospitalDialogComponent } from '@shared/hospital-dialog';
+import { RotationServiceDialogComponent } from '@shared/rotation-service-dialog';
 import { Moment } from 'moment';
 
 export const MY_FORMATS = {
@@ -84,7 +87,8 @@ export class AddIncomingStudentComponent implements OnInit {
     private hospitalsService: HospitalsService,
     private specialtiesService: SpecialtiesService,
     private rotationServicesService: RotationServicesService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -153,6 +157,7 @@ export class AddIncomingStudentComponent implements OnInit {
 
   async addIncomingStudent(): Promise<void> {
     if (this.incomingStudentFormControl.valid) {
+      this.loading = true;
       const values = this.incomingStudentFormControl.value;
       const data = await this.incomingStudentsService.add({
         name: values.name!,
@@ -170,6 +175,48 @@ export class AddIncomingStudentComponent implements OnInit {
         finalDate: values.finalDate!,
       });
       if (data) this.router.navigate([PATHS.INCOMING_STUDENTS.BASE_PATH]);
+      this.loading = false;
+    }
+  }
+
+  async addHospitalDialog(): Promise<void> {
+    const dialogRef = this.dialog.open(HospitalDialogComponent, {
+      maxWidth: '500px',
+      width: '80%',
+      position: {
+        top: '10px',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(async () => {
+      this.hospitals = await this.hospitalsService.getAll();
+    });
+  }
+
+  async addRotationServiceDialog(): Promise<void> {
+    if (this.incomingStudentFormControl.controls.specialty.value) {
+      const dialogRef = this.dialog.open(RotationServiceDialogComponent, {
+        maxWidth: '500px',
+        width: '80%',
+        position: {
+          top: '10px',
+        },
+        data: {
+          specialty:
+            this.incomingStudentFormControl.controls.specialty.value ??
+            undefined,
+          disableSpecialty: true,
+          incoming: true,
+        },
+      });
+
+      /** Gets again the Rotation Services */
+      dialogRef.afterClosed().subscribe(async () => {
+        this.rotationServices = await this.rotationServicesService.getAll(
+          this.incomingStudentFormControl.controls.specialty.value!,
+          true
+        );
+      });
     }
   }
 }

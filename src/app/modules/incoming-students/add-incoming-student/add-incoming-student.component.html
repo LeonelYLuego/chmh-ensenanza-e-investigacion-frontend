@@ -88,6 +88,7 @@
       >
         Agregar Teléfono
       </button>
+      <div style="margin-bottom: 8px"></div>
       <br />
       <div
         *ngFor="
@@ -121,6 +122,7 @@
       >
         Agregar Correo
       </button>
+      <div style="margin-bottom: 8px"></div>
       <br />
       <mat-form-field appearance="outline" class="long-width">
         <mat-label>Hospital</mat-label>
@@ -137,6 +139,14 @@
           >Hospital <strong>Inválido</strong></mat-error
         >
       </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addHospitalDialog()"
+        class="add-dialog-button"
+      >
+        Agregar Hospital
+      </button>
       <br />
       <mat-form-field appearance="outline" class="long-width">
         <mat-label>Especialidad</mat-label>
@@ -171,6 +181,15 @@
           >Servicio a Rotar <strong>Inválido</strong></mat-error
         >
       </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addRotationServiceDialog()"
+        class="add-dialog-button"
+        [disabled]="!this.incomingStudentFormControl.controls.specialty.value"
+      >
+        Agregar Servicio a Rotar
+      </button>
       <br />
       <mat-form-field appearance="outline" class="long-width">
         <mat-label>Fecha de Inicio</mat-label>
@@ -223,6 +242,7 @@
     >
       Agregar Rotante
     </button>
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
   </mat-card-actions>
   <mat-card-footer *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>

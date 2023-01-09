@@ -18,4 +18,89 @@
     <input matInput disabled />
   </mat-form-field>
   <br />
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Fecha Inicial</mat-label>
+    <mat-select [formControl]="intervalFormControl.controls.initialDate">
+      <mat-option
+        *ngFor="let initialMonth of interval.initialMonths"
+        [value]="initialMonth.value"
+        >{{ initialMonth.name }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="filter-width" appearance="outline">
+    <mat-label>Fecha Final</mat-label>
+    <mat-select [formControl]="intervalFormControl.controls.finalDate">
+      <mat-option
+        *ngFor="let finalMonth of interval.finalMonths"
+        [value]="finalMonth.value"
+        >{{ finalMonth.name }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-card-content *ngIf="!loading">
+    <table mat-table [dataSource]="incomingStudents" class="full-width">
+      <ng-container matColumnDef="student">
+        <th mat-header-cell *matHeaderCellDef>Rotante</th>
+        <td mat-cell *matCellDef="let incomingStudent">
+          {{ incomingStudent.name }} {{ incomingStudent.firstLastName }}
+          {{ incomingStudent.secondLastName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="hospital">
+        <th mat-header-cell *matHeaderCellDef>Hospital</th>
+        <td mat-cell *matCellDef="let incomingStudent">
+          {{ incomingStudent.hospital.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef>Periodo</th>
+        <td mat-cell *matCellDef="let incomingStudent">
+          {{
+            getPeriod(incomingStudent.initialDate, incomingStudent.finalDate)
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="documents">
+        <th mat-header-cell *matHeaderCellDef>Documentos</th>
+        <td mat-cell *matCellDef="let incomingStudent">
+          <mat-chip-list *ngIf="!incomingStudent.canceled">
+            <mat-chip
+              *ngIf="incomingStudent.solicitudeDocument"
+              color="solicitude"
+              selected
+              >Solicitud</mat-chip
+            >
+            <mat-chip
+              *ngIf="incomingStudent.solicitudeVoBo"
+              color="solicitude-VoBo"
+              selected
+              >VoBo</mat-chip
+            >
+            <mat-chip
+              *ngIf="incomingStudent.acceptanceDocument"
+              color="acceptance"
+              selected
+              >Aceptación</mat-chip
+            >
+            <mat-chip
+              *ngIf="incomingStudent.evaluationDocument"
+              color="evaluation"
+              selected
+              >Evaluación</mat-chip
+            >
+          </mat-chip-list>
+          <span *ngIf="incomingStudent.canceled" class="canceled-text"
+            >Cancelado</span
+          >
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="updateIncomingStudent(row)"
+      ></tr>
+    </table>
+  </mat-card-content>
 </mat-card>

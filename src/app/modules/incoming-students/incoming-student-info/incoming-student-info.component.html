@@ -1,0 +1,13 @@
+<mat-card *ngIf="incomingStudent">
+  <h1>Datos del Rotante</h1>
+  <p>Código Hospitalario: {{ incomingStudent.code }}</p>
+  <p>
+    <strong
+      >Nombre: {{ incomingStudent.name }} {{ incomingStudent.firstLastName }}
+      {{ incomingStudent.secondLastName }}</strong
+    >
+  </p>
+  <p>Especialidad:</p>
+  <p>Teléfono(s): {{ phones }}</p>
+  <p>Correo(s): {{ emails }}</p>
+</mat-card>
