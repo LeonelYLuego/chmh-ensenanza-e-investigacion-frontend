@@ -7,7 +7,15 @@
       {{ incomingStudent.secondLastName }}</strong
     >
   </p>
-  <p>Especialidad:</p>
+  <p>Especialidad Externa: {{ specialty!.value }}</p>
   <p>Teléfono(s): {{ phones }}</p>
   <p>Correo(s): {{ emails }}</p>
+  <p>Servicio a Rotar Externo: {{ rotationService!.value }}</p>
+  <p>Fecha de Inicio: {{ initialDate }}</p>
+  <p>Fecha de Finalización: {{ finalDate }}</p>
+  <mat-card-actions *ngIf="!incomingStudent.canceled" align="end">
+    <button mat-raised-button color="accent" (click)="updateIncomingStudent()">
+      Editar Rotante
+    </button>
+  </mat-card-actions>
 </mat-card>

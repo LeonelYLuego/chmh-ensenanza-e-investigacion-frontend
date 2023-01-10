@@ -38,3 +38,15 @@ const months = [
 export function monthToString(month: number) {
   return months[month];
 }
+
+export function getFirstDayOfMonthAsString(date: Date) {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  return `1 de ${months[month]} de ${year}`;
+}
+
+export function getLastDayOfMonthAsString(date: Date) {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  return `${lastDayOfTheMonth(year, month)} de ${months[month]} de ${year}`;
+}

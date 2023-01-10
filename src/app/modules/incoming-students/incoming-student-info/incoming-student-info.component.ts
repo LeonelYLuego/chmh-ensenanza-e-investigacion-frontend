@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Specialty } from '@data/interfaces';
+import { Router } from '@angular/router';
+import { PATHS } from '@core/constants';
+import {
+  getFirstDayOfMonthAsString,
+  getLastDayOfMonthAsString,
+} from '@core/functions/date.function';
+import { RotationService, Specialty } from '@data/interfaces';
 import { IncomingStudent } from '@data/interfaces/incoming-student';
 import { IncomingStudentsService } from '@data/services';
 
@@ -13,17 +19,22 @@ export class IncomingStudentInfoComponent implements OnInit {
   id: string | IncomingStudent = '';
   incomingStudent: IncomingStudent | null = null;
   specialty: Specialty | null = null;
+  rotationService: RotationService | null = null;
   phones: string = '';
   emails: string = '';
+  initialDate: string = '';
+  finalDate: string = '';
 
-  constructor(private incomingStudentsService: IncomingStudentsService) {}
+  constructor(
+    private incomingStudentsService: IncomingStudentsService,
+    private router: Router
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.getIncomingStudent();
   }
 
   async getIncomingStudent(): Promise<void> {
-    console.log(this.id);
     if ((this.id as IncomingStudent)._id)
       this.id = (this.id as IncomingStudent)._id!;
     this.incomingStudent = await this.incomingStudentsService.get(
@@ -39,6 +50,23 @@ export class IncomingStudentInfoComponent implements OnInit {
         this.emails += email + ', ';
       });
       this.emails = this.emails.slice(0, -2);
+      this.rotationService = this.incomingStudent
+        .rotationService as RotationService;
+      this.specialty = this.rotationService.specialty as Specialty;
+      this.initialDate = getFirstDayOfMonthAsString(
+        new Date(this.incomingStudent.initialDate)
+      );
+      this.finalDate = getLastDayOfMonthAsString(
+        new Date(this.incomingStudent.finalDate)
+      );
     }
+  }
+
+  updateIncomingStudent(): void {
+    this.router.navigate([
+      PATHS.INCOMING_STUDENTS.BASE_PATH,
+      PATHS.INCOMING_STUDENTS.UPDATE,
+      this.incomingStudent!._id!,
+    ]);
   }
 }

@@ -1,6 +1,8 @@
 <mat-card class="main-card">
   <mat-card-title>
-    <span class="main-card-title">Agregar Rotante</span>
+    <span class="main-card-title"
+      >{{ incomingStudent ? "Editar" : "Agregar" }} Rotante</span
+    >
   </mat-card-title>
   <mat-divider></mat-divider>
   <div style="margin-bottom: 20px"></div>
@@ -232,7 +234,7 @@
       </mat-form-field>
     </mat-card-content>
   </form>
-  <mat-card-actions align="end">
+  <mat-card-actions align="end" *ngIf="!incomingStudent">
     <button
       type="submit"
       mat-raised-button
@@ -243,6 +245,18 @@
       Agregar Rotante
     </button>
     <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-actions align="end" *ngIf="incomingStudent">
+    <button
+      type="submit"
+      mat-raised-button
+      color="accent"
+      (click)="updateIncomingStudent()"
+      form="add-incoming-student-form"
+    >
+      Editar Rotante
+    </button>
+    <button mat-raised-button color="basic" (click)="goBack()">Cancelar</button>
   </mat-card-actions>
   <mat-card-footer *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>

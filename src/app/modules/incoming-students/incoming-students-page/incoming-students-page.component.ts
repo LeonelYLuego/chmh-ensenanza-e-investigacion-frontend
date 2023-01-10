@@ -46,6 +46,44 @@ export class IncomingStudentsPageComponent implements OnInit {
     }
   }
 
+  initialDateChanged(): void {
+    if (
+      this.intervalFormControl.controls.initialDate.value!.getTime() >
+      this.intervalFormControl.controls.finalDate.value!.getTime()
+    ) {
+      const date = this.intervalFormControl.controls.initialDate.value!;
+      const index = this.interval.finalMonths.findIndex((d) => {
+        return (
+          d.value.getTime() ==
+          new Date(date.getFullYear(), date.getMonth() + 1, 0).getTime()
+        );
+      });
+      this.intervalFormControl.controls.finalDate.setValue(
+        this.interval.finalMonths[index].value
+      );
+    }
+    this.getIncomingStudents();
+  }
+
+  finalDateChanged(): void {
+    if (
+      this.intervalFormControl.controls.finalDate.value!.getTime() <
+      this.intervalFormControl.controls.initialDate.value!.getTime()
+    ) {
+      const date = this.intervalFormControl.controls.finalDate.value!;
+      const index = this.interval.initialMonths.findIndex((d) => {
+        return (
+          d.value.getTime() ==
+          new Date(date.getFullYear(), date.getMonth(), 1).getTime()
+        );
+      });
+      this.intervalFormControl.controls.initialDate.setValue(
+        this.interval.initialMonths[index].value
+      );
+    }
+    this.getIncomingStudents();
+  }
+
   async getIncomingStudents(): Promise<void> {
     this.loading = true;
     this.incomingStudents = await this.incomingStudentsService.getAll(

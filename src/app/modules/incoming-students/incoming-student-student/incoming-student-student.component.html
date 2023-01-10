@@ -10,23 +10,90 @@
     ></app-incoming-student-info>
     <div style="margin-bottom: 20px"></div>
     <app-hospital-info [id]="incomingStudent.hospital"></app-hospital-info>
-    <div *ngIf="!incomingStudent.canceled">
-      <mat-form-field class="large-input input">
-        <mat-label>Hospital</mat-label>
-        <mat-select></mat-select>
-      </mat-form-field>
-      <mat-form-field class="short-input input">
-        <mat-label>Fecha de Inicio</mat-label>
-        <input matInput />
-      </mat-form-field>
-      <mat-form-field class="short-input input">
-        <mat-label>Fecha de Finalización</mat-label>
-        <input matInput />
-      </mat-form-field>
-      <mat-form-field class="short-input input">
-        <mat-label>Servicio a Rotar</mat-label>
-        <mat-select></mat-select>
-      </mat-form-field>
+    <div style="margin-bottom: 20px"></div>
+    <button
+      *ngIf="!incomingStudent.canceled"
+      mat-raised-button
+      color="warn"
+      (click)="cancel()"
+    >
+      Cancelar Rotante
+    </button>
+    <h3 class="canceled-text" *ngIf="incomingStudent.canceled">
+      Rotante Cancelado
+    </h3>
+    <button
+      *ngIf="incomingStudent.canceled"
+      mat-raised-button
+      color="accent"
+      (click)="uncancel()"
+    >
+      No Cancelar Rotante
+    </button>
+    <div style="margin-bottom: 20px"></div>
+    <h2>Documentos</h2>
+    <h3>
+      <mat-checkbox
+        [checked]="incomingStudent.solicitudeVoBo"
+        (change)="VoBoChanged()"
+        >VoBo</mat-checkbox
+      >
+    </h3>
+    <div *ngFor="let document of documents">
+      <h3>
+        {{ document.title }}
+        <span *ngIf="!incomingStudent.canceled">
+          <button
+            *ngIf="!incomingStudent[document.name]"
+            (click)="documentUploader.click()"
+            mat-raised-button
+            color="primary"
+            class="document-button"
+          >
+            Agregar Archivo
+          </button>
+          <button
+            *ngIf="incomingStudent[document.name]"
+            (click)="documentUploader.click()"
+            mat-raised-button
+            color="accent"
+            class="document-button"
+          >
+            Editar Archivo
+          </button>
+          <button
+            *ngIf="incomingStudent[document.name]"
+            (click)="deleteFile(document.name)"
+            mat-raised-button
+            color="warn"
+            class="document-button"
+          >
+            Eliminar Archivo
+          </button>
+        </span>
+      </h3>
+      <input
+        hidden
+        accept=".pdf"
+        type="file"
+        #documentUploader
+        (change)="updateFile($event, document.name)"
+      />
+      <div *ngIf="incomingStudent[document.name]">
+        <iframe
+          *ngIf="document.url"
+          [src]="document.url"
+          width="100%"
+          height="600"
+        >
+        </iframe>
+      </div>
     </div>
   </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
 </mat-card>

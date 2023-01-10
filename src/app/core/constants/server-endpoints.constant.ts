@@ -110,5 +110,17 @@ export const SERVER_ENDPOINTS = {
       return `${SERVER_RESOURCES.INCOMING_STUDENTS}/${_id}`;
     },
     INTERVAL: SERVER_RESOURCES.INCOMING_STUDENTS + '/interval',
+    BY_DOCUMENT_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.INCOMING_STUDENTS}/document/${_id}`;
+    },
+    CANCEL_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.INCOMING_STUDENTS}/cancel/${_id}`;
+    },
+    UNCANCEL_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.INCOMING_STUDENTS}/uncancel/${_id}`;
+    },
+    VOBO_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.INCOMING_STUDENTS}/document/vobo/${_id}`;
+    },
   },
 };

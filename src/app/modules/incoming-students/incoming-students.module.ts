@@ -8,7 +8,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { AddIncomingStudentComponent } from './add-incoming-student/add-incoming-student.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -18,13 +17,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { IncomingStudentStudentComponent } from './incoming-student-student/incoming-student-student.component';
 import { SharedModule } from '@shared/shared.module';
 import { IncomingStudentInfoComponent } from './incoming-student-info/incoming-student-info.component';
+import { AddUpdateIncomingStudentComponent } from './add-update-incoming-student/add-update-incoming-student.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
     IncomingStudentsPageComponent,
-    AddIncomingStudentComponent,
     IncomingStudentStudentComponent,
     IncomingStudentInfoComponent,
+    AddUpdateIncomingStudentComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +41,7 @@ import { IncomingStudentInfoComponent } from './incoming-student-info/incoming-s
     MatProgressBarModule,
     MatTableModule,
     MatChipsModule,
+    MatCheckboxModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,

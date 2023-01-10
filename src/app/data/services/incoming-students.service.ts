@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { SERVER_ENDPOINTS } from '@core/constants';
 import {
   lastDayOfTheMonth,
@@ -10,10 +11,36 @@ import {
   IncomingStudent,
   IncomingStudentsInterval,
 } from '@data/interfaces/incoming-student';
+import { IncomingStudentDocumentTypes } from '@data/types/incoming-student-document.type';
 
 @Injectable()
 export class IncomingStudentsService {
-  forbiddenErrors: ForbiddenErrorInterface[] = [];
+  forbiddenErrors: ForbiddenErrorInterface[] = [
+    {
+      errorMessage: 'incoming student not found',
+      snackbarMessage: 'Rotante no encontrado',
+    },
+    {
+      errorMessage: 'incoming student not modified',
+      snackbarMessage: 'Rotante no editado',
+    },
+    {
+      errorMessage: 'incoming student not deleted',
+      snackbarMessage: 'Rotante no eliminado',
+    },
+    {
+      errorMessage: 'document not found',
+      snackbarMessage: 'Documento no encontrado',
+    },
+    {
+      errorMessage: 'file must be a pdf',
+      snackbarMessage: 'El archivo debe ser un PDF',
+    },
+    {
+      errorMessage: 'incoming student interval not found',
+      snackbarMessage: 'Intervalo de Rotantes no encontrado',
+    },
+  ];
 
   constructor(private http: HttpPetitions) {}
 
@@ -105,5 +132,66 @@ export class IncomingStudentsService {
     finalMonthString =
       finalMonthString.charAt(0).toUpperCase() + finalMonthString.slice(1);
     return `${initialMonthString} de ${initialDate.getFullYear()} - ${finalMonthString} de ${finalDate.getFullYear()}`;
+  }
+
+  async getDocument(
+    _id: string,
+    type: IncomingStudentDocumentTypes
+  ): Promise<SafeResourceUrl | null> {
+    let data = await this.http.getFileUrl(
+      SERVER_ENDPOINTS.INCOMING_STUDENTS.BY_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+    return data ?? null;
+  }
+
+  async updateDocument(
+    _id: string,
+    type: IncomingStudentDocumentTypes,
+    formData: FormData
+  ): Promise<IncomingStudent | null> {
+    let data = await this.http.put<IncomingStudent | null>(
+      SERVER_ENDPOINTS.INCOMING_STUDENTS.BY_DOCUMENT_ID(_id),
+      formData,
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+    return data ?? null;
+  }
+
+  async deleteDocument(
+    _id: string,
+    type: IncomingStudentDocumentTypes
+  ): Promise<void> {
+    await this.http.delete<void>(
+      SERVER_ENDPOINTS.INCOMING_STUDENTS.BY_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+  }
+
+  async cancel(_id: string): Promise<IncomingStudent | null> {
+    const data = await this.http.put<IncomingStudent>(
+      SERVER_ENDPOINTS.INCOMING_STUDENTS.CANCEL_ID(_id),
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
+
+  async uncancel(_id: string): Promise<IncomingStudent | null> {
+    const data = await this.http.put<IncomingStudent>(
+      SERVER_ENDPOINTS.INCOMING_STUDENTS.UNCANCEL_ID(_id),
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
+
+  async VoBo(_id: string): Promise<IncomingStudent | null> {
+    const data = await this.http.put<IncomingStudent>(
+      SERVER_ENDPOINTS.INCOMING_STUDENTS.VOBO_ID(_id),
+      this.forbiddenErrors
+    );
+    return data ?? null;
   }
 }

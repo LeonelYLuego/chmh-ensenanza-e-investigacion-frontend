@@ -59,6 +59,7 @@ export const PATHS = {
     BASE_PATH: RESOURCE_PATHS.INCOMING_STUDENTS,
     BASE: '',
     ADD: 'agregar',
+    UPDATE: 'editar',
     STUDENT: ':_id',
   },
 };
