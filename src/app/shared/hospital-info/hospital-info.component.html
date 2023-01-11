@@ -1,12 +1,17 @@
 <mat-card *ngIf="hospital">
   <h1>Datos del Hospital</h1>
-  <p><strong>Nombre: {{ hospital.name }}</strong></p>
+  <p>
+    <strong>Nombre: {{ hospital.name }}</strong>
+  </p>
   <p *ngIf="hospital.acronym">Siglas: {{ hospital.acronym }}</p>
   <p *ngIf="hospital.firstReceiver">
     {{ hospital.firstReceiver.position }}: {{ hospital.firstReceiver.name }}
   </p>
   <p *ngIf="hospital.secondReceiver">
     {{ hospital.secondReceiver.position }}: {{ hospital.secondReceiver.name }}
+  </p>
+  <p *ngIf="hospital.thirdReceiver">
+    {{ hospital.thirdReceiver.position }}: {{ hospital.thirdReceiver.name }}
   </p>
   <p *ngIf="hospital.address">
     Dirección: {{ hospital.address.country }}, {{ hospital.address.state }},
@@ -15,6 +20,8 @@
   <p>Teléfono(s): {{ phones }}</p>
   <p>Correo(s): {{ emails }}</p>
   <mat-card-actions align="end">
-    <button mat-raised-button color="accent" (click)="updateHospitalDialog()">Editar Hospital</button>
+    <button mat-raised-button color="accent" (click)="updateHospitalDialog()">
+      Editar Hospital
+    </button>
   </mat-card-actions>
 </mat-card>

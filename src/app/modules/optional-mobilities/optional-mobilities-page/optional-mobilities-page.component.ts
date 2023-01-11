@@ -134,6 +134,8 @@ export class OptionalMobilitiesPageComponent implements OnInit {
           _id: specialty._id,
           value: specialty.value,
           duration: NaN,
+          headOfDepartment: '',
+          headOfDepartmentPosition: '',
           headOfService: '',
           tenuredPostgraduateProfessor: '',
         },

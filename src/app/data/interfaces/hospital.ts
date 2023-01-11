@@ -34,6 +34,8 @@ export interface Hospital {
 
   secondReceiver?: Receiver;
 
+  thirdReceiver?: Receiver;
+
   /** @property {Address} address */
   address?: Address;
 

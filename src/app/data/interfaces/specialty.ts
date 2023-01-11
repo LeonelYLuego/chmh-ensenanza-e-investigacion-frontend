@@ -9,6 +9,10 @@ export interface Specialty {
   /** @property {number} duration */
   duration: number;
 
+  headOfDepartment: string;
+
+  headOfDepartmentPosition: string;
+
   /** @property {string} tenuredPostgraduateProfessor */
   tenuredPostgraduateProfessor: string;
 

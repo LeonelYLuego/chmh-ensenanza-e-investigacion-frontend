@@ -18,6 +18,16 @@ export class SpecialtyDialogComponent implements OnInit {
       Validators.min(1),
       Validators.max(6),
     ]),
+    headOfDepartment: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(128),
+    ]),
+    headOfDepartmentPosition: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(128),
+    ]),
     tenuredPostgraduateProfessor: new FormControl<string>('', [
       Validators.required,
       Validators.minLength(3),
@@ -40,6 +50,8 @@ export class SpecialtyDialogComponent implements OnInit {
       this.specialtyFormControl.setValue({
         value: data.specialty.value,
         duration: data.specialty.duration,
+        headOfDepartment: data.specialty.headOfDepartment,
+        headOfDepartmentPosition: data.specialty.headOfDepartmentPosition,
         headOfService: data.specialty.headOfService,
         tenuredPostgraduateProfessor:
           data.specialty.tenuredPostgraduateProfessor,
@@ -61,6 +73,8 @@ export class SpecialtyDialogComponent implements OnInit {
           {
             value: values.value!,
             duration: values.duration as number,
+            headOfDepartment: values.headOfDepartment!,
+            headOfDepartmentPosition: values.headOfDepartmentPosition!,
             headOfService: values.headOfService!,
             tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
           },
@@ -83,6 +97,8 @@ export class SpecialtyDialogComponent implements OnInit {
           {
             value: values.value!,
             duration: values.duration as number,
+            headOfDepartment: values.headOfDepartment!,
+            headOfDepartmentPosition: values.headOfDepartmentPosition!,
             headOfService: values.headOfService!,
             tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
           },

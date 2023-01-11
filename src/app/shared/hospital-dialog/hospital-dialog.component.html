@@ -64,7 +64,7 @@
           color="warn"
           (click)="removeFirstReceiver()"
         >
-          Quitar datos del Destinatarios
+          Quitar datos del Destinatario Principal
         </button>
       </div>
       <div style="margin-bottom: 20px"></div>
@@ -104,7 +104,6 @@
             >Nombre <strong>Inválido</strong></mat-error
           >
         </mat-form-field>
-
         <div class="full-width dialog-button-container">
           <button
             type="button"
@@ -115,6 +114,57 @@
           >
             Quitar datos del Destinatario Secundario
           </button>
+        </div>
+        <div style="margin-bottom: 20px"></div>
+        <div
+          class="full-width dialog-button-container"
+          *ngIf="!showThirdReceiverInputs"
+        >
+          <button
+            type="button"
+            mat-raised-button
+            class="dialog-button"
+            color="primary"
+            (click)="showThirdReceiverInputs = true"
+          >
+            Agregar datos del Destinatario Terciario
+          </button>
+        </div>
+        <div *ngIf="showThirdReceiverInputs">
+          <h4>Datos del Destinatario Terciario</h4>
+          <mat-form-field class="full-width">
+            <mat-label>Cargo</mat-label>
+            <input
+              matInput
+              [formControl]="thirdReceiverFormControl.controls.position"
+            />
+            <mat-error
+              *ngIf="thirdReceiverFormControl.controls.position.invalid"
+              >Cargo <strong>Inválido</strong></mat-error
+            >
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              [formControl]="thirdReceiverFormControl.controls.name"
+            />
+            <mat-error *ngIf="thirdReceiverFormControl.controls.name.invalid"
+              >Nombre <strong>Inválido</strong></mat-error
+            >
+          </mat-form-field>
+
+          <div class="full-width dialog-button-container">
+            <button
+              type="button"
+              mat-raised-button
+              class="dialog-button"
+              color="warn"
+              (click)="removeThirdReceiver()"
+            >
+              Quitar datos del Destinatario Terciario
+            </button>
+          </div>
         </div>
       </div>
       <div style="margin-bottom: 20px"></div>

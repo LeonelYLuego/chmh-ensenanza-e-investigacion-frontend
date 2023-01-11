@@ -18,6 +18,7 @@ export class HospitalDialogComponent implements OnInit {
   ];
   showFirstReceiverInputs = false;
   showSecondReceiverInputs = false;
+  showThirdReceiverInputs = false;
   showAddressInputs = false;
 
   hospitalFormControl = new FormGroup({
@@ -46,6 +47,15 @@ export class HospitalDialogComponent implements OnInit {
   });
 
   secondReceiverFormControl = new FormGroup({
+    position: new FormControl('', this.textValidators),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.min(3),
+      Validators.max(128),
+    ]),
+  });
+
+  thirdReceiverFormControl = new FormGroup({
     position: new FormControl('', this.textValidators),
     name: new FormControl('', [
       Validators.required,
@@ -99,6 +109,14 @@ export class HospitalDialogComponent implements OnInit {
             name: this.data.secondReceiver.name,
           });
           this.showSecondReceiverInputs = true;
+          //If exists a third receiver adds it to the form
+          if (this.data.thirdReceiver) {
+            this.thirdReceiverFormControl.setValue({
+              position: this.data.thirdReceiver.position,
+              name: this.data.thirdReceiver.name,
+            });
+            this.showThirdReceiverInputs = true;
+          }
         }
       }
       //If exists address data adds it to the form
@@ -128,9 +146,16 @@ export class HospitalDialogComponent implements OnInit {
    * Removes the second receiver data
    */
   removeSecondReceiver(): void {
+    this.removeThirdReceiver();
     this.secondReceiverFormControl.controls.position.setValue('');
     this.secondReceiverFormControl.controls.name.setValue('');
     this.showSecondReceiverInputs = false;
+  }
+
+  removeThirdReceiver(): void {
+    this.thirdReceiverFormControl.controls.position.setValue('');
+    this.thirdReceiverFormControl.controls.name.setValue('');
+    this.showThirdReceiverInputs = false;
   }
 
   /**
@@ -199,9 +224,10 @@ export class HospitalDialogComponent implements OnInit {
     if (this.hospitalFormControl.valid) {
       const data = this.hospitalFormControl.value;
       let firstReceiver: { name: string; position: string } | undefined =
-        undefined;
-      let secondReceiver: { name: string; position: string } | undefined =
-        undefined;
+          undefined,
+        secondReceiver: { name: string; position: string } | undefined =
+          undefined,
+        thirdReceiver: { name: string; position: string } | undefined;
       let address:
         | {
             country: string;
@@ -226,6 +252,16 @@ export class HospitalDialogComponent implements OnInit {
                 position: data.position!,
                 name: data.name!,
               };
+              //Adds to the object the third receiver if this is being showed
+              if (this.showThirdReceiverInputs) {
+                if (this.thirdReceiverFormControl.valid) {
+                  const data = this.thirdReceiverFormControl.value;
+                  thirdReceiver = {
+                    position: data.position!,
+                    name: data.name!,
+                  };
+                } else return null;
+              }
             } else return null;
           }
         } else return null;
@@ -247,6 +283,7 @@ export class HospitalDialogComponent implements OnInit {
         acronym: data.acronym == '' ? undefined : data.acronym!,
         firstReceiver,
         secondReceiver,
+        thirdReceiver,
         address,
         phones: data.phones as string[],
         emails: data.emails as string[],

@@ -44,6 +44,14 @@
       >
     </mat-select>
   </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    class="filter-button"
+    [routerLink]="'/' + paths.BASE_PATH + '/' + paths.DOCUMENTS_PRESENTATION_OFFICE"
+  >
+    Generar Oficios de Presentación
+  </button>
   <mat-card-content *ngIf="!loading">
     <table mat-table [dataSource]="optionalMobilities" class="full-width">
       <ng-container matColumnDef="student">

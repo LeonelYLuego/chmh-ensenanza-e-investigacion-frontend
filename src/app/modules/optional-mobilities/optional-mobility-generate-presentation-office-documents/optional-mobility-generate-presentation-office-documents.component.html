@@ -1,0 +1,95 @@
+<mat-card class="main-card">
+  <mat-card-title>
+    <span class="main-card-title"
+      >Generar Oficios de Presentación para Movilidades Optativas</span
+    >
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div style="margin-bottom: 20px"></div>
+  <mat-card-content *ngIf="!loading">
+    <form action="">
+      <mat-form-field class="filter-width" appearance="outline">
+        <mat-label>Hospital</mat-label>
+        <mat-select [formControl]="filtersFormControl.controls.hospital">
+          <mat-option
+            *ngFor="let hospital of hospitals"
+            [value]="hospital._id"
+            >{{ hospital.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="filter-width" appearance="outline">
+        <mat-label>Especialidad</mat-label>
+        <mat-select [formControl]="filtersFormControl.controls.specialty">
+          <mat-option
+            *ngFor="let specialty of specialties"
+            [value]="specialty._id"
+            >{{ specialty.value }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="filter-width" appearance="outline">
+        <mat-label>Fecha Inicial</mat-label>
+        <mat-select
+          [formControl]="filtersFormControl.controls.initialDate"
+          (selectionChange)="initialDateChange()"
+        >
+          <mat-option
+            *ngFor="let period of initialDates"
+            [value]="period.value"
+            >{{ period.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="filter-width" appearance="outline">
+        <mat-label>Fecha Final</mat-label>
+        <mat-select
+          [formControl]="filtersFormControl.controls.finalDate"
+          (selectionChange)="finalDateChange()"
+        >
+          <mat-option
+            *ngFor="let period of finalDates"
+            [value]="period.value"
+            >{{ period.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="filter-width" appearance="outline">
+        <mat-label>Número Inicial de los Documentos</mat-label>
+        <input
+          matInput
+          [formControl]="filtersFormControl.controls.initialNumberOfDocuments"
+        />
+        <mat-error
+          *ngIf="filtersFormControl.controls.initialNumberOfDocuments.invalid"
+          >Número <strong>Inválido</strong></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="filter-width" appearance="outline">
+        <mat-label>Fecha de Expedición de los Documentos</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [formControl]="filtersFormControl.controls.dateOfDocuments"
+        />
+        <mat-hint>DD/MM/AAAA</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        style="display: block"
+        (click)="generate()"
+      >
+        Generar Oficios de Presentación
+      </button>
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="basic" [routerLink]="PATHS.BASE">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

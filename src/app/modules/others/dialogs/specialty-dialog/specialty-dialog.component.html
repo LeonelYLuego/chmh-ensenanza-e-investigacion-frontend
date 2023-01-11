@@ -28,6 +28,27 @@
       >
     </mat-form-field>
     <mat-form-field class="full-width">
+      <mat-label>Departamento</mat-label>
+      <input
+        matInput
+        [formControl]="specialtyFormControl.controls.headOfDepartmentPosition"
+      />
+      <mat-error
+        *ngIf="specialtyFormControl.controls.headOfDepartmentPosition.invalid"
+        >Departamento <strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Jefe de Departamento</mat-label>
+      <input
+        matInput
+        [formControl]="specialtyFormControl.controls.headOfDepartment"
+      />
+      <mat-error *ngIf="specialtyFormControl.controls.headOfDepartment.invalid"
+        >Jefe de Departamento<strong>Inválido</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width">
       <mat-label>Jefe de Servicio</mat-label>
       <input
         matInput
