@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PATHS } from '@core/constants';
 import { NameValueInterface } from '@core/interfaces';
 import { Hospital, Specialty } from '@data/interfaces';
@@ -10,17 +11,13 @@ import {
 } from '@data/services';
 
 @Component({
-  selector: 'app-optional-mobility-generate-presentation-office-documents',
-  templateUrl:
-    './optional-mobility-generate-presentation-office-documents.component.html',
-  styleUrls: [
-    './optional-mobility-generate-presentation-office-documents.component.css',
-  ],
+  selector: 'app-optional-mobilities-generate-documents',
+  templateUrl: './optional-mobilities-generate-documents.component.html',
+  styleUrls: ['./optional-mobilities-generate-documents.component.css'],
 })
-export class OptionalMobilityGeneratePresentationOfficeDocumentsComponent
-  implements OnInit
-{
-  PATHS = PATHS.OPTIONAL_MOBILITIES;
+export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
+  document: 'presentationOfficeDocument' | 'solicitudeDocument' =
+    'presentationOfficeDocument';
   loading = false;
   hospitals: Hospital[] = [];
   specialties: Specialty[] = [];
@@ -44,48 +41,57 @@ export class OptionalMobilityGeneratePresentationOfficeDocumentsComponent
   constructor(
     private optionalMobilitiesService: OptionalMobilitiesService,
     private hospitalsService: HospitalsService,
-    private specialtiesService: SpecialtiesService
+    private specialtiesService: SpecialtiesService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    //Sets the fist value of hospital and specialties to all
-    this.hospitals = (
-      [
-        {
-          _id: 'all',
-          name: 'Todos',
-          emails: [],
-          phones: [],
-          socialService: false,
-        },
-      ] as Hospital[]
-    ).concat(await this.hospitalsService.getSocialServices());
-    this.specialties = (
-      [
-        {
-          duration: 3,
-          value: 'Todas',
-          _id: 'all',
-        },
-      ] as Specialty[]
-    ).concat(await this.specialtiesService.findAll());
-    const period = await this.optionalMobilitiesService.interval();
-    this.initialDates = period.initialMonths;
-    this.finalDates = period.finalMonths;
-    if (period.finalMonths.length >= 3 && period.initialMonths.length >= 3) {
-      this.filtersFormControl.controls.initialDate.setValue(
-        period.initialMonths[period.initialMonths.length - 3].value
-      );
-      this.filtersFormControl.controls.finalDate.setValue(
-        period.finalMonths[period.finalMonths.length - 1].value
-      );
-    }
-    this.loading = false;
+
+    this.route.data.subscribe(async (v) => {
+      if (v['document']) {
+        this.document = v['document'];
+      }
+
+      //Sets the fist value of hospital and specialties to all
+      this.hospitals = (
+        [
+          {
+            _id: 'all',
+            name: 'Todos',
+            emails: [],
+            phones: [],
+            socialService: false,
+          },
+        ] as Hospital[]
+      ).concat(await this.hospitalsService.getSocialServices());
+      this.specialties = (
+        [
+          {
+            duration: 3,
+            value: 'Todas',
+            _id: 'all',
+          },
+        ] as Specialty[]
+      ).concat(await this.specialtiesService.findAll());
+      const period = await this.optionalMobilitiesService.interval();
+      this.initialDates = period.initialMonths;
+      this.finalDates = period.finalMonths;
+      if (period.finalMonths.length >= 3 && period.initialMonths.length >= 3) {
+        this.filtersFormControl.controls.initialDate.setValue(
+          period.initialMonths[period.initialMonths.length - 3].value
+        );
+        this.filtersFormControl.controls.finalDate.setValue(
+          period.finalMonths[period.finalMonths.length - 1].value
+        );
+      }
+      this.loading = false;
+    });
   }
 
   //If the initial period change and is greater than final period, final period will be equal to initial period
-  initialDateChange() {
+  initialDateChange(): void {
     if (
       this.filtersFormControl.controls.initialDate.value!.getTime() >
       this.filtersFormControl.controls.finalDate.value!.getTime()
@@ -104,7 +110,7 @@ export class OptionalMobilityGeneratePresentationOfficeDocumentsComponent
   }
 
   //If the final period change and is below than initial period, initial period will be equal to final period
-  finalDateChange() {
+  finalDateChange(): void {
     if (
       this.filtersFormControl.controls.finalDate.value!.getTime() <
       this.filtersFormControl.controls.initialDate.value!.getTime()
@@ -123,28 +129,36 @@ export class OptionalMobilityGeneratePresentationOfficeDocumentsComponent
   }
 
   //Send the information to the server to generate the documents
-  async generate() {
+  async generate(): Promise<void> {
     if (this.filtersFormControl.valid) {
       const values = this.filtersFormControl.value;
       //Receives a zip file as blob object
-      const blob =
-        await this.optionalMobilitiesService.generatePresentationOfficeDocuments(
-          values.initialNumberOfDocuments!,
-          values.dateOfDocuments!,
-          values.initialDate!,
-          values.finalDate!,
-          values.hospital! == 'all' ? undefined : values.hospital!,
-          values.specialty! == 'all' ? undefined : values.specialty!
-        );
+      const blob = await this.optionalMobilitiesService.generateDocuments(
+        this.document,
+        values.initialNumberOfDocuments!,
+        values.dateOfDocuments!,
+        values.initialDate!,
+        values.finalDate!,
+        values.hospital! == 'all' ? undefined : values.hospital!,
+        values.specialty! == 'all' ? undefined : values.specialty!
+      );
 
       if (blob) {
         //Creates an url and opens it
         var url = window.URL.createObjectURL(blob);
         var anchor = document.createElement('a');
-        anchor.download = 'Oficios de Presentación.zip';
+        anchor.download = `${
+          this.document == 'presentationOfficeDocument'
+            ? 'Oficios de Presentación'
+            : 'Solicitudes'
+        }.zip`;
         anchor.href = url;
         anchor.click();
       }
     }
+  }
+
+  goBack(): void {
+    this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
   }
 }

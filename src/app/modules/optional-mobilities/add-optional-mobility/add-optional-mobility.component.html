@@ -74,6 +74,10 @@
           startView="multi-year"
           (monthSelected)="setInitialMonthAndYear($event, initialPicker)"
         ></mat-datepicker>
+        <mat-error
+          *ngIf="optionalMobilityFormControl.controls.initialDate.invalid"
+          >Fecha de Inicio <strong>Inválida</strong></mat-error
+        >
       </mat-form-field>
       <br />
       <mat-form-field appearance="outline" class="long-width">
@@ -93,6 +97,10 @@
           startView="multi-year"
           (monthSelected)="setFinalMonthAndYear($event, finalPicker)"
         ></mat-datepicker>
+        <mat-error
+          *ngIf="optionalMobilityFormControl.controls.finalDate.invalid"
+          >Fecha de Finalización <strong>Inválida</strong></mat-error
+        >
       </mat-form-field>
       <br />
       <mat-form-field appearance="outline" class="long-width">

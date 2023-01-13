@@ -16,6 +16,9 @@
             {{ hospital.name }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="socialServiceFormControl.controls.hospital.invalid"
+          >Hospital <strong>Inválido</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field class="short-input input">
         <mat-label>Periodo</mat-label>
@@ -26,6 +29,9 @@
             >{{ period.name }}</mat-option
           >
         </mat-select>
+        <mat-error *ngIf="socialServiceFormControl.controls.period.invalid"
+          >Periodo <strong>Inválido</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field class="short-input input">
         <mat-label>Año</mat-label>

@@ -285,7 +285,8 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
-  async generatePresentationOfficeDocuments(
+  async generateDocuments(
+    document: 'presentationOfficeDocument' | 'solicitudeDocument',
     initialNumberOfDocuments: number,
     dateOfDocuments: Date,
     initialDate: Date,
@@ -322,8 +323,10 @@ export class OptionalMobilitiesService {
         value: specialty,
       });
     let data = await this.http.getBlob(
-      SERVER_ENDPOINTS.OPTIONAL_MOBILITIES
-        .GENERATE_PRESENTATION_OFFICE_DOCUMENTS,
+      document == 'presentationOfficeDocument'
+        ? SERVER_ENDPOINTS.OPTIONAL_MOBILITIES
+            .GENERATE_PRESENTATION_OFFICE_DOCUMENTS
+        : SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.GENERATE_SOLICITUDE_DOCUMENTS,
       this.forbiddenErrors,
       params
     );

@@ -117,8 +117,8 @@ export class OptionalMobilityStudentComponent implements OnInit {
       );
       this.optionalMobilityFormControl.setValue({
         hospital: this.optionalMobility.hospital as string,
-        initialDate: this.optionalMobility.initialDate,
-        finalDate: this.optionalMobility.finalDate,
+        initialDate: new Date(this.optionalMobility.initialDate),
+        finalDate: new Date(this.optionalMobility.finalDate),
         rotationService: this.optionalMobility.rotationService as string,
       });
       this.solicitudeDocument =
@@ -197,33 +197,48 @@ export class OptionalMobilityStudentComponent implements OnInit {
   async updateOptionalMobility(): Promise<void> {
     if (this.optionalMobilityFormControl.valid) {
       const values = this.optionalMobilityFormControl.value;
-      values.finalDate = new Date(values.finalDate!);
-      this.loading = true;
-      const data = await this.optionalMobilitiesService.update(
-        this.optionalMobility!._id!,
-        {
-          hospital: values.hospital!,
-          initialDate: values.initialDate!,
-          finalDate: new Date(
-            values.finalDate!.getFullYear(),
-            values.finalDate!.getMonth() + 1,
-            0
-          ),
-          rotationService: values.rotationService!,
-          student: this.optionalMobility!.student,
-        }
-      );
-      //If the Optional Mobility is updated shows a SnackBar to notify the user
-      if (data) {
-        this.optionalMobility = data;
-        this.snackBar.open('Movilidad Optativa editada', undefined, {
-          duration: 2000,
-          panelClass: 'accent-snackbar',
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom',
+      const initialDate = values.initialDate!,
+        finalDate = new Date(
+          values.finalDate!.getFullYear(),
+          values.finalDate!.getMonth() + 1,
+          0
+        );
+      if (initialDate.getTime() > finalDate.getTime()) {
+        this.optionalMobilityFormControl.controls.initialDate.setErrors({
+          incorrect: true,
         });
+        this.optionalMobilityFormControl.controls.finalDate.setErrors({
+          incorrect: true,
+        });
+      } else {
+        values.finalDate = new Date(values.finalDate!);
+        this.loading = true;
+        const data = await this.optionalMobilitiesService.update(
+          this.optionalMobility!._id!,
+          {
+            hospital: values.hospital!,
+            initialDate: values.initialDate!,
+            finalDate: new Date(
+              values.finalDate!.getFullYear(),
+              values.finalDate!.getMonth() + 1,
+              0
+            ),
+            rotationService: values.rotationService!,
+            student: this.optionalMobility!.student,
+          }
+        );
+        //If the Optional Mobility is updated shows a SnackBar to notify the user
+        if (data) {
+          this.optionalMobility = data;
+          this.snackBar.open('Movilidad Optativa editada', undefined, {
+            duration: 2000,
+            panelClass: 'accent-snackbar',
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom',
+          });
+        }
+        this.loading = false;
       }
-      this.loading = false;
     }
   }
 

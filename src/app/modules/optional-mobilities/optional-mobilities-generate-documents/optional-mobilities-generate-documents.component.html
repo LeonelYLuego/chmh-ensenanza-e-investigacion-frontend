@@ -1,7 +1,13 @@
 <mat-card class="main-card">
   <mat-card-title>
     <span class="main-card-title"
-      >Generar Oficios de Presentación para Movilidades Optativas</span
+      >Generar
+      {{
+        document == "presentationOfficeDocument"
+          ? "Oficios de Presentación"
+          : "Solicitudes"
+      }}
+      para Movilidades Optativas</span
     >
   </mat-card-title>
   <mat-divider></mat-divider>
@@ -17,6 +23,9 @@
             >{{ hospital.name }}</mat-option
           >
         </mat-select>
+        <mat-error *ngIf="filtersFormControl.controls.hospital.invalid"
+          >Hospital <strong>Inválido</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field class="filter-width" appearance="outline">
         <mat-label>Especialidad</mat-label>
@@ -27,6 +36,9 @@
             >{{ specialty.value }}</mat-option
           >
         </mat-select>
+        <mat-error *ngIf="filtersFormControl.controls.specialty.invalid"
+          >Especialidad <strong>Inválido</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field class="filter-width" appearance="outline">
         <mat-label>Fecha Inicial</mat-label>
@@ -40,6 +52,9 @@
             >{{ period.name }}</mat-option
           >
         </mat-select>
+        <mat-error *ngIf="filtersFormControl.controls.initialDate.invalid"
+          >Fecha Inicial <strong>Inválida</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field class="filter-width" appearance="outline">
         <mat-label>Fecha Final</mat-label>
@@ -53,6 +68,9 @@
             >{{ period.name }}</mat-option
           >
         </mat-select>
+        <mat-error *ngIf="filtersFormControl.controls.finalDate.invalid"
+          >Fecha Final <strong>Inválida</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field class="filter-width" appearance="outline">
         <mat-label>Número Inicial de los Documentos</mat-label>
@@ -75,6 +93,9 @@
         <mat-hint>DD/MM/AAAA</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="filtersFormControl.controls.dateOfDocuments.invalid"
+          >Fecha <strong>Inválida</strong></mat-error
+        >
       </mat-form-field>
       <button
         mat-raised-button
@@ -82,12 +103,17 @@
         style="display: block"
         (click)="generate()"
       >
-        Generar Oficios de Presentación
+        Generar
+        {{
+          document == "presentationOfficeDocument"
+            ? "Oficios de Presentación"
+            : "Solicitudes"
+        }}
       </button>
     </form>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-raised-button color="basic" [routerLink]="PATHS.BASE">Cancelar</button>
+    <button mat-raised-button color="basic" (click)="goBack()">Cancelar</button>
   </mat-card-actions>
   <mat-card-footer *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>

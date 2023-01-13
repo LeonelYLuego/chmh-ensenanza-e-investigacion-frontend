@@ -17,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { OptionalMobilityStudentComponent } from './optional-mobility-student/optional-mobility-student.component';
 import { SharedModule } from '@shared/shared.module';
-import { OptionalMobilityGeneratePresentationOfficeDocumentsComponent } from './optional-mobility-generate-presentation-office-documents/optional-mobility-generate-presentation-office-documents.component';
+import { OptionalMobilitiesGenerateDocumentsComponent } from './optional-mobilities-generate-documents/optional-mobilities-generate-documents.component';
 
 /** Optional Mobilities module */
 @NgModule({
@@ -25,7 +25,7 @@ import { OptionalMobilityGeneratePresentationOfficeDocumentsComponent } from './
     OptionalMobilitiesPageComponent,
     AddOptionalMobilityComponent,
     OptionalMobilityStudentComponent,
-    OptionalMobilityGeneratePresentationOfficeDocumentsComponent,
+    OptionalMobilitiesGenerateDocumentsComponent,
   ],
   imports: [
     CommonModule,

@@ -166,20 +166,35 @@ export class AddOptionalMobilityComponent implements OnInit {
   async addOptionalMobility(): Promise<void> {
     if (this.optionalMobilityFormControl.valid) {
       const value = this.optionalMobilityFormControl.value;
-      if (
-        await this.optionalMobilitiesService.add({
-          student: value.student!,
-          hospital: value.hospital!,
-          initialDate: value.initialDate!,
-          finalDate: new Date(
-            value.finalDate!.getFullYear(),
-            value.finalDate!.getMonth() + 1,
-            0
-          ),
-          rotationService: value.rotationService!,
-        })
-      )
-        this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
+      const initialDate = value.initialDate!,
+        finalDate = new Date(
+          value.finalDate!.getFullYear(),
+          value.finalDate!.getMonth() + 1,
+          0
+        );
+      if (initialDate.getTime() > finalDate.getTime()) {
+        this.optionalMobilityFormControl.controls.initialDate.setErrors({
+          incorrect: true,
+        });
+        this.optionalMobilityFormControl.controls.finalDate.setErrors({
+          incorrect: true,
+        });
+      } else {
+        if (
+          await this.optionalMobilitiesService.add({
+            student: value.student!,
+            hospital: value.hospital!,
+            initialDate: value.initialDate!,
+            finalDate: new Date(
+              value.finalDate!.getFullYear(),
+              value.finalDate!.getMonth() + 1,
+              0
+            ),
+            rotationService: value.rotationService!,
+          })
+        )
+          this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
+      }
     }
   }
 

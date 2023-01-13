@@ -86,6 +86,8 @@ export const SERVER_ENDPOINTS = {
     INTERVAL: SERVER_RESOURCES.OPTIONAL_MOBILITIES + '/interval',
     GENERATE_PRESENTATION_OFFICE_DOCUMENTS:
       SERVER_RESOURCES.OPTIONAL_MOBILITIES + '/generate/presentation_offices',
+    GENERATE_SOLICITUDE_DOCUMENTS:
+      SERVER_RESOURCES.OPTIONAL_MOBILITIES + '/generate/solicitudes',
     BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OPTIONAL_MOBILITIES}/${_id}`;
     },
