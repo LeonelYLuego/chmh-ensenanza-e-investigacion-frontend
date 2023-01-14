@@ -1,6 +1,6 @@
 <mat-card class="main-card">
-  <mat-card-title>
-    <span class="main-card-title"
+  <mat-card-title class="main-card-title">
+    <span class="main-card-title-text"
       >Generar
       {{
         document == "presentationOfficeDocument"
@@ -11,9 +11,9 @@
     >
   </mat-card-title>
   <mat-divider></mat-divider>
-  <div style="margin-bottom: 20px"></div>
+  <div class="h-20"></div>
   <mat-card-content *ngIf="!loading">
-    <form action="">
+    <form (ngSubmit)="generate()" id="generateDocumentsForm">
       <mat-form-field class="filter-width" appearance="outline">
         <mat-label>Hospital</mat-label>
         <mat-select [formControl]="filtersFormControl.controls.hospital">
@@ -97,22 +97,23 @@
           >Fecha <strong>Inválida</strong></mat-error
         >
       </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        style="display: block"
-        (click)="generate()"
-      >
-        Generar
-        {{
-          document == "presentationOfficeDocument"
-            ? "Oficios de Presentación"
-            : "Solicitudes"
-        }}
-      </button>
     </form>
   </mat-card-content>
   <mat-card-actions align="end">
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      style="display: block"
+      form="generateDocumentsForm"
+    >
+      Generar
+      {{
+        document == "presentationOfficeDocument"
+          ? "Oficios de Presentación"
+          : "Solicitudes"
+      }}
+    </button>
     <button mat-raised-button color="basic" (click)="goBack()">Cancelar</button>
   </mat-card-actions>
   <mat-card-footer *ngIf="loading">

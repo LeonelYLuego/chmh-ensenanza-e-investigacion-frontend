@@ -1,8 +1,14 @@
 .long-width {
-    width: 100%;
-    max-width: 500px;
+  width: 100%;
+  max-width: 500px;
 }
 
 .add-dialog-button {
-    margin-left: 20px;
+  float: right;
+  display: block;
+  margin-bottom: 10px !important;
+}
+
+.card-actions {
+  clear: both;
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SERVER_ENDPOINTS } from '@core/constants';
 import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
+import { OptionalMobilityDocumentTypes } from '@data/types/optional-mobility-document.type';
 import { SocialServiceDocumentTypes } from '@data/types/social-service-document.type';
 
 /** Templates service */
@@ -23,8 +24,8 @@ export class TemplatesService {
    * @param formData
    */
   async update(
-    document: 'socialService',
-    type: SocialServiceDocumentTypes,
+    document: 'socialService' | 'optionalMobility',
+    type: SocialServiceDocumentTypes | OptionalMobilityDocumentTypes,
     formData: FormData
   ): Promise<void> {
     await this.http.put<void>(

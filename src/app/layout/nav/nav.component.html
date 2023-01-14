@@ -1,19 +1,51 @@
 <mat-toolbar color="primary" class="nav-bar">
   <span><img src="assets/images/logo-nav.png" /></span>
-  <button mat-button [routerLink]="'/' + paths.SOCIAL_SERVICES">
-    Servicio Social
-  </button>
-  <button mat-button [routerLink]="'/' + paths.OBLIGATORY_MOBILITIES">
-    Movilidades Obligatorias
-  </button>
-  <button mat-button [routerLink]="'/' + paths.OPTIONAL_MOBILITIES">
-    Movilidades Optativas
-  </button>
-  <button mat-button [routerLink]="'/' + paths.INCOMING_STUDENTS">
-    Rotantes
-  </button>
-  <button mat-button [routerLink]="'/' + paths.OTHERS">Otros</button>
+  <div class="nav-buttons">
+    <button mat-button [routerLink]="'/' + paths.SOCIAL_SERVICES">
+      Servicios Sociales
+    </button>
+    <button
+      mat-button
+      [routerLink]="'/' + paths.OBLIGATORY_MOBILITIES"
+      disabled
+    >
+      Movilidades Obligatorias
+    </button>
+    <button mat-button [routerLink]="'/' + paths.OPTIONAL_MOBILITIES">
+      Movilidades Optativas
+    </button>
+    <button mat-button [routerLink]="'/' + paths.INCOMING_STUDENTS" disabled>
+      Rotantes
+    </button>
+    <button mat-button [routerLink]="'/' + paths.OTHERS">Otros</button>
+  </div>
   <span class="spacer-flex"></span>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    class="collapse-nav-buttons"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="'/' + paths.SOCIAL_SERVICES">
+      Servicios Sociales
+    </button>
+    <button
+      mat-menu-item
+      [routerLink]="'/' + paths.OBLIGATORY_MOBILITIES"
+      disabled
+    >
+      Movilidades Obligatorias
+    </button>
+    <button mat-menu-item [routerLink]="'/' + paths.OPTIONAL_MOBILITIES">
+      Movilidades Optativas
+    </button>
+    <button mat-menu-item [routerLink]="'/' + paths.INCOMING_STUDENTS" disabled>
+      Rotantes
+    </button>
+    <button mat-menu-item [routerLink]="'/' + paths.OTHERS">Otros</button>
+  </mat-menu>
   <button mat-icon-button aria-label="Cerrar Sesión" (click)="logOut()">
     <mat-icon>logout</mat-icon>
   </button>

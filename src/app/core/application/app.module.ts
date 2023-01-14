@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { CoreModule } from '../core.module';
 import { NavComponent } from 'app/layout/nav';
 import { DataModule } from '@data/data.module';
@@ -43,6 +44,7 @@ import { IncomingStudentsModule } from 'app/modules/incoming-students/incoming-s
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

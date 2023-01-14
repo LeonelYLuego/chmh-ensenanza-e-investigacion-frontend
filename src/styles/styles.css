@@ -4,6 +4,83 @@ body {
   background-color: rgb(240, 240, 240);
 }
 
+/* Components Colors */
+
+.warn-snackbar {
+  background-color: red;
+  color: white;
+}
+
+.accent-snackbar {
+  background-color: #ff4081;
+  color: white;
+}
+
+/* Width */
+
+.full-width {
+  width: 100%;
+}
+
+/* Main Card */
+
+.main-card {
+  margin: 1em;
+}
+
+@media (max-width: 850px) {
+  .main-card {
+    margin: 0;
+  }
+}
+
+.main-card-title {
+  display: block;
+  overflow: hidden;
+}
+
+.main-card-title-text {
+  display: inline-block;
+  margin-top: 7px;
+  margin-bottom: 15px;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.main-card-right-button {
+  display: block;
+  float: right;
+}
+
+/* Height */
+.h-20 {
+  margin-bottom: 20px;
+}
+
+.h-10 {
+  margin-bottom: 10px;
+}
+
+/* Table */
+
+.row-specialty {
+  background-color: #3f51b5;
+  color: white;
+  text-align: center;
+  cursor: default !important;
+}
+
+.row-specialty:hover {
+  background-color: #3f51b5 !important;
+  color: white;
+}
+
+.column-documents {
+  min-width: 160px;
+}
+
+/* Chip */
+
 .mat-presentation-office {
   background-color: rgb(255, 85, 113) !important;
   color: white !important;
@@ -19,38 +96,26 @@ body {
   color: white !important;
 }
 
-.full-width {
-  width: 100%;
+.mat-solicitude {
+  background-color: green !important;
+  color: white !important;
 }
 
-.warn-snackbar {
-  background-color: red;
-  color: white;
+.mat-acceptance {
+  background-color: rgb(161, 54, 161) !important;
+  color: white !important;
 }
 
-.accent-snackbar {
-  background-color: #ff4081;
-  color: white;
+.mat-evaluation {
+  background-color: rgb(59, 56, 247) !important;
+  color: white !important;
 }
 
-.main-card {
-  margin: 1em;
+.chip {
+  padding: 5px !important;
 }
 
-.main-card-title {
-  font-size: 30px;
-  padding: 10px;
-  display: inline-block;
-}
-
-.main-card-right-button {
-  float: right;
-}
-
-.filters-card {
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-}
+/* Filters */
 
 .filter-width {
   width: 300px;
@@ -58,15 +123,27 @@ body {
 }
 
 .filter-button {
-  margin-left: 10px !important;
+  margin-right: 10px !important;
+  margin-bottom: 15px !important;
   float: right;
 }
 
-.dialog-button {
-  float: right;
+/* Canceled */
+.canceled-text {
+  color: red;
 }
 
-.dialog-button-container {
-  clear: both;
-  overflow: hidden;
+/* Input */
+
+.large-input {
+  width: 500px;
+}
+
+.short-input {
+  width: 200px;
+}
+
+.input {
+  max-width: 100%;
+  margin-right: 10px;
 }

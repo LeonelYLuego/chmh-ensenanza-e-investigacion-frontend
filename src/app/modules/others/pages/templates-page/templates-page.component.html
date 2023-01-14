@@ -1,9 +1,9 @@
 <mat-card class="main-card">
-  <mat-card-title>
-    <span class="main-card-title">Plantillas para Documentos</span>
+  <mat-card-title class="main-card-title">
+    <span class="main-card-title-text">Plantillas para Documentos</span>
   </mat-card-title>
   <mat-divider></mat-divider>
-  <div style="margin-bottom: 20px"></div>
+  <div class="h-20"></div>
   <h1>Servicio Social</h1>
   <button
     (click)="socialServicePresentationOfficeUploader.click()"
@@ -19,6 +19,38 @@
     type="file"
     #socialServicePresentationOfficeUploader
     (change)="updateSocialServicePresentationOfficeTemplate($event)"
+  />
+  <div class="h-20"></div>
+  <h1>Movilidades Optativas</h1>
+  <button
+    (click)="optionalMobilitiesSolicitudeUploader.click()"
+    mat-raised-button
+    color="accent"
+    class="document-button"
+  >
+    Actualizar Plantilla Solicitud
+  </button>
+  <input
+    hidden
+    accept=".docx"
+    type="file"
+    #optionalMobilitiesSolicitudeUploader
+    (change)="updateOptionalMobilitiesSolicitudeTemplate($event)"
+  />
+  <button
+    (click)="optionalMobilitiesPresentationOfficeUploader.click()"
+    mat-raised-button
+    color="accent"
+    class="document-button"
+  >
+    Actualizar Plantilla Oficio de Presentación
+  </button>
+  <input
+    hidden
+    accept=".docx"
+    type="file"
+    #optionalMobilitiesPresentationOfficeUploader
+    (change)="updateOptionalMobilitiesPresentationOfficeTemplate($event)"
   />
   <mat-card-actions align="end">
     <button mat-raised-button color="basic" routerLink="..">Cancelar</button>

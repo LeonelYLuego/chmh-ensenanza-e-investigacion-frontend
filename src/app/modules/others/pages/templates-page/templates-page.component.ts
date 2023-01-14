@@ -47,4 +47,34 @@ export class TemplatesPageComponent implements OnInit {
       this.showEditedSnackBar();
     }
   }
+
+  async updateOptionalMobilitiesSolicitudeTemplate(event: any): Promise<void> {
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.templatesService.update(
+        'optionalMobility',
+        'solicitudeDocument',
+        formData
+      );
+      this.showEditedSnackBar();
+    }
+  }
+
+  async updateOptionalMobilitiesPresentationOfficeTemplate(
+    event: any
+  ): Promise<void> {
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.templatesService.update(
+        'optionalMobility',
+        'presentationOfficeDocument',
+        formData
+      );
+      this.showEditedSnackBar();
+    }
+  }
 }

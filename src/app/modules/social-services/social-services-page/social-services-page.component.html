@@ -1,6 +1,6 @@
 <mat-card class="main-card">
-  <mat-card-title>
-    <span class="main-card-title">Servicio Social</span>
+  <mat-card-title class="main-card-title">
+    <span class="main-card-title-text">Servicios Sociales</span>
     <button
       mat-raised-button
       color="primary"
@@ -11,7 +11,7 @@
     </button>
   </mat-card-title>
   <mat-divider></mat-divider>
-  <div style="margin-bottom: 20px"></div>
+  <div class="h-20"></div>
   <mat-form-field class="full-width" appearance="outline">
     <mat-icon matPrefix>search</mat-icon>
     <mat-label>Buscador</mat-label>
@@ -92,12 +92,14 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="documents">
-      <th mat-header-cell *matHeaderCellDef>Documentos</th>
+      <th mat-header-cell *matHeaderCellDef class="column-documents">
+        Documentos
+      </th>
       <td
         mat-cell
         *matCellDef="let socialService"
         [style.display]="socialService.specialty ? 'none' : ''"
-        style="padding: 5px !important"
+        class="chip"
       >
         <mat-chip-list>
           <mat-chip

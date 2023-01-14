@@ -1,6 +1,6 @@
 <mat-card class="main-card">
-  <mat-card-title>
-    <span class="main-card-title">Movilidades Optativas</span>
+  <mat-card-title class="main-card-title">
+    <span class="main-card-title-text">Movilidades Optativas</span>
     <button
       mat-raised-button
       color="primary"
@@ -119,11 +119,12 @@
         </td></ng-container
       >
       <ng-container matColumnDef="documents">
-        <th mat-header-cell *matHeaderCellDef>Documentos</th>
+        <th mat-header-cell *matHeaderCellDef class="column-documents">Documentos</th>
         <td
           mat-cell
           *matCellDef="let optionalMobility"
           [style.display]="optionalMobility.specialty ? 'none' : ''"
+          class="chip"
         >
           <span *ngIf="!optionalMobility.specialty">
             <mat-chip-list *ngIf="!optionalMobility.canceled">
