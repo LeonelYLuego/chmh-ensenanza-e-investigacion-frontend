@@ -25,13 +25,17 @@ export interface ObligatoryMobilityByHospital {
 
   name: string;
 
-  specialties: ObligatoryMobilityBySpecialty[];
+  obligatoryMobilities: ObligatoryMobility[];
 }
 
-interface ObligatoryMobilityBySpecialty {
+export interface ObligatoryMobilityByStudent {
   _id: string;
 
-  value: string;
+  name: string;
+
+  firstLastName: string;
+
+  secondLastName: string;
 
   obligatoryMobilities: ObligatoryMobility[];
 }

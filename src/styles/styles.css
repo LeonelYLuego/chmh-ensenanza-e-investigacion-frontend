@@ -53,6 +53,10 @@ body {
 }
 
 /* Height */
+.h-30 {
+  margin-bottom: 30px;
+}
+
 .h-20 {
   margin-bottom: 20px;
 }

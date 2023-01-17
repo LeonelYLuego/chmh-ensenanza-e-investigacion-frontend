@@ -145,12 +145,8 @@ export class AddObligatoryMobilityComponent implements OnInit {
   }
 
   async dateChanged(): Promise<void> {
-    if (this.obligatoryMobilities.length == 0) this.getStudents();
-    else {
-      this.obligatoryMobilities.map((student) => {
-        student.months.map((month) => {});
-      });
-    }
+    this.obligatoryMobilities = [];
+    await this.getStudents();
   }
 
   getMontAndYearAsString(month: number, year: number): string {
@@ -161,42 +157,52 @@ export class AddObligatoryMobilityComponent implements OnInit {
 
   addStudent(): void {
     if (this.filtersFormControl.valid) {
-      const values = this.filtersFormControl.value;
-      const months: {
-        value: { month: number; year: number };
-        hospital: FormControl<string | null>;
-        rotationService: FormControl<string | null>;
-      }[] = [];
-      for (
-        let year = values.initialDate!.getFullYear();
-        year <= values.finalDate!.getFullYear();
-        year++
+      if (
+        this.filtersFormControl.controls.initialDate.value!.getTime() >
+        this.filtersFormControl.controls.finalDate.value!.getTime()
       ) {
-        for (let month = 0; month < 12; month++) {
-          if (
-            year == values.initialDate!.getFullYear() &&
-            month < values.initialDate!.getMonth()
-          )
-            month = values.initialDate!.getMonth();
-          if (
-            year == values.finalDate!.getFullYear() &&
-            month > values.finalDate!.getMonth()
-          )
-            break;
-          months.push({
-            value: {
-              month,
-              year,
-            },
-            rotationService: new FormControl('', [Validators.required]),
-            hospital: new FormControl('', [Validators.required]),
-          });
+        this.filtersFormControl.controls.initialDate.setErrors({
+          invalid: true,
+        });
+        this.filtersFormControl.controls.finalDate.setErrors({ invalid: true });
+      } else {
+        const values = this.filtersFormControl.value;
+        const months: {
+          value: { month: number; year: number };
+          hospital: FormControl<string | null>;
+          rotationService: FormControl<string | null>;
+        }[] = [];
+        for (
+          let year = values.initialDate!.getFullYear();
+          year <= values.finalDate!.getFullYear();
+          year++
+        ) {
+          for (let month = 0; month < 12; month++) {
+            if (
+              year == values.initialDate!.getFullYear() &&
+              month < values.initialDate!.getMonth()
+            )
+              month = values.initialDate!.getMonth();
+            if (
+              year == values.finalDate!.getFullYear() &&
+              month > values.finalDate!.getMonth()
+            )
+              break;
+            months.push({
+              value: {
+                month,
+                year,
+              },
+              rotationService: new FormControl('', [Validators.required]),
+              hospital: new FormControl('', [Validators.required]),
+            });
+          }
         }
+        this.obligatoryMobilities.push({
+          student: new FormControl('', [Validators.required]),
+          months,
+        });
       }
-      this.obligatoryMobilities.push({
-        student: new FormControl('', [Validators.required]),
-        months,
-      });
     }
   }
 

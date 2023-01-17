@@ -9,6 +9,7 @@ import { HttpPetitions } from '@core/services';
 import {
   ObligatoryMobility,
   ObligatoryMobilityByHospital,
+  ObligatoryMobilityByStudent,
   ObligatoryMobilityInterval,
 } from '@data/interfaces';
 
@@ -31,14 +32,46 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
-  async getAll(
+  async getAllByHospital(
+    specialty: string,
     initialDate: Date,
     finalDate: Date
   ): Promise<ObligatoryMobilityByHospital[]> {
     const data = await this.http.get<ObligatoryMobilityByHospital[]>(
-      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BASE_ENDPOINT,
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_HOSPITAL,
       this.forbiddenErrors,
       [
+        {
+          name: 'specialty',
+          value: specialty,
+        },
+        {
+          name: 'initialDate',
+          value: initialDate.toISOString(),
+        },
+        {
+          name: 'finalDate',
+          value: finalDate.toISOString(),
+        },
+      ]
+    );
+
+    return data ?? [];
+  }
+
+  async getAllByStudent(
+    specialty: string,
+    initialDate: Date,
+    finalDate: Date
+  ): Promise<ObligatoryMobilityByStudent[]> {
+    const data = await this.http.get<ObligatoryMobilityByStudent[]>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_STUDENT,
+      this.forbiddenErrors,
+      [
+        {
+          name: 'specialty',
+          value: specialty,
+        },
         {
           name: 'initialDate',
           value: initialDate.toISOString(),

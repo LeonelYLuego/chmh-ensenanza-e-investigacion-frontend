@@ -2,14 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PATHS } from '@core/constants';
 import {
-  Hospital,
-  ObligatoryMobility,
+  getFirstDayOfMonthAsString,
+  getLastDayOfMonthAsString,
+} from '@core/functions/date.function';
+import {
+  ObligatoryMobilityByHospital,
+  ObligatoryMobilityByStudent,
   ObligatoryMobilityInterval,
-  RotationService,
   Specialty,
-  Student,
 } from '@data/interfaces';
-import { ObligatoryMobilitiesService } from '@data/services';
+import {
+  ObligatoryMobilitiesService,
+  SpecialtiesService,
+} from '@data/services';
 
 @Component({
   selector: 'app-obligatory-mobilities-page',
@@ -19,40 +24,48 @@ import { ObligatoryMobilitiesService } from '@data/services';
 export class ObligatoryMobilitiesPageComponent implements OnInit {
   loading = false;
   paths = PATHS.OBLIGATORY_MOBILITIES;
+  specialties: Specialty[] = [];
   intervals: ObligatoryMobilityInterval = {
     finalMonths: [],
     initialMonths: [],
   };
   intervalFormControl = new FormGroup({
+    view: new FormControl<'hospital' | 'student'>('hospital', [
+      Validators.required,
+    ]),
     initialDate: new FormControl<Date | undefined>(undefined, [
       Validators.required,
     ]),
     finalDate: new FormControl<Date | undefined>(undefined, [
       Validators.required,
     ]),
+    specialty: new FormControl<string>('', [Validators.required]),
   });
-  obligatoryMobilities: {
-    name: string;
-    specialties: {
-      specialty?: string;
-      _id?: string;
-      student?: Student;
-      rotationService?: RotationService;
-      period?: string;
-      documents?: {
-        presentationOfficeDocument?: string;
-        evaluationDocument?: string;
-      };
-    }[];
-  }[] = [];
-  displayedColumns = ['student', 'rotationService', 'period', 'documents'];
+  obligatoryMobilitiesByHospital: ObligatoryMobilityByHospital[] = [];
+  obligatoryMobilitiesByStudent: ObligatoryMobilityByStudent[] = [];
+  displayedColumnsByHospital = [
+    'student',
+    'initialDate',
+    'finalDate',
+    'rotationService',
+    'documents',
+  ];
+  displayedColumnsByStudent = [
+    'hospital',
+    'initialDate',
+    'finalDate',
+    'rotationService',
+    'documents',
+  ];
 
   constructor(
-    private obligatoryMobilitiesService: ObligatoryMobilitiesService
+    private obligatoryMobilitiesService: ObligatoryMobilitiesService,
+    private specialtiesService: SpecialtiesService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.intervals = await this.obligatoryMobilitiesService.interval();
+    this.specialties = await this.specialtiesService.findAll();
     if (
       this.intervals.finalMonths.length > 0 &&
       this.intervals.initialMonths.length > 0
@@ -64,46 +77,46 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
       this.intervalFormControl.controls.finalDate.setValue(
         this.intervals.finalMonths[this.intervals.finalMonths.length - 1].value
       );
-      await this.getObligatoryMobilities();
     }
   }
 
   async getObligatoryMobilities(): Promise<void> {
-    this.loading = true;
-    this.obligatoryMobilities = [];
-    const data = await this.obligatoryMobilitiesService.getAll(
-      this.intervalFormControl.controls.initialDate.value!,
-      this.intervalFormControl.controls.finalDate.value!
-    );
-    data.map((hospital) => {
-      this.obligatoryMobilities.push({
-        name: hospital.name,
-        specialties: [],
-      });
-      const hospitalIndex = this.obligatoryMobilities.length - 1;
-      hospital.specialties.map((specialty) => {
-        this.obligatoryMobilities[hospitalIndex].specialties.push({
-          specialty: specialty.value,
-        });
-        specialty.obligatoryMobilities.map((obligatoryMobility) => {
-          this.obligatoryMobilities[hospitalIndex].specialties.push({
-            _id: obligatoryMobility._id,
-            student: obligatoryMobility.student as Student,
-            rotationService:
-              obligatoryMobility.rotationService as RotationService,
-            period: this.obligatoryMobilitiesService.getPeriod(
-              new Date(obligatoryMobility.date)
-            ),
-            documents: {
-              evaluationDocument: obligatoryMobility.evaluationDocument,
-              presentationOfficeDocument:
-                obligatoryMobility.presentationOfficeDocument,
-            },
-          });
-        });
-      });
-    });
-    this.loading = false;
+    if (this.intervalFormControl.valid) {
+      this.loading = true;
+      const values = this.intervalFormControl.value;
+      if (this.intervalFormControl.controls.view.value! == 'hospital') {
+        this.obligatoryMobilitiesByHospital =
+          await this.obligatoryMobilitiesService.getAllByHospital(
+            values.specialty!,
+            values.initialDate!,
+            values.finalDate!
+          );
+      } else {
+        this.obligatoryMobilitiesByStudent =
+          await this.obligatoryMobilitiesService.getAllByStudent(
+            values.specialty!,
+            values.initialDate!,
+            values.finalDate!
+          );
+      }
+      this.loading = false;
+    }
+  }
+
+  initialDateToString(date: Date): string {
+    return getFirstDayOfMonthAsString(new Date(date));
+  }
+
+  finalDateToString(date: Date): string {
+    return getLastDayOfMonthAsString(new Date(date));
+  }
+
+  viewChanged(): void {
+    this.getObligatoryMobilities();
+  }
+
+  specialtyChanged(): void {
+    this.getObligatoryMobilities();
   }
 
   initialDateChanged(): void {
