@@ -15,9 +15,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { AddObligatoryMobilityComponent } from './add-obligatory-mobility/add-obligatory-mobility.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ObligatoryMobilityStudentComponent } from './obligatory-mobility-student/obligatory-mobility-student.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [ObligatoryMobilitiesPageComponent, AddObligatoryMobilityComponent],
+  declarations: [
+    ObligatoryMobilitiesPageComponent,
+    AddObligatoryMobilityComponent,
+    ObligatoryMobilityStudentComponent,
+  ],
   imports: [
     CommonModule,
     ObligatoryMobilitiesRoutingModule,
@@ -34,6 +40,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatChipsModule,
     MatButtonModule,
     MatDatepickerModule,
+    SharedModule,
   ],
 })
 export class ObligatoryMobilitiesModule {}

@@ -109,6 +109,12 @@ export const SERVER_ENDPOINTS = {
     BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/${_id}`;
     },
+    CANCEL_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/cancel/${_id}`;
+    },
+    UNCANCEL_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/uncancel/${_id}`;
+    },
   },
   INCOMING_STUDENTS: {
     BASE_ENDPOINT: SERVER_RESOURCES.INCOMING_STUDENTS,

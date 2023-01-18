@@ -52,7 +52,6 @@ export const MY_FORMATS = {
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
-
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
@@ -197,7 +196,11 @@ export class OptionalMobilityStudentComponent implements OnInit {
   async updateOptionalMobility(): Promise<void> {
     if (this.optionalMobilityFormControl.valid) {
       const values = this.optionalMobilityFormControl.value;
-      const initialDate = values.initialDate!,
+      const initialDate = new Date(
+          values.initialDate!.getFullYear(),
+          values.initialDate!.getMonth(),
+          1
+        ),
         finalDate = new Date(
           values.finalDate!.getFullYear(),
           values.finalDate!.getMonth() + 1,
@@ -211,18 +214,13 @@ export class OptionalMobilityStudentComponent implements OnInit {
           incorrect: true,
         });
       } else {
-        values.finalDate = new Date(values.finalDate!);
         this.loading = true;
         const data = await this.optionalMobilitiesService.update(
           this.optionalMobility!._id!,
           {
             hospital: values.hospital!,
-            initialDate: values.initialDate!,
-            finalDate: new Date(
-              values.finalDate!.getFullYear(),
-              values.finalDate!.getMonth() + 1,
-              0
-            ),
+            initialDate,
+            finalDate,
             rotationService: values.rotationService!,
             student: this.optionalMobility!.student,
           }

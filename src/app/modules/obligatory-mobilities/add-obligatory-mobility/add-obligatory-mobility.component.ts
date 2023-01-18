@@ -227,12 +227,13 @@ export class AddObligatoryMobilityComponent implements OnInit {
         this.obligatoryMobilities.map(async (student) => {
           await Promise.all(
             student.months.map(async (month) => {
-              this.obligatoryMobilitiesService.add({
-                date: new Date(month.value.year, month.value.month, 1),
-                hospital: month.hospital.value!,
-                rotationService: month.rotationService.value!,
-                student: student.student.value!,
-              });
+              // this.obligatoryMobilitiesService.add({
+              //   date: new Date(month.value.year, month.value.month, 1),
+              //   hospital: month.hospital.value!,
+              //   rotationService: month.rotationService.value!,
+              //   student: student.student.value!,
+              //   canceled: false,
+              // });
             })
           );
         })

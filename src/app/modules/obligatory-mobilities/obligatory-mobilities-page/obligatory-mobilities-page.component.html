@@ -126,6 +126,7 @@
           <tr
             mat-row
             *matRowDef="let row; columns: displayedColumnsByHospital"
+            (click)="updateObligatoryMobility(row)"
           ></tr>
         </table>
         <div class="h-30"></div>
@@ -190,6 +191,7 @@
           <tr
             mat-row
             *matRowDef="let row; columns: displayedColumnsByStudent"
+            (click)="updateObligatoryMobility(row)"
           ></tr>
         </table>
         <div class="h-30"></div>

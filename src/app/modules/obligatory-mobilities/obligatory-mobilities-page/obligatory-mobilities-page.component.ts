@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PATHS } from '@core/constants';
 import {
   getFirstDayOfMonthAsString,
   getLastDayOfMonthAsString,
 } from '@core/functions/date.function';
 import {
+  ObligatoryMobility,
   ObligatoryMobilityByHospital,
   ObligatoryMobilityByStudent,
   ObligatoryMobilityInterval,
@@ -60,7 +62,8 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
 
   constructor(
     private obligatoryMobilitiesService: ObligatoryMobilitiesService,
-    private specialtiesService: SpecialtiesService
+    private specialtiesService: SpecialtiesService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -155,5 +158,9 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
       );
     }
     this.getObligatoryMobilities();
+  }
+
+  updateObligatoryMobility(obligatoryMobility: ObligatoryMobility): void {
+    this.router.navigate([this.paths.BASE_PATH, obligatoryMobility._id!]);
   }
 }

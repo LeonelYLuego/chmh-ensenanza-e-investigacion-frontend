@@ -5,7 +5,9 @@ import { Student } from './student';
 export interface ObligatoryMobility {
   _id?: string;
 
-  date: Date;
+  initialDate: Date;
+
+  finalDate: Date;
 
   presentationOfficeDocument?: string;
 
@@ -16,6 +18,8 @@ export interface ObligatoryMobility {
   student: Student | string;
 
   hospital: Hospital | string;
+
+  canceled?: boolean;
 
   __v?: number;
 }

@@ -50,12 +50,13 @@ export const PATHS = {
     ADD: 'agregar',
     STUDENT: ':_id',
     DOCUMENTS_PRESENTATION_OFFICE: 'generar-documentos/oficio-de-presentacion',
-    DOCUMENTS_SOLICITUDE: 'generar-documentos/solicitud'
+    DOCUMENTS_SOLICITUDE: 'generar-documentos/solicitud',
   },
   OBLIGATORY_MOBILITIES: {
     BASE_PATH: RESOURCE_PATHS.OBLIGATORY_MOBILITIES,
     BASE: '',
     ADD: 'agregar',
+    STUDENT: ':_id',
   },
   INCOMING_STUDENTS: {
     BASE_PATH: RESOURCE_PATHS.INCOMING_STUDENTS,

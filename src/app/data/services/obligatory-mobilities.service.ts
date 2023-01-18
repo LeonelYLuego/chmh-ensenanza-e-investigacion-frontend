@@ -142,6 +142,22 @@ export class ObligatoryMobilitiesService {
     return { initialMonths, finalMonths };
   }
 
+  async cancel(_id: string): Promise<ObligatoryMobility | null> {
+    const data = await this.http.put<ObligatoryMobility>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.CANCEL_ID(_id),
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
+
+  async uncancel(_id: string): Promise<ObligatoryMobility | null> {
+    const data = await this.http.put<ObligatoryMobility>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.UNCANCEL_ID(_id),
+      this.forbiddenErrors
+    );
+    return data ?? null;
+  }
+
   getPeriod(date: Date): string {
     let monthString = monthToString(date.getMonth());
     monthString = monthString.charAt(0).toUpperCase() + monthString.slice(1);
