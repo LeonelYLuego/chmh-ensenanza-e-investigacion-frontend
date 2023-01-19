@@ -120,6 +120,9 @@
                   >Evaluación</mat-chip
                 >
               </mat-chip-list>
+              <span *ngIf="obligatoryMobility.canceled" class="canceled-text"
+                >Cancelado</span
+              >
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumnsByHospital"></tr>
@@ -185,6 +188,9 @@
                   >Evaluación</mat-chip
                 >
               </mat-chip-list>
+              <span *ngIf="obligatoryMobility.canceled" class="canceled-text"
+                >Cancelado</span
+              >
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumnsByStudent"></tr>

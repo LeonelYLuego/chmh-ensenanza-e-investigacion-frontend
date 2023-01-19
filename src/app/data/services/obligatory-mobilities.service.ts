@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { SERVER_ENDPOINTS } from '@core/constants';
 import {
   lastDayOfTheMonth,
@@ -12,6 +13,7 @@ import {
   ObligatoryMobilityByStudent,
   ObligatoryMobilityInterval,
 } from '@data/interfaces';
+import { ObligatoryMobilityDocumentTypes } from '@data/types/obligatory-mobility-document.type';
 
 @Injectable()
 export class ObligatoryMobilitiesService {
@@ -162,5 +164,42 @@ export class ObligatoryMobilitiesService {
     let monthString = monthToString(date.getMonth());
     monthString = monthString.charAt(0).toUpperCase() + monthString.slice(1);
     return `${monthString} de ${date.getFullYear()}`;
+  }
+
+  async getDocument(
+    _id: string,
+    type: ObligatoryMobilityDocumentTypes
+  ): Promise<SafeResourceUrl | null> {
+    const data = await this.http.getFileUrl(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+    return data ?? null;
+  }
+
+  async updateDocument(
+    _id: string,
+    type: ObligatoryMobilityDocumentTypes,
+    formData: FormData
+  ): Promise<ObligatoryMobility | null> {
+    const data = await this.http.put<ObligatoryMobility>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_DOCUMENT_ID(_id),
+      formData,
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+    return data ?? null;
+  }
+
+  async deleteDocument(
+    _id: string,
+    type: ObligatoryMobilityDocumentTypes
+  ): Promise<void> {
+    await this.http.delete<void>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
   }
 }

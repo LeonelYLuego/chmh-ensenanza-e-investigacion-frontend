@@ -27,6 +27,11 @@ import {
   StudentsService,
 } from '@data/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  ObligatoryMobilityDocumentTypes,
+  ObligatoryMobilityDocumentTypesArray,
+} from '@data/types/obligatory-mobility-document.type';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 export const MY_FORMATS = {
   parse: {
@@ -64,6 +69,11 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     finalDate: new FormControl<Date>(new Date(), [Validators.required]),
     rotationService: new FormControl<string>('', [Validators.required]),
   });
+  documents: {
+    title: string;
+    name: ObligatoryMobilityDocumentTypes;
+    url: SafeResourceUrl | null;
+  }[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -94,7 +104,6 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     this.obligatoryMobility =
       (await this.obligatoryMobilitiesService.get(_id)) ?? undefined;
     if (this.obligatoryMobility) {
-      this.loading = false;
       this.hospitals = await this.hospitalsService.getAll();
       const student = await this.studentsService.get(
         this.obligatoryMobility.student as string
@@ -108,6 +117,20 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
         hospital: this.obligatoryMobility.hospital as string,
         rotationService: this.obligatoryMobility.rotationService as string,
       });
+      this.documents = [];
+      for (let document of ObligatoryMobilityDocumentTypesArray) {
+        this.documents.push({
+          title: document.title,
+          name: document.type,
+          url: this.obligatoryMobility[document.type]
+            ? await this.obligatoryMobilitiesService.getDocument(
+                this.obligatoryMobility._id!,
+                document.type
+              )
+            : null,
+        });
+      }
+      this.loading = false;
     } else
       this.router.navigate([PATHS.ERROR.BASE_PATH, PATHS.ERROR.PAGE_NOT_FOUND]);
   }
@@ -195,6 +218,33 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
   async uncancel(): Promise<void> {
     await this.obligatoryMobilitiesService.uncancel(
       this.obligatoryMobility!._id!
+    );
+    await this.getObligatoryMobility(this.obligatoryMobility!._id!);
+  }
+
+  async updateFile(
+    event: any,
+    type: ObligatoryMobilityDocumentTypes
+  ): Promise<void> {
+    this.loading = true;
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.obligatoryMobilitiesService.updateDocument(
+        this.obligatoryMobility!._id!,
+        type,
+        formData
+      );
+      await this.getObligatoryMobility(this.obligatoryMobility!._id!);
+    }
+  }
+
+  async deleteFile(type: ObligatoryMobilityDocumentTypes): Promise<void> {
+    this.loading = true;
+    await this.obligatoryMobilitiesService.deleteDocument(
+      this.obligatoryMobility!._id!,
+      type
     );
     await this.getObligatoryMobility(this.obligatoryMobility!._id!);
   }
