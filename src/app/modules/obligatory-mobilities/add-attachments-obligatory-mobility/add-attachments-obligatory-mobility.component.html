@@ -1,0 +1,181 @@
+<mat-card class="main-card">
+  <mat-card-title class="main-card-title">
+    <span class="main-card-title-text">Agregar Solicitud y Aceptación</span>
+    <mat-divider></mat-divider>
+    <div class="h-20"></div>
+  </mat-card-title>
+  <mat-card-content>
+    <form id="addAttachmentsObligatoryMobilityForm">
+      <mat-form-field appearance="outline" class="long-width">
+        <mat-label>Especialidad</mat-label>
+        <mat-select
+          [formControl]="
+            attachmentsObligatoryMobilityFormControl.controls.specialty
+          "
+          (selectionChange)="getObligatoryMobilities()"
+        >
+          <mat-option
+            *ngFor="let specialty of specialties"
+            [value]="specialty._id"
+            >{{ specialty.value }}</mat-option
+          >
+        </mat-select>
+        <mat-error
+          *ngIf="
+            attachmentsObligatoryMobilityFormControl.controls.specialty.invalid
+          "
+          >Especialidad <strong>Inválida</strong></mat-error
+        >
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="outline" class="long-width">
+        <mat-label>Hospital</mat-label>
+        <mat-select
+          [formControl]="
+            attachmentsObligatoryMobilityFormControl.controls.hospital
+          "
+          (selectionChange)="getObligatoryMobilities()"
+        >
+          <mat-option
+            *ngFor="let hospital of hospitals"
+            [value]="hospital._id"
+            >{{ hospital.name }}</mat-option
+          >
+        </mat-select>
+        <mat-error
+          *ngIf="
+            attachmentsObligatoryMobilityFormControl.controls.hospital.invalid
+          "
+          >Hospital <strong>Inválido</strong></mat-error
+        >
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="outline" class="long-width">
+        <mat-label>Fecha de Inicio</mat-label>
+        <input
+          matInput
+          [matDatepicker]="initialPicker"
+          [formControl]="
+            attachmentsObligatoryMobilityFormControl.controls.initialDate
+          "
+        />
+        <mat-hint>MM/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="initialPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          #initialPicker
+          startView="multi-year"
+          (monthSelected)="setInitialMonthAndYear($event, initialPicker)"
+        ></mat-datepicker>
+        <mat-error
+          *ngIf="
+            attachmentsObligatoryMobilityFormControl.controls.initialDate
+              .invalid
+          "
+          >Fecha de Inicio <strong>Inválida</strong></mat-error
+        >
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="outline" class="long-width">
+        <mat-label>Fecha de Finalización</mat-label>
+        <input
+          matInput
+          [matDatepicker]="finalPicker"
+          [formControl]="
+            attachmentsObligatoryMobilityFormControl.controls.finalDate
+          "
+        />
+        <mat-hint>MM/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="finalPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          #finalPicker
+          startView="multi-year"
+          (monthSelected)="setFinalMonthAndYear($event, finalPicker)"
+        ></mat-datepicker>
+        <mat-error
+          *ngIf="
+            attachmentsObligatoryMobilityFormControl.controls.finalDate.invalid
+          "
+          >Fecha de Finalización <strong>Inválida</strong></mat-error
+        >
+      </mat-form-field>
+    </form>
+    <div class="h-30"></div>
+    <table mat-table [dataSource]="obligatoryMobilities" class="full-width">
+      <ng-container matColumnDef="student">
+        <th mat-header-cell *matHeaderCellDef>Alumno</th>
+        <td mat-cell *matCellDef="let obligatoryMobility">
+          {{ obligatoryMobility.student.name }}
+          {{ obligatoryMobility.student.firstLastName }}
+          {{ obligatoryMobility.student.secondLastName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="initialDate">
+        <th mat-header-cell *matHeaderCellDef>Fecha Inicial</th>
+        <td mat-cell *matCellDef="let obligatoryMobility">
+          {{ initialDateToString(obligatoryMobility.initialDate) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="finalDate">
+        <th mat-header-cell *matHeaderCellDef>Fecha Final</th>
+        <td mat-cell *matCellDef="let obligatoryMobility">
+          {{ finalDateToString(obligatoryMobility.finalDate) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="rotationService">
+        <th mat-header-cell *matHeaderCellDef>Servicio a Rotar</th>
+        <td mat-cell *matCellDef="let obligatoryMobility">
+          {{ obligatoryMobility.rotationService.value }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="documents">
+        <th mat-header-cell *matHeaderCellDef>Documentos</th>
+        <td mat-cell *matCellDef="let obligatoryMobility" class="chip">
+          <mat-chip-list *ngIf="!obligatoryMobility.canceled">
+            <mat-chip
+              *ngIf="obligatoryMobility.presentationOfficeDocument"
+              color="presentation-office"
+              selected
+              >Oficio de Presentación</mat-chip
+            >
+            <mat-chip
+              *ngIf="obligatoryMobility.evaluationDocument"
+              color="evaluation"
+              selected
+              >Evaluación</mat-chip
+            >
+          </mat-chip-list>
+          <span *ngIf="obligatoryMobility.canceled" class="canceled-text"
+            >Cancelado</span
+          >
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions align="end" class="card-actions">
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      form="addAttachmentsObligatoryMobilityForm"
+      [disabled]="
+        attachmentsObligatoryMobilityFormControl.invalid ||
+        obligatoryMobilities.length == 0
+      "
+      (click)="addAttachmentsObligatoryMobility()"
+    >
+      Agregar
+    </button>
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

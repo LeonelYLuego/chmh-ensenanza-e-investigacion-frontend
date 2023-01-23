@@ -1,0 +1,109 @@
+<mat-card class="main-card">
+  <mat-card-title class="main-card-title">
+    <span class="main-card-title-text"
+      >Movilidades Obligatorias Solicitudes y Aceptaciones</span
+    >
+    <button
+      mat-raised-button
+      color="primary"
+      class="main-card-right-button"
+      [routerLink]="
+        '/' + paths.BASE_PATH + '/' + paths.ATTACHMENTS + '/' + paths.ADD
+      "
+    >
+      Agregar
+    </button>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <div class="h-20"></div>
+  <mat-card-content *ngIf="!loading">
+    <mat-form-field class="filter-width" appearance="outline">
+      <mat-label>Especialidad</mat-label>
+      <mat-select
+        [formControl]="filtersFormControl.controls.specialty"
+        (selectionChange)="filtersChanged()"
+      >
+        <mat-option
+          *ngFor="let specialty of specialties"
+          [value]="specialty._id"
+          >{{ specialty.value }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="filter-width" appearance="outline">
+      <mat-label>Fecha Inicial</mat-label>
+      <mat-select
+        [formControl]="filtersFormControl.controls.initialDate"
+        (selectionChange)="initialDateChanged(); filtersChanged()"
+      >
+        <mat-option
+          *ngFor="let initialMonth of intervals.initialMonths"
+          [value]="initialMonth.value"
+        >
+          {{ initialMonth.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="filter-width" appearance="outline">
+      <mat-label>Fecha Final</mat-label>
+      <mat-select
+        [formControl]="filtersFormControl.controls.finalDate"
+        (selectionChange)="finalDateChanged(); filtersChanged()"
+      >
+        <mat-option
+          *ngFor="let finalMonth of intervals.finalMonths"
+          [value]="finalMonth.value"
+          >{{ finalMonth.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <div
+      *ngFor="
+        let attachmentsObligatoryMobilityByHospital of attachmentsObligatoryMobilitiesByHospital
+      "
+    >
+      <h2>{{ attachmentsObligatoryMobilityByHospital.name }}</h2>
+      <mat-card
+        *ngFor="
+          let attachmentsObligatoryMobility of attachmentsObligatoryMobilityByHospital.attachmentsObligatoryMobilities
+        "
+        class="attachments-card"
+      >
+        <mat-card-content class="attachments-card-content">
+          <p>
+            Fecha de Inicio:
+            {{ initialDateToString(attachmentsObligatoryMobility.initialDate) }}
+          </p>
+          <p>
+            Fecha de Finalización:
+            {{ finalDateToString(attachmentsObligatoryMobility.finalDate) }}
+          </p>
+          <mat-chip-list>
+            <mat-chip
+              *ngIf="attachmentsObligatoryMobility.solicitudeDocument"
+              color="solicitude"
+              selected
+              >Solicitud</mat-chip
+            >
+            <mat-chip
+              *ngIf="attachmentsObligatoryMobility.acceptanceDocument"
+              color="acceptance"
+              selected
+              >Aceptación</mat-chip
+            >
+          </mat-chip-list>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-raised-button color="primary">Visualizar</button>
+        </mat-card-actions>
+      </mat-card>
+      <div class="h-20" style="clear: both"></div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

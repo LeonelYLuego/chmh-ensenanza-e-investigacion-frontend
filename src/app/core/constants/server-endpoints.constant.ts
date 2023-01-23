@@ -106,6 +106,7 @@ export const SERVER_ENDPOINTS = {
     BY_HOSPITAL: SERVER_RESOURCES.OBLIGATORY_MOBILITIES + '/hospital',
     BY_STUDENT: SERVER_RESOURCES.OBLIGATORY_MOBILITIES + '/student',
     INTERVAL: SERVER_RESOURCES.OBLIGATORY_MOBILITIES + '/interval',
+    ATTACHMENTS: SERVER_RESOURCES.OBLIGATORY_MOBILITIES + '/attachments',
     BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/${_id}`;
     },
@@ -117,6 +118,9 @@ export const SERVER_ENDPOINTS = {
     },
     BY_DOCUMENT_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/document/${_id}`;
+    },
+    ATTACHMENTS_BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/attachments/${_id}`;
     },
   },
   INCOMING_STUDENTS: {

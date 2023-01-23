@@ -17,12 +17,16 @@ import { AddObligatoryMobilityComponent } from './add-obligatory-mobility/add-ob
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ObligatoryMobilityStudentComponent } from './obligatory-mobility-student/obligatory-mobility-student.component';
 import { SharedModule } from '@shared/shared.module';
+import { AttachmentsObligatoryMobilitiesPageComponent } from './attachments-obligatory-mobilities-page/attachments-obligatory-mobilities-page.component';
+import { AddAttachmentsObligatoryMobilityComponent } from './add-attachments-obligatory-mobility/add-attachments-obligatory-mobility.component';
 
 @NgModule({
   declarations: [
     ObligatoryMobilitiesPageComponent,
     AddObligatoryMobilityComponent,
     ObligatoryMobilityStudentComponent,
+    AttachmentsObligatoryMobilitiesPageComponent,
+    AddAttachmentsObligatoryMobilityComponent,
   ],
   imports: [
     CommonModule,

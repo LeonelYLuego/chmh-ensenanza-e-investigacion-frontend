@@ -8,6 +8,8 @@ import {
 import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
 import {
+  AttachmentsObligatoryMobility,
+  AttachmentsObligatoryMobilityByHospital,
   ObligatoryMobility,
   ObligatoryMobilityByHospital,
   ObligatoryMobilityByStudent,
@@ -34,6 +36,26 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  async getAll(
+    specialty: string,
+    hospital: string,
+    initialDate: Date,
+    finalDate: Date
+  ): Promise<ObligatoryMobility[]> {
+    const data = await this.http.get<ObligatoryMobility[]>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BASE_ENDPOINT,
+      this.forbiddenErrors,
+      [
+        { name: 'specialty', value: specialty },
+        { name: 'hospital', value: hospital },
+        { name: 'initialDate', value: initialDate.toISOString() },
+        { name: 'finalDate', value: finalDate.toISOString() },
+      ]
+    );
+
+    return data ?? [];
+  }
+
   async getAllByHospital(
     specialty: string,
     initialDate: Date,
@@ -43,18 +65,9 @@ export class ObligatoryMobilitiesService {
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_HOSPITAL,
       this.forbiddenErrors,
       [
-        {
-          name: 'specialty',
-          value: specialty,
-        },
-        {
-          name: 'initialDate',
-          value: initialDate.toISOString(),
-        },
-        {
-          name: 'finalDate',
-          value: finalDate.toISOString(),
-        },
+        { name: 'specialty', value: specialty },
+        { name: 'initialDate', value: initialDate.toISOString() },
+        { name: 'finalDate', value: finalDate.toISOString() },
       ]
     );
 
@@ -70,18 +83,9 @@ export class ObligatoryMobilitiesService {
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_STUDENT,
       this.forbiddenErrors,
       [
-        {
-          name: 'specialty',
-          value: specialty,
-        },
-        {
-          name: 'initialDate',
-          value: initialDate.toISOString(),
-        },
-        {
-          name: 'finalDate',
-          value: finalDate.toISOString(),
-        },
+        { name: 'specialty', value: specialty },
+        { name: 'initialDate', value: initialDate.toISOString() },
+        { name: 'finalDate', value: finalDate.toISOString() },
       ]
     );
 
@@ -201,5 +205,35 @@ export class ObligatoryMobilitiesService {
       this.forbiddenErrors,
       [{ name: 'type', value: type }]
     );
+  }
+
+  async getAllAttachments(
+    specialty: string,
+    initialDate: Date,
+    finalDate: Date
+  ): Promise<AttachmentsObligatoryMobilityByHospital[]> {
+    const data = await this.http.get<AttachmentsObligatoryMobilityByHospital[]>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS,
+      this.forbiddenErrors,
+      [
+        { name: 'specialty', value: specialty },
+        { name: 'initialDate', value: initialDate.toISOString() },
+        { name: 'finalDate', value: finalDate.toISOString() },
+      ]
+    );
+
+    return data ?? [];
+  }
+
+  async addAttachments(
+    attachmentsObligatoryMobility: AttachmentsObligatoryMobility
+  ): Promise<AttachmentsObligatoryMobility | null> {
+    const data = await this.http.post<AttachmentsObligatoryMobility>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS,
+      attachmentsObligatoryMobility,
+      this.forbiddenErrors
+    );
+
+    return data ?? null;
   }
 }

@@ -11,9 +11,6 @@
     </button>
   </mat-card-title>
   <mat-divider></mat-divider>
-  <mat-card-footer *ngIf="loading">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </mat-card-footer>
   <div class="h-20"></div>
   <mat-form-field class="full-width" appearance="outline">
     <mat-icon matPrefix>search</mat-icon>
@@ -68,6 +65,14 @@
       >
     </mat-select>
   </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    class="filter-button"
+    [routerLink]="'/' + paths.BASE_PATH + '/' + paths.ATTACHMENTS"
+  >
+    Solicitudes/Aceptaciones
+  </button>
   <mat-card-content *ngIf="!loading">
     <div *ngIf="intervalFormControl.controls.view.value! == 'hospital'">
       <div *ngFor="let hospital of obligatoryMobilitiesByHospital">

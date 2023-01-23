@@ -1,0 +1,11 @@
+.attachments-card {
+  display: block;
+  float: left;
+  width: 350px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.attachments-card-content {
+  height: 90px;
+}

@@ -57,6 +57,7 @@ export const PATHS = {
     BASE: '',
     ADD: 'agregar',
     STUDENT: ':_id',
+    ATTACHMENTS: 'adjuntos',
   },
   INCOMING_STUDENTS: {
     BASE_PATH: RESOURCE_PATHS.INCOMING_STUDENTS,
