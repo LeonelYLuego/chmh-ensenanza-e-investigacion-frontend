@@ -1,5 +1,6 @@
 import { Hospital } from './hospital';
 import { RotationService } from './rotation-service';
+import { Specialty } from './specialty';
 import { Student } from './student';
 
 export interface ObligatoryMobility {
@@ -48,4 +49,22 @@ export interface ObligatoryMobilityInterval {
   initialMonths: { name: string; value: Date }[];
 
   finalMonths: { name: string; value: Date }[];
+}
+
+export interface AttachmentsObligatoryMobilityResponse {
+  _id: string;
+
+  initialDate: Date;
+
+  finalDate: Date;
+
+  hospital: Hospital | string;
+
+  specialty: Specialty | string;
+
+  solicitudeDocument?: string;
+
+  acceptanceDocument?: string;
+
+  obligatoryMobilities: ObligatoryMobility[];
 }

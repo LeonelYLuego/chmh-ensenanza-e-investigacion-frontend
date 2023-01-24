@@ -18,7 +18,6 @@ import {
   ObligatoryMobility,
   RotationService,
   Specialty,
-  Student,
 } from '@data/interfaces';
 import {
   HospitalsService,

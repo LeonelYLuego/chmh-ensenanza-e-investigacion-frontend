@@ -10,6 +10,7 @@ import { HttpPetitions } from '@core/services';
 import {
   AttachmentsObligatoryMobility,
   AttachmentsObligatoryMobilityByHospital,
+  AttachmentsObligatoryMobilityResponse,
   ObligatoryMobility,
   ObligatoryMobilityByHospital,
   ObligatoryMobilityByStudent,
@@ -225,6 +226,17 @@ export class ObligatoryMobilitiesService {
     return data ?? [];
   }
 
+  async getAttachments(
+    _id: string
+  ): Promise<AttachmentsObligatoryMobilityResponse | null> {
+    const data = await this.http.get<AttachmentsObligatoryMobilityResponse>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS_BY_ID(_id),
+      this.forbiddenErrors
+    );
+
+    return data ?? null;
+  }
+
   async addAttachments(
     attachmentsObligatoryMobility: AttachmentsObligatoryMobility
   ): Promise<AttachmentsObligatoryMobility | null> {
@@ -235,5 +247,25 @@ export class ObligatoryMobilitiesService {
     );
 
     return data ?? null;
+  }
+
+  async updateAttachments(
+    _id: string,
+    attachmentsObligatoryMobility: AttachmentsObligatoryMobility
+  ): Promise<AttachmentsObligatoryMobility | null> {
+    const data = await this.http.put<AttachmentsObligatoryMobility>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS_BY_ID(_id),
+      attachmentsObligatoryMobility,
+      this.forbiddenErrors
+    );
+
+    return data ?? null;
+  }
+
+  async deleteAttachments(_id: string): Promise<void> {
+    await this.http.delete(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS_BY_ID(_id),
+      this.forbiddenErrors
+    );
   }
 }

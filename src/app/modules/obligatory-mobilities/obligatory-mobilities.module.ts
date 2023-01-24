@@ -19,6 +19,7 @@ import { ObligatoryMobilityStudentComponent } from './obligatory-mobility-studen
 import { SharedModule } from '@shared/shared.module';
 import { AttachmentsObligatoryMobilitiesPageComponent } from './attachments-obligatory-mobilities-page/attachments-obligatory-mobilities-page.component';
 import { AddAttachmentsObligatoryMobilityComponent } from './add-attachments-obligatory-mobility/add-attachments-obligatory-mobility.component';
+import { AttachmentsObligatoryMobilityComponent } from './attachments-obligatory-mobility/attachments-obligatory-mobility.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AddAttachmentsObligatoryMobilityComponent } from './add-attachments-obl
     ObligatoryMobilityStudentComponent,
     AttachmentsObligatoryMobilitiesPageComponent,
     AddAttachmentsObligatoryMobilityComponent,
+    AttachmentsObligatoryMobilityComponent,
   ],
   imports: [
     CommonModule,
