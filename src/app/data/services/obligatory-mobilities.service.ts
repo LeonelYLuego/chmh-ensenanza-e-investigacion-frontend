@@ -16,7 +16,10 @@ import {
   ObligatoryMobilityByStudent,
   ObligatoryMobilityInterval,
 } from '@data/interfaces';
-import { ObligatoryMobilityDocumentTypes } from '@data/types/obligatory-mobility-document.type';
+import {
+  AttachmentsObligatoryMobilityDocumentTypes,
+  ObligatoryMobilityDocumentTypes,
+} from '@data/types/obligatory-mobility-document.type';
 
 @Injectable()
 export class ObligatoryMobilitiesService {
@@ -266,6 +269,44 @@ export class ObligatoryMobilitiesService {
     await this.http.delete(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS_BY_ID(_id),
       this.forbiddenErrors
+    );
+  }
+
+  async getAttachmentsDocument(
+    _id: string,
+    type: AttachmentsObligatoryMobilityDocumentTypes
+  ): Promise<SafeResourceUrl | null> {
+    const data = await this.http.getFileUrl(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_ATTACHMENTS_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+
+    return data ?? null;
+  }
+
+  async updateAttachmentsDocument(
+    _id: string,
+    type: AttachmentsObligatoryMobilityDocumentTypes,
+    formData: FormData
+  ): Promise<ObligatoryMobility | null> {
+    const data = await this.http.put<ObligatoryMobility>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_ATTACHMENTS_DOCUMENT_ID(_id),
+      formData,
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
+    );
+    return data ?? null;
+  }
+
+  async deleteAttachmentsDocument(
+    _id: string,
+    type: AttachmentsObligatoryMobilityDocumentTypes
+  ): Promise<void> {
+    await this.http.delete<void>(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_ATTACHMENTS_DOCUMENT_ID(_id),
+      this.forbiddenErrors,
+      [{ name: 'type', value: type }]
     );
   }
 }

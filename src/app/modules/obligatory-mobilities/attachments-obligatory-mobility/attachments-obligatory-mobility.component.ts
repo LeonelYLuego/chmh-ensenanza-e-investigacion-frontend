@@ -20,6 +20,11 @@ import {
   getFirstDayOfMonthAsString,
   getLastDayOfMonthAsString,
 } from '@core/functions/date.function';
+import {
+  AttachmentsObligatoryMobilityDocumentTypes,
+  AttachmentsObligatoryMobilityDocumentTypesArray,
+} from '@data/types';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 export const MY_FORMATS = {
   parse: {
@@ -60,6 +65,11 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
     'rotationService',
     'documents',
   ];
+  documents: {
+    title: string;
+    name: AttachmentsObligatoryMobilityDocumentTypes;
+    url: SafeResourceUrl | null;
+  }[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -95,6 +105,19 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
           this.attachmentsObligatoryMobilityResponse.finalDate
         ),
       });
+      this.documents = [];
+      for (let document of AttachmentsObligatoryMobilityDocumentTypesArray) {
+        this.documents.push({
+          title: document.title,
+          name: document.type,
+          url: this.attachmentsObligatoryMobilityResponse[document.type]
+            ? await this.obligatoryMobilitiesService.getAttachmentsDocument(
+                this.attachmentsObligatoryMobilityResponse._id!,
+                document.type
+              )
+            : null,
+        });
+      }
       this.loading = false;
     } else
       this.router.navigate([PATHS.ERROR.BASE_PATH, PATHS.ERROR.PAGE_NOT_FOUND]);
@@ -188,5 +211,38 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
       PATHS.OBLIGATORY_MOBILITIES.BASE_PATH,
       PATHS.OBLIGATORY_MOBILITIES.ATTACHMENTS,
     ]);
+  }
+
+  async updateFile(
+    event: any,
+    type: AttachmentsObligatoryMobilityDocumentTypes
+  ): Promise<void> {
+    this.loading = true;
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.obligatoryMobilitiesService.updateAttachmentsDocument(
+        this.attachmentsObligatoryMobilityResponse!._id!,
+        type,
+        formData
+      );
+      await this.getAttachmentsObligatoryMobility(
+        this.attachmentsObligatoryMobilityResponse!._id!
+      );
+    }
+  }
+
+  async deleteFile(
+    type: AttachmentsObligatoryMobilityDocumentTypes
+  ): Promise<void> {
+    this.loading = true;
+    await this.obligatoryMobilitiesService.deleteAttachmentsDocument(
+      this.attachmentsObligatoryMobilityResponse!._id!,
+      type
+    );
+    await this.getAttachmentsObligatoryMobility(
+      this.attachmentsObligatoryMobilityResponse!._id!
+    );
   }
 }

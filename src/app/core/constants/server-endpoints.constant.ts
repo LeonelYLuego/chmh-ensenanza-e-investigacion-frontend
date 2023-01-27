@@ -122,6 +122,9 @@ export const SERVER_ENDPOINTS = {
     ATTACHMENTS_BY_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/attachments/${_id}`;
     },
+    BY_ATTACHMENTS_DOCUMENT_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/attachments/document/${_id}`;
+    },
   },
   INCOMING_STUDENTS: {
     BASE_ENDPOINT: SERVER_RESOURCES.INCOMING_STUDENTS,
