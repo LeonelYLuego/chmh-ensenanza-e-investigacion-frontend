@@ -20,6 +20,7 @@ import { SharedModule } from '@shared/shared.module';
 import { AttachmentsObligatoryMobilitiesPageComponent } from './attachments-obligatory-mobilities-page/attachments-obligatory-mobilities-page.component';
 import { AddAttachmentsObligatoryMobilityComponent } from './add-attachments-obligatory-mobility/add-attachments-obligatory-mobility.component';
 import { AttachmentsObligatoryMobilityComponent } from './attachments-obligatory-mobility/attachments-obligatory-mobility.component';
+import { AttachmentsObligatoryMobilityGenerateDialogComponent } from './attachments-obligatory-mobility-generate-dialog/attachments-obligatory-mobility-generate-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AttachmentsObligatoryMobilityComponent } from './attachments-obligatory
     AttachmentsObligatoryMobilitiesPageComponent,
     AddAttachmentsObligatoryMobilityComponent,
     AttachmentsObligatoryMobilityComponent,
+    AttachmentsObligatoryMobilityGenerateDialogComponent,
   ],
   imports: [
     CommonModule,

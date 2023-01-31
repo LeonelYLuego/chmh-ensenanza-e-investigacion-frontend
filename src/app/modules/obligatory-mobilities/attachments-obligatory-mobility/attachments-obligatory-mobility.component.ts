@@ -53,6 +53,7 @@ export const MY_FORMATS = {
 })
 export class AttachmentsObligatoryMobilityComponent implements OnInit {
   loading = false;
+  showGenerate = false;
   attachmentsObligatoryMobilityResponse?: AttachmentsObligatoryMobilityResponse;
   attachmentsObligatoryMobilityFormControl = new FormGroup({
     initialDate: new FormControl<Date | null>(null, [Validators.required]),

@@ -67,7 +67,9 @@ export const SERVER_ENDPOINTS = {
   },
   TEMPLATES: {
     BASE_ENDPOINT: SERVER_RESOURCES.TEMPLATES,
-    BY_DOCUMENT: (document: 'socialService' | 'optionalMobility') => {
+    BY_DOCUMENT: (
+      document: 'socialService' | 'optionalMobility' | 'obligatoryMobility'
+    ) => {
       return `${SERVER_RESOURCES.TEMPLATES}/${document}`;
     },
   },
@@ -124,6 +126,9 @@ export const SERVER_ENDPOINTS = {
     },
     BY_ATTACHMENTS_DOCUMENT_ID: (_id: string) => {
       return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/attachments/document/${_id}`;
+    },
+    ATTACHMENTS_GENERATE_BY_ID: (_id: string) => {
+      return `${SERVER_RESOURCES.OBLIGATORY_MOBILITIES}/attachments/generate/${_id}`;
     },
   },
   INCOMING_STUDENTS: {

@@ -77,4 +77,20 @@ export class TemplatesPageComponent implements OnInit {
       this.showEditedSnackBar();
     }
   }
+
+  async updateObligatoryMobilitiesSolicitudeTemplate(
+    event: any
+  ): Promise<void> {
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.templatesService.update(
+        'obligatoryMobility',
+        'solicitudeDocument',
+        formData
+      );
+      this.showEditedSnackBar();
+    }
+  }
 }

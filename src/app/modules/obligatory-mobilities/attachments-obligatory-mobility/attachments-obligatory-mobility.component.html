@@ -66,6 +66,27 @@
     >
       Eliminar Solicitud y Aceptación
     </button>
+    <span style="margin-left: 10px"></span>
+    <button
+      *ngIf="!showGenerate"
+      mat-raised-button
+      color="primary"
+      (click)="showGenerate = true"
+    >
+      Generar Solicitud
+    </button>
+    <div *ngIf="showGenerate">
+      <app-attachments-obligatory-mobility-generate-dialog
+        [_id]="attachmentsObligatoryMobilityResponse._id"
+      ></app-attachments-obligatory-mobility-generate-dialog>
+      <button
+        mat-raised-button
+        color="secondary"
+        (click)="showGenerate = false"
+      >
+        Cancelar
+      </button>
+    </div>
     <div class="h-20"></div>
     <table
       mat-table
@@ -174,4 +195,10 @@
       </div>
     </div>
   </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
+  </mat-card-actions>
+  <mat-card-footer *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
 </mat-card>

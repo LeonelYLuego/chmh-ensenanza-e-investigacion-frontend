@@ -309,4 +309,27 @@ export class ObligatoryMobilitiesService {
       [{ name: 'type', value: type }]
     );
   }
+
+  async generateSolicitude(
+    _id: string,
+    numberOfDocument: number,
+    dateOfDocument: Date
+  ): Promise<Blob | null> {
+    const data = await this.http.getBlob(
+      SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS_GENERATE_BY_ID(_id),
+      this.forbiddenErrors,
+      [
+        {
+          name: 'numberOfDocument',
+          value: numberOfDocument.toString(),
+        },
+        {
+          name: 'date',
+          value: dateOfDocument.toISOString(),
+        },
+      ]
+    );
+
+    return data ?? null;
+  }
 }

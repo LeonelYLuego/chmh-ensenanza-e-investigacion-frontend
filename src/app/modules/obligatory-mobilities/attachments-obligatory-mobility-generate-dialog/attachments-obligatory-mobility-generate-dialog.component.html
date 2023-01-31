@@ -1,0 +1,28 @@
+<mat-form-field class="short-input input">
+  <mat-label>Número de Documento</mat-label>
+  <input
+    matInput
+    [formControl]="generateFormControl.controls.numberOfDocument"
+  />
+  <mat-error *ngIf="generateFormControl.controls.numberOfDocument.invalid"
+    >Número <strong>Inválido</strong></mat-error
+  >
+</mat-form-field>
+<mat-form-field class="short-input input">
+  <mat-label>Fecha de Expedición</mat-label>
+  <input
+    matInput
+    [matDatepicker]="documentDate"
+    [formControl]="generateFormControl.controls.dateOfDocument"
+  />
+  <mat-hint>DD/MM/AAAA</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+  <mat-datepicker #documentDate></mat-datepicker>
+  <mat-error *ngIf="generateFormControl.controls.dateOfDocument.invalid"
+    >Fecha <strong>Inválida</strong></mat-error
+  >
+</mat-form-field>
+<button mat-raised-button color="primary" (click)="generateSolicitude()">
+  Generar Solicitud
+</button>
+<span style="margin-left: 10px"></span>

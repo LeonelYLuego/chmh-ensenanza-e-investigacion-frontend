@@ -52,6 +52,23 @@
     #optionalMobilitiesPresentationOfficeUploader
     (change)="updateOptionalMobilitiesPresentationOfficeTemplate($event)"
   />
+  <h1>Movilidades Obligatorias</h1>
+  <button
+    (click)="obligatoryMobilitiesSolicitudeUploader.click()"
+    mat-raised-button
+    color="accent"
+    class="document-button"
+  >
+    Actualizar Plantilla Solicitud
+  </button>
+  <input
+    hidden
+    accept=".docx"
+    type="file"
+    #obligatoryMobilitiesSolicitudeUploader
+    (change)="updateObligatoryMobilitiesSolicitudeTemplate($event)"
+  />
+  <div style="clear: both;"></div>
   <mat-card-actions align="end">
     <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
   </mat-card-actions>
