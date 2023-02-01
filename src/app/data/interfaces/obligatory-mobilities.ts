@@ -25,12 +25,38 @@ export interface ObligatoryMobility {
   __v?: number;
 }
 
+export interface ObligatoryMobilityResponse {
+  _id?: string;
+
+  initialDate: Date;
+
+  finalDate: Date;
+
+  solicitudeDocument: string[];
+
+  acceptanceDocument: string[];
+
+  presentationOfficeDocument?: string;
+
+  evaluationDocument?: string;
+
+  rotationService: RotationService | string;
+
+  student: Student | string;
+
+  hospital: Hospital | string;
+
+  canceled?: boolean;
+
+  __v?: number;
+}
+
 export interface ObligatoryMobilityByHospital {
   _id: string;
 
   name: string;
 
-  obligatoryMobilities: ObligatoryMobility[];
+  obligatoryMobilities: ObligatoryMobilityResponse[];
 }
 
 export interface ObligatoryMobilityByStudent {
@@ -42,7 +68,7 @@ export interface ObligatoryMobilityByStudent {
 
   secondLastName: string;
 
-  obligatoryMobilities: ObligatoryMobility[];
+  obligatoryMobilities: ObligatoryMobilityResponse[];
 }
 
 export interface ObligatoryMobilityInterval {

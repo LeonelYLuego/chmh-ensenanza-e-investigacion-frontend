@@ -15,6 +15,7 @@ import {
   ObligatoryMobilityByHospital,
   ObligatoryMobilityByStudent,
   ObligatoryMobilityInterval,
+  ObligatoryMobilityResponse,
 } from '@data/interfaces';
 import {
   AttachmentsObligatoryMobilityDocumentTypes,
@@ -32,8 +33,8 @@ export class ObligatoryMobilitiesService {
 
   constructor(private http: HttpPetitions) {}
 
-  async get(_id: string): Promise<ObligatoryMobility | null> {
-    const data = await this.http.get<ObligatoryMobility>(
+  async get(_id: string): Promise<ObligatoryMobilityResponse | null> {
+    const data = await this.http.get<ObligatoryMobilityResponse>(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_ID(_id),
       this.forbiddenErrors
     );

@@ -16,8 +16,10 @@ import { PATHS } from '@core/constants';
 import {
   Hospital,
   ObligatoryMobility,
+  ObligatoryMobilityResponse,
   RotationService,
   Specialty,
+  Student,
 } from '@data/interfaces';
 import {
   HospitalsService,
@@ -59,7 +61,7 @@ export const MY_FORMATS = {
 })
 export class ObligatoryMobilityStudentComponent implements OnInit {
   loading = false;
-  obligatoryMobility?: ObligatoryMobility;
+  obligatoryMobility?: ObligatoryMobilityResponse;
   hospitals: Hospital[] = [];
   rotationServices: RotationService[] = [];
   obligatoryMobilityFormControl = new FormGroup({
@@ -105,7 +107,7 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     if (this.obligatoryMobility) {
       this.hospitals = await this.hospitalsService.getAll();
       const student = await this.studentsService.get(
-        this.obligatoryMobility.student as string
+        (this.obligatoryMobility.student as Student)._id!
       );
       this.rotationServices = await this.rotationServicesService.getAll(
         (student!.specialty as Specialty)._id!
@@ -118,16 +120,36 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
       });
       this.documents = [];
       for (let document of ObligatoryMobilityDocumentTypesArray) {
-        this.documents.push({
-          title: document.title,
-          name: document.type,
-          url: this.obligatoryMobility[document.type]
-            ? await this.obligatoryMobilitiesService.getDocument(
-                this.obligatoryMobility._id!,
-                document.type
-              )
-            : null,
-        });
+        if (
+          document.type == 'solicitudeDocument' ||
+          document.type == 'acceptanceDocument'
+        ) {
+          await Promise.all(
+            this.obligatoryMobility[document.type].map(
+              async (attachmentDocument) => {
+                this.documents.push({
+                  title: document.title,
+                  name: document.type,
+                  url: await this.obligatoryMobilitiesService.getAttachmentsDocument(
+                    attachmentDocument,
+                    document.type as 'solicitudeDocument' | 'acceptanceDocument'
+                  ),
+                });
+              }
+            )
+          );
+        } else {
+          this.documents.push({
+            title: document.title,
+            name: document.type,
+            url: this.obligatoryMobility[document.type]
+              ? await this.obligatoryMobilitiesService.getDocument(
+                  this.obligatoryMobility._id!,
+                  document.type
+                )
+              : null,
+          });
+        }
       }
       this.loading = false;
     } else
@@ -183,11 +205,11 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
             initialDate,
             finalDate,
             rotationService: values.rotationService!,
-            student: this.obligatoryMobility!.student,
+            student: (this.obligatoryMobility!.student as Student)._id!,
           }
         );
         if (data) {
-          this.obligatoryMobility = data;
+          await this.getObligatoryMobility(this.obligatoryMobility!._id!);
           this.snackBar.open('Movilidad Obligatoria editada', undefined, {
             duration: 2000,
             panelClass: 'accent-snackbar',

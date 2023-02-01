@@ -1,6 +1,8 @@
 export type ObligatoryMobilityDocumentTypes =
   | 'presentationOfficeDocument'
-  | 'evaluationDocument';
+  | 'evaluationDocument'
+  | 'solicitudeDocument'
+  | 'acceptanceDocument';
 
 export const ObligatoryMobilityDocumentTypesArray: {
   title: string;
@@ -8,6 +10,8 @@ export const ObligatoryMobilityDocumentTypesArray: {
 }[] = [
   { title: 'Oficio de Presentación', type: 'presentationOfficeDocument' },
   { title: 'Evaluación', type: 'evaluationDocument' },
+  { title: 'Solicitud', type: 'solicitudeDocument' },
+  { title: 'Aceptación', type: 'acceptanceDocument' },
 ];
 
 export type AttachmentsObligatoryMobilityDocumentTypes =

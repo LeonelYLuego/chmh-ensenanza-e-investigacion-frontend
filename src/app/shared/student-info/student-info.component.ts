@@ -33,6 +33,7 @@ export class StudentInfoComponent implements OnInit {
    * Gets a Student from the database and sets the attributes of the service
    */
   async getStudent(): Promise<void> {
+    if ((this.id as Student)._id) this.id = (this.id as Student)._id!;
     this.student = await this.studentsService.get(this.id as string);
     if (this.student) {
       this.specialty = this.student.specialty as Specialty;

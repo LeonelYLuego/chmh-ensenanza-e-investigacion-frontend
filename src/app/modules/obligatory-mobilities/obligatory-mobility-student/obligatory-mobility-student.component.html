@@ -107,7 +107,13 @@
     <div *ngFor="let document of documents">
       <h3>
         {{ document.title }}
-        <span *ngIf="!obligatoryMobility.canceled">
+        <span
+          *ngIf="
+            !obligatoryMobility.canceled &&
+            (document.name == 'presentationOfficeDocument' ||
+              document.name == 'evaluationDocument')
+          "
+        >
           <button
             *ngIf="!obligatoryMobility[document.name]"
             (click)="documentUploader.click()"
