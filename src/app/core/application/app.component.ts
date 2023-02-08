@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { PATHS } from '../constants/paths.constant';
+import { PATHS } from '@core/constants';
+
 
 /**  Application component */
 @Component({

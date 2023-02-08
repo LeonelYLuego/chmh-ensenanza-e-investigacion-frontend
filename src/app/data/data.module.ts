@@ -12,6 +12,7 @@ import {
   UsersService,
 } from './services';
 
+/** Data module */
 @NgModule({
   declarations: [],
   imports: [CommonModule],

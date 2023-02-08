@@ -1,9 +1,11 @@
+/** @type Obligatory Mobility document types */
 export type ObligatoryMobilityDocumentTypes =
   | 'presentationOfficeDocument'
   | 'evaluationDocument'
   | 'solicitudeDocument'
   | 'acceptanceDocument';
 
+/** @type Obligatory Mobility document types array */
 export const ObligatoryMobilityDocumentTypesArray: {
   title: string;
   type: ObligatoryMobilityDocumentTypes;
@@ -14,10 +16,12 @@ export const ObligatoryMobilityDocumentTypesArray: {
   { title: 'Aceptación', type: 'acceptanceDocument' },
 ];
 
+/** Attachments Obligatory Mobility document types */
 export type AttachmentsObligatoryMobilityDocumentTypes =
   | 'solicitudeDocument'
   | 'acceptanceDocument';
 
+/** Attachments Obligatory Mobility document types array */
 export const AttachmentsObligatoryMobilityDocumentTypesArray: {
   title: string;
   type: AttachmentsObligatoryMobilityDocumentTypes;

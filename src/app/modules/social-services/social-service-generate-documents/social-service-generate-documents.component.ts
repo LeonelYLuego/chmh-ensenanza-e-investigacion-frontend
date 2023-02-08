@@ -84,7 +84,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     this.loading = false;
   }
 
-  //Validates a period
+  /** Validates a period */
   private validatePeriod(): boolean {
     const value = this.filtersFormControl.value;
     const initial = value.initialPeriod!;
@@ -95,7 +95,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     );
   }
 
-  //If the initial period change and is greater than final period, final period will be equal to initial period
+  /** If the initial period change and is greater than final period, final period will be equal to initial period */
   initialPeriodChange() {
     if (this.validatePeriod()) {
       const value = this.filtersFormControl.value.initialPeriod!;
@@ -110,7 +110,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     }
   }
 
-  //If the final period change and is below than initial period, initial period will be equal to final period
+  /** If the final period change and is below than initial period, initial period will be equal to final period */
   finalPeriodChange() {
     if (this.validatePeriod()) {
       const value = this.filtersFormControl.value.finalPeriod!;
@@ -125,7 +125,7 @@ export class SocialServiceGenerateDocumentsComponent implements OnInit {
     }
   }
 
-  //Send the information to the server to generate the documents
+  /** Send the information to the server to generate the documents */
   async generate() {
     if (this.filtersFormControl.valid) {
       const values = this.filtersFormControl.value;

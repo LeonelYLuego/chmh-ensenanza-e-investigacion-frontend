@@ -152,6 +152,9 @@ export class HospitalDialogComponent implements OnInit {
     this.showSecondReceiverInputs = false;
   }
 
+  /**
+   * Removes the third receiver data
+   */
   removeThirdReceiver(): void {
     this.thirdReceiverFormControl.controls.position.setValue('');
     this.thirdReceiverFormControl.controls.name.setValue('');

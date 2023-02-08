@@ -1,3 +1,4 @@
+export * from './attachments-obligatory-mobility';
 export * from './hospital';
 export * from './incoming-student';
 export * from './obligatory-mobilities';
@@ -7,4 +8,3 @@ export * from './social-service';
 export * from './specialty';
 export * from './student';
 export * from './user';
-export * from './attachments-obligatory-mobility';

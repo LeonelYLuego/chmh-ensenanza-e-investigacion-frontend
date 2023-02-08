@@ -22,9 +22,30 @@ import {
   ObligatoryMobilityDocumentTypes,
 } from '@data/types/obligatory-mobility-document.type';
 
+/** Obligatory Mobilities Service */
 @Injectable()
 export class ObligatoryMobilitiesService {
   forbiddenErrors: ForbiddenErrorInterface[] = [
+    {
+      errorMessage: 'obligatory mobility not found',
+      snackbarMessage: 'Movilidad Obligatoria no encontrada',
+    },
+    {
+      errorMessage: 'obligatory mobility not modified',
+      snackbarMessage: 'Movilidad Obligatoria no editada',
+    },
+    {
+      errorMessage: 'obligatory mobility not deleted',
+      snackbarMessage: 'Movilidad Obligatoria no eliminada',
+    },
+    {
+      errorMessage: 'document not found',
+      snackbarMessage: 'Documento no encontrado',
+    },
+    {
+      errorMessage: 'file must be a pdf',
+      snackbarMessage: 'El archivo debe ser un PDF',
+    },
     {
       errorMessage: 'obligatory mobility interval not found',
       snackbarMessage: 'Intervalo de Movilidades Obligatorias no encontrado',
@@ -33,6 +54,11 @@ export class ObligatoryMobilitiesService {
 
   constructor(private http: HttpPetitions) {}
 
+  /**
+   * Gets an Obligatory Mobility based on the provided _id
+   * @param _id
+   * @returns
+   */
   async get(_id: string): Promise<ObligatoryMobilityResponse | null> {
     const data = await this.http.get<ObligatoryMobilityResponse>(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_ID(_id),
@@ -41,6 +67,15 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Gets all Obligatory Mobilities bases on the Specialty,
+   * Hospital, initial and final date
+   * @param specialty
+   * @param hospital
+   * @param initialDate
+   * @param finalDate
+   * @returns
+   */
   async getAll(
     specialty: string,
     hospital: string,
@@ -61,6 +96,14 @@ export class ObligatoryMobilitiesService {
     return data ?? [];
   }
 
+  /**
+   * Get all Obligatory Mobilities by Hospital based on the provided
+   * Specialty, initial and final date
+   * @param specialty
+   * @param initialDate
+   * @param finalDate
+   * @returns
+   */
   async getAllByHospital(
     specialty: string,
     initialDate: Date,
@@ -79,6 +122,14 @@ export class ObligatoryMobilitiesService {
     return data ?? [];
   }
 
+  /**
+   * Gets all Obligatory Mobilities by Student based on the provided
+   * Specialty, initial and final date
+   * @param specialty
+   * @param initialDate
+   * @param finalDate
+   * @returns
+   */
   async getAllByStudent(
     specialty: string,
     initialDate: Date,
@@ -97,6 +148,11 @@ export class ObligatoryMobilitiesService {
     return data ?? [];
   }
 
+  /**
+   * Adds an Obligatory Mobility
+   * @param obligatoryMobility
+   * @returns
+   */
   async add(
     obligatoryMobility: ObligatoryMobility
   ): Promise<ObligatoryMobility | null> {
@@ -108,6 +164,12 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Updates an Obligatory Mobility based on the provided _id
+   * @param _id
+   * @param obligatoryMobility
+   * @returns
+   */
   async update(
     _id: string,
     obligatoryMobility: ObligatoryMobility
@@ -120,6 +182,10 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Deletes an Obligatory Mobility based on the provided _id
+   * @param _id
+   */
   async delete(_id: string): Promise<void> {
     await this.http.delete(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.BY_ID(_id),
@@ -127,6 +193,10 @@ export class ObligatoryMobilitiesService {
     );
   }
 
+  /**
+   * Gets the interval of the Obligatory Mobilities
+   * @returns
+   */
   async interval(): Promise<ObligatoryMobilityInterval> {
     let data = await this.http.get<{
       initialYear: number;
@@ -153,6 +223,11 @@ export class ObligatoryMobilitiesService {
     return { initialMonths, finalMonths };
   }
 
+  /**
+   * Cancels an Obligatory Mobility based on the provided _id
+   * @param _id
+   * @returns
+   */
   async cancel(_id: string): Promise<ObligatoryMobility | null> {
     const data = await this.http.put<ObligatoryMobility>(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.CANCEL_ID(_id),
@@ -161,6 +236,11 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Uncancels an Obligatory Mobility based on the provided _id
+   * @param _id
+   * @returns
+   */
   async uncancel(_id: string): Promise<ObligatoryMobility | null> {
     const data = await this.http.put<ObligatoryMobility>(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.UNCANCEL_ID(_id),
@@ -169,12 +249,24 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Gets a period for a Obligatory Mobility
+   * @param date
+   * @returns
+   */
   getPeriod(date: Date): string {
     let monthString = monthToString(date.getMonth());
     monthString = monthString.charAt(0).toUpperCase() + monthString.slice(1);
     return `${monthString} de ${date.getFullYear()}`;
   }
 
+  /**
+   * Gets the specified document of an Obligatory Mobility
+   * based on the provided _id
+   * @param _id
+   * @param type
+   * @returns
+   */
   async getDocument(
     _id: string,
     type: ObligatoryMobilityDocumentTypes
@@ -187,6 +279,14 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Updates the specified document of an Obligatory Mobility
+   * based on the provided _id
+   * @param _id
+   * @param type
+   * @param formData
+   * @returns
+   */
   async updateDocument(
     _id: string,
     type: ObligatoryMobilityDocumentTypes,
@@ -201,6 +301,12 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Deletes the specified document of an Obligatory Mobility
+   * based on the provided _id
+   * @param _id
+   * @param type
+   */
   async deleteDocument(
     _id: string,
     type: ObligatoryMobilityDocumentTypes
@@ -212,6 +318,14 @@ export class ObligatoryMobilitiesService {
     );
   }
 
+  /**
+   * Gets all Attachments Obligatory Mobilities based on the provided
+   * Specialty, initial and final date
+   * @param specialty
+   * @param initialDate
+   * @param finalDate
+   * @returns
+   */
   async getAllAttachments(
     specialty: string,
     initialDate: Date,
@@ -230,6 +344,11 @@ export class ObligatoryMobilitiesService {
     return data ?? [];
   }
 
+  /**
+   * Gets an Attachments Obligatory Mobility based on the provided _id
+   * @param _id
+   * @returns
+   */
   async getAttachments(
     _id: string
   ): Promise<AttachmentsObligatoryMobilityResponse | null> {
@@ -241,6 +360,11 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Adds an Attachment Obligatory Mobility
+   * @param attachmentsObligatoryMobility
+   * @returns
+   */
   async addAttachments(
     attachmentsObligatoryMobility: AttachmentsObligatoryMobility
   ): Promise<AttachmentsObligatoryMobility | null> {
@@ -253,6 +377,12 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Updates an Attachments Obligatory Mobility based on the provided _id
+   * @param _id
+   * @param attachmentsObligatoryMobility
+   * @returns
+   */
   async updateAttachments(
     _id: string,
     attachmentsObligatoryMobility: AttachmentsObligatoryMobility
@@ -266,6 +396,10 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Deletes an Attachment Obligatory Mobility based on the provided _id
+   * @param _id
+   */
   async deleteAttachments(_id: string): Promise<void> {
     await this.http.delete(
       SERVER_ENDPOINTS.OBLIGATORY_MOBILITIES.ATTACHMENTS_BY_ID(_id),
@@ -273,6 +407,12 @@ export class ObligatoryMobilitiesService {
     );
   }
 
+  /**
+   * Gets the specified Attachments Obligatory Mobility document
+   * @param _id
+   * @param type
+   * @returns
+   */
   async getAttachmentsDocument(
     _id: string,
     type: AttachmentsObligatoryMobilityDocumentTypes
@@ -286,6 +426,13 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Updated the specified Attachments Obligatory Mobility document
+   * @param _id
+   * @param type
+   * @param formData
+   * @returns
+   */
   async updateAttachmentsDocument(
     _id: string,
     type: AttachmentsObligatoryMobilityDocumentTypes,
@@ -300,6 +447,11 @@ export class ObligatoryMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Deletes the specified Attachments Obligatory Mobility document
+   * @param _id
+   * @param type
+   */
   async deleteAttachmentsDocument(
     _id: string,
     type: AttachmentsObligatoryMobilityDocumentTypes
@@ -311,6 +463,13 @@ export class ObligatoryMobilitiesService {
     );
   }
 
+  /**
+   * Generates an Attachments Obligatory Mobility solicitude docx document
+   * @param _id
+   * @param numberOfDocument
+   * @param dateOfDocument
+   * @returns
+   */
   async generateSolicitude(
     _id: string,
     numberOfDocument: number,

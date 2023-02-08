@@ -10,6 +10,7 @@ import {
   SpecialtiesService,
 } from '@data/services';
 
+/** Optional Mobilities Generate documents component */
 @Component({
   selector: 'app-optional-mobilities-generate-documents',
   templateUrl: './optional-mobilities-generate-documents.component.html',
@@ -90,7 +91,7 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
     });
   }
 
-  //If the initial period change and is greater than final period, final period will be equal to initial period
+  /** If the initial period change and is greater than final period, final period will be equal to initial period */
   initialDateChange(): void {
     if (
       this.filtersFormControl.controls.initialDate.value!.getTime() >
@@ -109,7 +110,7 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
     }
   }
 
-  //If the final period change and is below than initial period, initial period will be equal to final period
+  /** If the final period change and is below than initial period, initial period will be equal to final period */
   finalDateChange(): void {
     if (
       this.filtersFormControl.controls.finalDate.value!.getTime() <
@@ -128,7 +129,7 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
     }
   }
 
-  //Send the information to the server to generate the documents
+  /** Send the information to the server to generate the documents */
   async generate(): Promise<void> {
     if (this.filtersFormControl.valid) {
       const values = this.filtersFormControl.value;
@@ -158,6 +159,7 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
     }
   }
 
+  /** Returns to the last page */
   goBack(): void {
     this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
   }

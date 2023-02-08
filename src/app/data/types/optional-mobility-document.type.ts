@@ -1,4 +1,4 @@
-/** Optional Mobility Document type */
+/** @type Optional Mobility Document type */
 export type OptionalMobilityDocumentTypes =
   | 'solicitudeDocument'
   | 'presentationOfficeDocument'

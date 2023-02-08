@@ -38,6 +38,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Attachments Obligatory Mobility component */
 @Component({
   selector: 'app-attachments-obligatory-mobility',
   templateUrl: './attachments-obligatory-mobility.component.html',
@@ -93,11 +94,17 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets a Attachment Obligatory Mobility based on the provided _id
+   * @param _id
+   */
   async getAttachmentsObligatoryMobility(_id: string): Promise<void> {
     this.loading = true;
     this.attachmentsObligatoryMobilityResponse =
       (await this.obligatoryMobilitiesService.getAttachments(_id)) ?? undefined;
+    // If the Attachments Obligatory Mobility exist
     if (this.attachmentsObligatoryMobilityResponse) {
+      // Sets the values to initial and final date
       this.attachmentsObligatoryMobilityFormControl.setValue({
         initialDate: new Date(
           this.attachmentsObligatoryMobilityResponse.initialDate
@@ -106,6 +113,7 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
           this.attachmentsObligatoryMobilityResponse.finalDate
         ),
       });
+      // Gets the documents
       this.documents = [];
       for (let document of AttachmentsObligatoryMobilityDocumentTypesArray) {
         this.documents.push({
@@ -124,6 +132,11 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
       this.router.navigate([PATHS.ERROR.BASE_PATH, PATHS.ERROR.PAGE_NOT_FOUND]);
   }
 
+  /**
+   * Sets initial month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setInitialMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -134,6 +147,11 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Sets final month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setFinalMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -144,15 +162,29 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Converts a initial date type to string
+   * @param date
+   * @returns
+   */
   initialDateToString(date: Date): string {
     return getFirstDayOfMonthAsString(new Date(date));
   }
 
+  /**
+   * Converts a final date type to string
+   * @param date
+   * @returns
+   */
   finalDateToString(date: Date): string {
     return getLastDayOfMonthAsString(new Date(date));
   }
 
+  /**
+   * Sends the data to update a Attachments Obligatory Mobility
+   */
   async updateAttachmentsObligatoryMobility(): Promise<void> {
+    // Checks that the form control is valid
     if (this.attachmentsObligatoryMobilityFormControl.valid) {
       const values = this.attachmentsObligatoryMobilityFormControl.value;
       const initialDate = new Date(
@@ -165,6 +197,7 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
           values.finalDate!.getMonth() + 1,
           0
         );
+      // Checks that dates are valid
       if (initialDate.getTime() > finalDate.getTime()) {
         this.attachmentsObligatoryMobilityFormControl.controls.initialDate.setErrors(
           {
@@ -192,6 +225,8 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
             (await this.obligatoryMobilitiesService.getAttachments(
               this.attachmentsObligatoryMobilityResponse!._id!
             )) ?? undefined;
+          // Opens a snackbar to indicate that Attachments Obligatory Mobility
+          // has been modified
           this.snackBar.open('Solicitud y Aceptación editada', undefined, {
             duration: 2000,
             panelClass: 'accent-snackbar',
@@ -204,6 +239,9 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes the Attachments Obligatory Mobility
+   */
   async deleteAttachmentsObligatoryMobility(): Promise<void> {
     await this.obligatoryMobilitiesService.deleteAttachments(
       this.attachmentsObligatoryMobilityResponse!._id
@@ -214,6 +252,11 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
     ]);
   }
 
+  /**
+   * Updates the specified file
+   * @param event
+   * @param type
+   */
   async updateFile(
     event: any,
     type: AttachmentsObligatoryMobilityDocumentTypes
@@ -234,6 +277,10 @@ export class AttachmentsObligatoryMobilityComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes the specified file
+   * @param type
+   */
   async deleteFile(
     type: AttachmentsObligatoryMobilityDocumentTypes
   ): Promise<void> {

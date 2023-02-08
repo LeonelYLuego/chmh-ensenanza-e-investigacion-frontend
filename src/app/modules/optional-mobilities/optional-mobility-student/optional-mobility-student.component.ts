@@ -284,11 +284,17 @@ export class OptionalMobilityStudentComponent implements OnInit {
     await this.getOptionalMobility();
   }
 
+  /**
+   * Cancels an Optional Mobility
+   */
   async cancel(): Promise<void> {
     await this.optionalMobilitiesService.cancel(this.optionalMobility!._id!);
     await this.getOptionalMobility();
   }
 
+  /**
+   * Uncancels an Optional Mobility
+   */
   async uncancel(): Promise<void> {
     await this.optionalMobilitiesService.uncancel(this.optionalMobility!._id!);
     await this.getOptionalMobility();

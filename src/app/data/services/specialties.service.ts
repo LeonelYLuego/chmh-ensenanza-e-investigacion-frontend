@@ -31,6 +31,11 @@ export class SpecialtiesService {
 
   constructor(private http: HttpPetitions) {}
 
+  /**
+   * Finds all Specialties
+   * @param incoming
+   * @returns
+   */
   async findAll(incoming = false): Promise<Specialty[]> {
     let data = await this.http.get<Specialty[]>(
       incoming

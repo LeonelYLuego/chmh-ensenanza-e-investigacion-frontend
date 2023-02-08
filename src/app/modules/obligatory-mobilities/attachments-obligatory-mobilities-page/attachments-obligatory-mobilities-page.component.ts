@@ -6,7 +6,6 @@ import {
   getLastDayOfMonthAsString,
 } from '@core/functions/date.function';
 import {
-  AttachmentsObligatoryMobility,
   AttachmentsObligatoryMobilityByHospital,
   ObligatoryMobilityInterval,
   Specialty,
@@ -16,6 +15,9 @@ import {
   SpecialtiesService,
 } from '@data/services';
 
+/**
+ * Attachments Obligatory Mobility page component
+ */
 @Component({
   selector: 'app-attachments-obligatory-mobilities-page',
   templateUrl: './attachments-obligatory-mobilities-page.component.html',
@@ -59,6 +61,9 @@ export class AttachmentsObligatoryMobilitiesPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Gets Attachments Obligatory Mobilities
+   */
   async getAttachmentsObligatoryMobilities(): Promise<void> {
     this.loading = true;
     this.attachmentsObligatoryMobilitiesByHospital =
@@ -70,6 +75,9 @@ export class AttachmentsObligatoryMobilitiesPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * Checks that dates are valid and gets the data
+   */
   initialDateChanged(): void {
     if (
       this.filtersFormControl.controls.initialDate.value!.getTime() >
@@ -89,6 +97,9 @@ export class AttachmentsObligatoryMobilitiesPageComponent implements OnInit {
     this.getAttachmentsObligatoryMobilities();
   }
 
+  /**
+   * Checks that dates are valid and gets the data
+   */
   finalDateChanged(): void {
     if (
       this.filtersFormControl.controls.finalDate.value!.getTime() <
@@ -108,16 +119,29 @@ export class AttachmentsObligatoryMobilitiesPageComponent implements OnInit {
     this.getAttachmentsObligatoryMobilities();
   }
 
+  /**
+   * Gets the data when a filter change
+   */
   async filtersChanged(): Promise<void> {
     if (this.filtersFormControl.valid) {
       await this.getAttachmentsObligatoryMobilities();
     }
   }
 
+  /**
+   * Converts a date type to string
+   * @param date
+   * @returns
+   */
   initialDateToString(date: Date): string {
     return getFirstDayOfMonthAsString(new Date(date));
   }
 
+  /**
+   * Convert a date type to string
+   * @param date
+   * @returns
+   */
   finalDateToString(date: Date): string {
     return getLastDayOfMonthAsString(new Date(date));
   }

@@ -47,7 +47,7 @@ export class SocialServicesService {
     {
       errorMessage: 'social service period not found',
       snackbarMessage: 'Periodo de Servicio Sociales no encontrado',
-    }
+    },
   ];
 
   constructor(private http: HttpPetitions) {}
@@ -269,7 +269,7 @@ export class SocialServicesService {
   }
 
   /**
-   * Upates a Social Service in the server
+   * Updates a Social Service in the server
    * @param _id Social Service primary key
    * @param socialService
    * @returns the updated Social Service
@@ -337,7 +337,7 @@ export class SocialServicesService {
   }
 
   /**
-   * Deletes a Social Service document in ther server
+   * Deletes a Social Service document in the server
    * @param _id Social Service primary key
    * @param type document type
    */
@@ -352,6 +352,18 @@ export class SocialServicesService {
     );
   }
 
+  /**
+   * Generates the Social Service presentation office documents
+   * @param initialNumberOfDocuments
+   * @param dateOfDocuments
+   * @param initialPeriod
+   * @param initialYear
+   * @param finalPeriod
+   * @param finalYear
+   * @param hospital
+   * @param specialty
+   * @returns
+   */
   async generateDocuments(
     initialNumberOfDocuments: number,
     dateOfDocuments: Date,

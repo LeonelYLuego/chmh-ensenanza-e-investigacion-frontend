@@ -39,6 +39,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Add Obligatory Mobility component */
 @Component({
   selector: 'app-add-obligatory-mobility',
   templateUrl: './add-obligatory-mobility.component.html',
@@ -109,6 +110,9 @@ export class AddObligatoryMobilityComponent implements OnInit {
     this.hospitals = await this.hospitalsService.getAll();
   }
 
+  /**
+   * Clear the filters and gets the data when the specialty change
+   */
   async specialtyChanged(): Promise<void> {
     this.filtersFormControl.controls.generation.setValue(undefined);
     this.generations = await this.specialtiesService.getGenerations(
@@ -121,6 +125,9 @@ export class AddObligatoryMobilityComponent implements OnInit {
     this.generationChanged();
   }
 
+  /**
+   * Clear the filters and gets the data when the generation change
+   */
   async generationChanged(): Promise<void> {
     this.studentsFormControl.clear();
     if (this.filtersFormControl.valid) {
@@ -131,6 +138,9 @@ export class AddObligatoryMobilityComponent implements OnInit {
     } else this.students = [];
   }
 
+  /**
+   * Adds a student
+   */
   addStudent(): void {
     this.studentsFormControl.push(
       new FormGroup({
@@ -151,10 +161,18 @@ export class AddObligatoryMobilityComponent implements OnInit {
     );
   }
 
+  /**
+   * Deletes a Student at index
+   * @param studentIndex
+   */
   deleteStudent(studentIndex: number): void {
     this.studentsFormControl.removeAt(studentIndex);
   }
 
+  /**
+   * Add a Hospital at index
+   * @param studentIndex
+   */
   addHospital(studentIndex: number): void {
     this.studentsFormControl.controls[studentIndex].controls.hospitals.push(
       new FormGroup({
@@ -166,12 +184,22 @@ export class AddObligatoryMobilityComponent implements OnInit {
     );
   }
 
+  /**
+   * Deletes a Hospital at index
+   * @param studentIndex
+   * @param hospitalIndex
+   */
   deleteHospital(studentIndex: number, hospitalIndex: number): void {
     this.studentsFormControl.controls[studentIndex].controls.hospitals.removeAt(
       hospitalIndex
     );
   }
 
+  /**
+   * Sets initial month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setInitialMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>,
@@ -184,6 +212,11 @@ export class AddObligatoryMobilityComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Sets final month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setFinalMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>,
@@ -196,9 +229,14 @@ export class AddObligatoryMobilityComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Validates and sends the data to add an Obligatory Mobility
+   */
   async addObligatoryMobility(): Promise<void> {
+    // Checks if the form control is valid
     if (this.studentsFormControl.valid) {
       let valid = true;
+      // Checks that all date Hospitals are valid
       this.studentsFormControl.controls.map((studentFormControl) => {
         studentFormControl.controls.hospitals.controls.map(
           (hospitalFormControl) => {

@@ -22,6 +22,10 @@ export class OptionalMobilitiesService {
       snackbarMessage: 'Movilidad Optativa no editada',
     },
     {
+      errorMessage: 'optional mobility not updated',
+      snackbarMessage: 'Movilidad Optativa no editada',
+    },
+    {
       errorMessage: 'optional mobility not deleted',
       snackbarMessage: 'Movilidad Optativa no eliminada',
     },
@@ -252,7 +256,7 @@ export class OptionalMobilitiesService {
   }
 
   /**
-   * Deletes a Document in the server by deh Optional Mobility Id and document type
+   * Deletes a Document in the server by the Optional Mobility Id and document type
    * @param _id Optional Mobility primary key
    * @param type Document type
    */
@@ -267,6 +271,11 @@ export class OptionalMobilitiesService {
     );
   }
 
+  /**
+   * Cancels a Optional Mobility by _id
+   * @param _id
+   * @returns
+   */
   async cancel(_id: string): Promise<OptionalMobility | null> {
     const data = await this.http.put<OptionalMobility>(
       SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.CANCEL_ID(_id),
@@ -276,6 +285,11 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Uncancels a Optional Mobility by _id
+   * @param _id
+   * @returns
+   */
   async uncancel(_id: string): Promise<OptionalMobility | null> {
     const data = await this.http.put<OptionalMobility>(
       SERVER_ENDPOINTS.OPTIONAL_MOBILITIES.UNCANCEL_ID(_id),
@@ -285,6 +299,17 @@ export class OptionalMobilitiesService {
     return data ?? null;
   }
 
+  /**
+   * Generates the Optional Mobility specified documents
+   * @param document
+   * @param initialNumberOfDocuments
+   * @param dateOfDocuments
+   * @param initialDate
+   * @param finalDate
+   * @param hospital
+   * @param specialty
+   * @returns
+   */
   async generateDocuments(
     document: 'presentationOfficeDocument' | 'solicitudeDocument',
     initialNumberOfDocuments: number,

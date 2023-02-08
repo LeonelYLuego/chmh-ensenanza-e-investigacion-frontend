@@ -1,4 +1,4 @@
-/** @type Social Service Document type */
+/** @type Social Service document type */
 export type SocialServiceDocumentTypes =
   | 'presentationOfficeDocument'
   | 'reportDocument'

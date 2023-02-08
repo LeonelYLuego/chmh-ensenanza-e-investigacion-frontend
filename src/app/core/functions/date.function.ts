@@ -1,3 +1,9 @@
+/**
+ * Returns the last day of a month
+ * @param year
+ * @param month
+ * @returns
+ */
 export function lastDayOfTheMonth(year: number, month: number): number {
   switch (month + 1) {
     case 1:
@@ -20,6 +26,9 @@ export function lastDayOfTheMonth(year: number, month: number): number {
   }
 }
 
+/**
+ * Name of the months
+ */
 const months = [
   'enero',
   'febrero',
@@ -35,16 +44,31 @@ const months = [
   'diciembre',
 ];
 
+/**
+ * Returns the name of a month
+ * @param month
+ * @returns
+ */
 export function monthToString(month: number) {
   return months[month];
 }
 
+/**
+ * Gets the fist day of a month as string
+ * @param date
+ * @returns
+ */
 export function getFirstDayOfMonthAsString(date: Date) {
   const month = date.getMonth();
   const year = date.getFullYear();
   return `1 de ${months[month]} de ${year}`;
 }
 
+/**
+ * Gets the last day of a month as string
+ * @param date
+ * @returns
+ */
 export function getLastDayOfMonthAsString(date: Date) {
   const month = date.getMonth();
   const year = date.getFullYear();

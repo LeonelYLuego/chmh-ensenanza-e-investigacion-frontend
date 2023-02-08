@@ -18,6 +18,7 @@ import {
   SpecialtiesService,
 } from '@data/services';
 
+/** Obligatory Mobilities page component */
 @Component({
   selector: 'app-obligatory-mobilities-page',
   templateUrl: './obligatory-mobilities-page.component.html',
@@ -83,6 +84,9 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Gets the Obligatory Mobilities
+   */
   async getObligatoryMobilities(): Promise<void> {
     if (this.intervalFormControl.valid) {
       this.loading = true;
@@ -106,22 +110,43 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Converts a initial date type to string
+   * @param date
+   * @returns
+   */
   initialDateToString(date: Date): string {
     return getFirstDayOfMonthAsString(new Date(date));
   }
 
+  /**
+   * Converts a final date type to string
+   * @param date
+   * @returns
+   */
   finalDateToString(date: Date): string {
     return getLastDayOfMonthAsString(new Date(date));
   }
 
+  /**
+   * Calls to get again the Attachments Obligatory Mobilities
+   * when the vie changed
+   */
   viewChanged(): void {
     this.getObligatoryMobilities();
   }
 
+  /**
+   * Gets the Attachments Obligatory Mobilities when the
+   * specialty changed
+   */
   specialtyChanged(): void {
     this.getObligatoryMobilities();
   }
 
+  /**
+   * Checks that dates are valid and gets de data
+   */
   initialDateChanged(): void {
     if (
       this.intervalFormControl.controls.initialDate.value!.getTime() >
@@ -141,6 +166,9 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
     this.getObligatoryMobilities();
   }
 
+  /**
+   * Checks that dates are valid and gets de data
+   */
   finalDateChanged(): void {
     if (
       this.intervalFormControl.controls.finalDate.value!.getTime() <
@@ -160,6 +188,7 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
     this.getObligatoryMobilities();
   }
 
+  /** Redirects to Update Attachments Obligatory Mobility page */
   updateObligatoryMobility(obligatoryMobility: ObligatoryMobility): void {
     this.router.navigate([this.paths.BASE_PATH, obligatoryMobility._id!]);
   }

@@ -36,6 +36,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Add Attachments Obligatory Mobility component */
 @Component({
   selector: 'app-add-attachments-obligatory-mobility',
   templateUrl: './add-attachments-obligatory-mobility.component.html',
@@ -80,6 +81,11 @@ export class AddAttachmentsObligatoryMobilityComponent implements OnInit {
     this.hospitals = await this.hospitalsService.getAll();
   }
 
+  /**
+   * Sets initial month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   async setInitialMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -91,6 +97,11 @@ export class AddAttachmentsObligatoryMobilityComponent implements OnInit {
     await this.getObligatoryMobilities();
   }
 
+  /**
+   * Sets final month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   async setFinalMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -102,15 +113,29 @@ export class AddAttachmentsObligatoryMobilityComponent implements OnInit {
     await this.getObligatoryMobilities();
   }
 
+  /**
+   * Converts a date type to string
+   * @param date
+   * @returns
+   */
   initialDateToString(date: Date): string {
     return getFirstDayOfMonthAsString(new Date(date));
   }
 
+  /**
+   * Converts a date type to string
+   * @param date
+   * @returns
+   */
   finalDateToString(date: Date): string {
     return getLastDayOfMonthAsString(new Date(date));
   }
 
+  /**
+   * Gets Obligatory Mobilities
+   */
   async getObligatoryMobilities(): Promise<void> {
+    // Checks if the form control is valid
     if (this.attachmentsObligatoryMobilityFormControl.valid) {
       const values = this.attachmentsObligatoryMobilityFormControl.value;
       const initialDate = new Date(
@@ -123,6 +148,7 @@ export class AddAttachmentsObligatoryMobilityComponent implements OnInit {
           values.finalDate!.getMonth() + 1,
           0
         );
+      // Checks that dates are valid
       if (initialDate.getTime() > finalDate.getTime()) {
         this.attachmentsObligatoryMobilityFormControl.controls.initialDate.setErrors(
           {
@@ -148,7 +174,11 @@ export class AddAttachmentsObligatoryMobilityComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the data to add an Attachments Obligatory Mobility
+   */
   async addAttachmentsObligatoryMobility(): Promise<void> {
+    // Checks if the form control is valid
     if (this.attachmentsObligatoryMobilityFormControl.valid) {
       const values = this.attachmentsObligatoryMobilityFormControl.value;
       const initialDate = new Date(
@@ -161,6 +191,7 @@ export class AddAttachmentsObligatoryMobilityComponent implements OnInit {
           values.finalDate!.getMonth() + 1,
           0
         );
+      // Checks if the dates are valid
       if (initialDate.getTime() > finalDate.getTime()) {
         this.attachmentsObligatoryMobilityFormControl.controls.initialDate.setErrors(
           {

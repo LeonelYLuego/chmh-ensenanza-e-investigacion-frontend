@@ -15,7 +15,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PATHS } from '@core/constants';
 import {
   Hospital,
-  ObligatoryMobility,
   ObligatoryMobilityResponse,
   RotationService,
   Specialty,
@@ -46,6 +45,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Obligatory Mobility Student component */
 @Component({
   selector: 'app-obligatory-mobility-student',
   templateUrl: './obligatory-mobility-student.component.html',
@@ -100,10 +100,12 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     });
   }
 
+  /** Gets the Obligatory Mobility by _id */
   async getObligatoryMobility(_id: string): Promise<void> {
     this.loading = true;
     this.obligatoryMobility =
       (await this.obligatoryMobilitiesService.get(_id)) ?? undefined;
+    // If the Obligatory Mobility exist
     if (this.obligatoryMobility) {
       this.hospitals = await this.hospitalsService.getAll();
       const student = await this.studentsService.get(
@@ -112,14 +114,17 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
       this.rotationServices = await this.rotationServicesService.getAll(
         (student!.specialty as Specialty)._id!
       );
+      // Sets the values for the Obligatory Mobility
       this.obligatoryMobilityFormControl.setValue({
         finalDate: new Date(this.obligatoryMobility.finalDate),
         initialDate: new Date(this.obligatoryMobility.initialDate),
         hospital: this.obligatoryMobility.hospital as string,
         rotationService: this.obligatoryMobility.rotationService as string,
       });
+      // Gets the documents
       this.documents = [];
       for (let document of ObligatoryMobilityDocumentTypesArray) {
+        // For solitude and acceptance documents don't show the options
         if (
           document.type == 'solicitudeDocument' ||
           document.type == 'acceptanceDocument'
@@ -156,6 +161,11 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
       this.router.navigate([PATHS.ERROR.BASE_PATH, PATHS.ERROR.PAGE_NOT_FOUND]);
   }
 
+  /**
+   * Sets initial month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setInitialMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -166,6 +176,11 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Sets final month and year of a datepicker
+   * @param normalizedMonthAndYear
+   * @param datepicker
+   */
   setFinalMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -176,7 +191,11 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     datepicker.close();
   }
 
+  /**
+   * Updates a Obligatory Mobility
+   */
   async updateObligatoryMobility(): Promise<void> {
+    // Checks if the form control is valid
     if (this.obligatoryMobilityFormControl.valid) {
       const values = this.obligatoryMobilityFormControl.value;
       const initialDate = new Date(
@@ -189,6 +208,7 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
           values.finalDate!.getMonth() + 1,
           0
         );
+      // Checks if the dates are valid
       if (initialDate.getTime() > finalDate.getTime()) {
         this.obligatoryMobilityFormControl.controls.initialDate.setErrors({
           incorrect: true,
@@ -210,6 +230,7 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
         );
         if (data) {
           await this.getObligatoryMobility(this.obligatoryMobility!._id!);
+          // Shows a snackbar if the Obligatory Mobility has been modified
           this.snackBar.open('Movilidad Obligatoria editada', undefined, {
             duration: 2000,
             panelClass: 'accent-snackbar',
@@ -222,6 +243,9 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes a Obligatory Mobility
+   */
   async deleteObligatoryMobility(): Promise<void> {
     await this.obligatoryMobilitiesService.delete(
       this.obligatoryMobility!._id!
@@ -229,6 +253,9 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     this.router.navigate([PATHS.OBLIGATORY_MOBILITIES.BASE_PATH]);
   }
 
+  /**
+   * Cancels a Obligatory Mobility
+   */
   async cancel(): Promise<void> {
     await this.obligatoryMobilitiesService.cancel(
       this.obligatoryMobility!._id!
@@ -236,6 +263,9 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     await this.getObligatoryMobility(this.obligatoryMobility!._id!);
   }
 
+  /**
+   * Uncancels a Obligatory Mobility
+   */
   async uncancel(): Promise<void> {
     await this.obligatoryMobilitiesService.uncancel(
       this.obligatoryMobility!._id!
@@ -243,6 +273,11 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     await this.getObligatoryMobility(this.obligatoryMobility!._id!);
   }
 
+  /**
+   * Updates the specified document
+   * @param event
+   * @param type
+   */
   async updateFile(
     event: any,
     type: ObligatoryMobilityDocumentTypes
@@ -261,6 +296,10 @@ export class ObligatoryMobilityStudentComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes the specified file
+   * @param type
+   */
   async deleteFile(type: ObligatoryMobilityDocumentTypes): Promise<void> {
     this.loading = true;
     await this.obligatoryMobilitiesService.deleteDocument(

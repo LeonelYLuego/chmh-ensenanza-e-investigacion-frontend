@@ -95,7 +95,7 @@ export class StudentsService {
   }
 
   /**
-   * Delete the specified Student in the server
+   * Deletes the specified Student in the server
    * @async
    * @param _id _id of the Student
    */

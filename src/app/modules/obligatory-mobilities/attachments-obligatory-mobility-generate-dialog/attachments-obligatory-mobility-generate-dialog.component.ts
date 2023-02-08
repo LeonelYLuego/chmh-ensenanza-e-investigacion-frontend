@@ -23,6 +23,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Attachments Obligatory Mobility Generate dialog component */
 @Component({
   selector: 'app-attachments-obligatory-mobility-generate-dialog',
   templateUrl:
@@ -63,6 +64,9 @@ export class AttachmentsObligatoryMobilityGenerateDialogComponent
     console.log(this._id);
   }
 
+  /**
+   * Generates solicitude docx document
+   */
   async generateSolicitude(): Promise<void> {
     if (this.generateFormControl.valid) {
       const blob = await this.obligatoryMobilitiesService.generateSolicitude(

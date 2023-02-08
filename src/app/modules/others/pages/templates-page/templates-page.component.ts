@@ -48,6 +48,10 @@ export class TemplatesPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the information to the server to update a Template
+   * @param event
+   */
   async updateOptionalMobilitiesSolicitudeTemplate(event: any): Promise<void> {
     const file: File = event.target.files[0];
     if (file) {
@@ -62,6 +66,10 @@ export class TemplatesPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the information to the server to update a Template
+   * @param event
+   */
   async updateOptionalMobilitiesPresentationOfficeTemplate(
     event: any
   ): Promise<void> {
@@ -78,6 +86,10 @@ export class TemplatesPageComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends the information to the server to update a Template
+   * @param event
+   */
   async updateObligatoryMobilitiesSolicitudeTemplate(
     event: any
   ): Promise<void> {
