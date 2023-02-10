@@ -57,11 +57,31 @@ export class SocialServicesPageComponent implements OnInit {
     this.hospitals = await this.hospitalsService.getAll();
     //If the periods exist, selects the last year registered
     if (periods.length >= 3) {
+      let initialPeriodIndex = -1;
+      let finalPeriodIndex = -1;
+      if (localStorage.getItem('socialServiceInitialPeriod')) {
+        initialPeriodIndex = periods.findIndex(
+          (period) =>
+            JSON.stringify(period.initial.value) ==
+            localStorage.getItem('socialServiceInitialPeriod')
+        );
+      }
+      if (localStorage.getItem('socialServiceFinalPeriod')) {
+        finalPeriodIndex = periods.findIndex((period) => {
+          return (
+            JSON.stringify(period.final.value) ==
+            localStorage.getItem('socialServiceFinalPeriod')
+          );
+        });
+      }
       this.periodFormControl.controls.initialPeriod.setValue(
-        periods[periods.length - 3].initial.value
+        periods[
+          initialPeriodIndex == -1 ? periods.length - 3 : initialPeriodIndex
+        ].initial.value
       );
       this.periodFormControl.controls.finalPeriod.setValue(
-        periods[periods.length - 1].final.value
+        periods[finalPeriodIndex == -1 ? periods.length - 1 : finalPeriodIndex]
+          .final.value
       );
     }
     //Gets all social services in the period
@@ -150,6 +170,10 @@ export class SocialServicesPageComponent implements OnInit {
         this.finalPeriods[index].value
       );
     }
+    localStorage.setItem(
+      'socialServiceInitialPeriod',
+      JSON.stringify(this.periodFormControl.value.initialPeriod!)
+    );
     this.getSocialServices();
   }
 
@@ -168,6 +192,10 @@ export class SocialServicesPageComponent implements OnInit {
         this.initialPeriods[index].value
       );
     }
+    localStorage.setItem(
+      'socialServiceFinalPeriod',
+      JSON.stringify(this.periodFormControl.value.initialPeriod!)
+    );
     this.getSocialServices();
   }
 

@@ -74,13 +74,53 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
       this.intervals.finalMonths.length > 0 &&
       this.intervals.initialMonths.length > 0
     ) {
+      let initialDateIndex = -1;
+      let finalDateIndex = -1;
+      if (localStorage.getItem('obligatoryMobilityInitialDate'))
+        initialDateIndex = this.intervals.initialMonths.findIndex(
+          (date) =>
+            JSON.stringify(date.value) ==
+            localStorage.getItem('obligatoryMobilityInitialDate')
+        );
+      if (localStorage.getItem('obligatoryMobilityFinalDate'))
+        finalDateIndex = this.intervals.finalMonths.findIndex(
+          (date) =>
+            JSON.stringify(date.value) ==
+            localStorage.getItem('obligatoryMobilityFinalDate')
+        );
       this.intervalFormControl.controls.initialDate.setValue(
-        this.intervals.initialMonths[this.intervals.initialMonths.length - 12]
-          .value
+        this.intervals.initialMonths[
+          initialDateIndex == -1
+            ? this.intervals.initialMonths.length - 12
+            : initialDateIndex
+        ].value
       );
       this.intervalFormControl.controls.finalDate.setValue(
-        this.intervals.finalMonths[this.intervals.finalMonths.length - 1].value
+        this.intervals.finalMonths[
+          finalDateIndex == -1
+            ? this.intervals.finalMonths.length - 1
+            : finalDateIndex
+        ].value
       );
+      if (localStorage.getItem('obligatoryMobilityLastView'))
+        this.intervalFormControl.controls.view.setValue(
+          localStorage.getItem('obligatoryMobilityLastView') as
+            | 'hospital'
+            | 'student'
+        );
+      if (localStorage.getItem('obligatoryMobilityLastSpecialty')) {
+        const specialtyIndex = this.specialties.findIndex((specialty) => {
+          return (
+            specialty._id! ==
+            localStorage.getItem('obligatoryMobilityLastSpecialty')
+          );
+        });
+        if (specialtyIndex != -1)
+          this.intervalFormControl.controls.specialty.setValue(
+            this.specialties[specialtyIndex]._id!
+          );
+      }
+      this.getObligatoryMobilities();
     }
   }
 
@@ -133,6 +173,10 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
    * when the vie changed
    */
   viewChanged(): void {
+    localStorage.setItem(
+      'obligatoryMobilityLastView',
+      this.intervalFormControl.controls.view.value!
+    );
     this.getObligatoryMobilities();
   }
 
@@ -141,6 +185,10 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
    * specialty changed
    */
   specialtyChanged(): void {
+    localStorage.setItem(
+      'obligatoryMobilityLastSpecialty',
+      this.intervalFormControl.controls.specialty.value!
+    );
     this.getObligatoryMobilities();
   }
 
@@ -163,6 +211,10 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
         this.intervals.finalMonths[index].value
       );
     }
+    localStorage.setItem(
+      'obligatoryMobilityInitialDate',
+      JSON.stringify(this.intervalFormControl.controls.initialDate.value!)
+    );
     this.getObligatoryMobilities();
   }
 
@@ -185,6 +237,10 @@ export class ObligatoryMobilitiesPageComponent implements OnInit {
         this.intervals.initialMonths[index].value
       );
     }
+    localStorage.setItem(
+      'obligatoryMobilityFinalDate',
+      JSON.stringify(this.intervalFormControl.controls.finalDate.value!)
+    );
     this.getObligatoryMobilities();
   }
 

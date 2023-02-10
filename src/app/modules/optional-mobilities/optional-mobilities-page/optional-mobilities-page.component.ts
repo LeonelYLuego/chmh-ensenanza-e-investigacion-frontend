@@ -67,12 +67,33 @@ export class OptionalMobilitiesPageComponent implements OnInit {
       this.interval.initialMonths.length > 0 &&
       this.interval.finalMonths.length > 0
     ) {
+      let initialDateIndex = -1;
+      let finalDateIndex = -1;
+      if (localStorage.getItem('optionalMobilityInitialDate'))
+        initialDateIndex = this.interval.initialMonths.findIndex(
+          (date) =>
+            JSON.stringify(date.value) ==
+            localStorage.getItem('optionalMobilityInitialDate')
+        );
+      if (localStorage.getItem('optionalMobilityFinalDate'))
+        finalDateIndex = this.interval.finalMonths.findIndex(
+          (date) =>
+            JSON.stringify(date.value) ==
+            localStorage.getItem('optionalMobilityFinalDate')
+        );
       this.intervalFormControl.controls.initialDate.setValue(
-        this.interval.initialMonths[this.interval.initialMonths.length - 12]
-          .value
+        this.interval.initialMonths[
+          initialDateIndex == -1
+            ? this.interval.initialMonths.length - 12
+            : initialDateIndex
+        ].value
       );
       this.intervalFormControl.controls.finalDate.setValue(
-        this.interval.finalMonths[this.interval.finalMonths.length - 1].value
+        this.interval.finalMonths[
+          finalDateIndex == -1
+            ? this.interval.finalMonths.length - 1
+            : finalDateIndex
+        ].value
       );
       this.getOptionalMobilities();
     }
@@ -95,6 +116,10 @@ export class OptionalMobilitiesPageComponent implements OnInit {
         this.interval.finalMonths[index].value
       );
     }
+    localStorage.setItem(
+      'optionalMobilityInitialDate',
+      JSON.stringify(this.intervalFormControl.controls.initialDate.value!)
+    );
     this.getOptionalMobilities();
   }
 
@@ -115,6 +140,10 @@ export class OptionalMobilitiesPageComponent implements OnInit {
         this.interval.initialMonths[index].value
       );
     }
+    localStorage.setItem(
+      'optionalMobilityFinalDate',
+      JSON.stringify(this.intervalFormControl.controls.finalDate.value!)
+    );
     this.getOptionalMobilities();
   }
 
