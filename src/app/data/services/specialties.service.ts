@@ -120,12 +120,12 @@ export class SpecialtiesService {
         year = today.getFullYear();
       //If is january or february
       if (month == 1 || month == 2) year -= 1;
-      for (let i = 0; i < 5 + specialty.duration; i++) {
-        let generation = year - i + ' - ' + (year - i + specialty.duration);
-        if (i < specialty.duration) generation += ' (' + (i + 1) + ' año)';
+      for (let i = 0; i < 5 + specialty.duration!; i++) {
+        let generation = year - i + ' - ' + (year - i + specialty.duration!);
+        if (i < specialty.duration!) generation += ' (' + (i + 1) + ' año)';
         generations.push({
           name: generation,
-          value: year - i + specialty.duration,
+          value: year - i + specialty.duration!,
         });
       }
     }
@@ -156,10 +156,10 @@ export class SpecialtiesService {
       //If the month is january or february
       if (month == 1 || month == 2) year -= 1;
       generation += `${
-        lastYearGeneration - specialty.duration
+        lastYearGeneration - specialty.duration!
       } - ${lastYearGeneration}`;
-      const grade = -(lastYearGeneration - specialty.duration - year - 1);
-      if (grade <= specialty.duration) {
+      const grade = -(lastYearGeneration - specialty.duration! - year - 1);
+      if (grade <= specialty.duration!) {
         generation += ` (${grade} año)`;
       }
     }

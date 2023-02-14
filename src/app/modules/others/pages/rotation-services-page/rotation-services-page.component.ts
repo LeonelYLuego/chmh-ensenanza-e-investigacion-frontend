@@ -5,7 +5,6 @@ import { RotationService, Specialty } from '@data/interfaces';
 import { RotationServicesService, SpecialtiesService } from '@data/services';
 import { RotationServiceDialogComponent } from '@shared/rotation-service-dialog';
 import { DeleteDialogComponent } from '@shared/delete-dialog';
-import { ActivatedRoute } from '@angular/router';
 
 /** Rotation Service page component */
 @Component({
@@ -14,7 +13,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./rotation-services-page.component.css'],
 })
 export class RotationServicesPageComponent implements OnInit {
-  incoming = false;
   specialties: Specialty[] = [];
   rotationServices: RotationService[] = [];
   specialtyFormControl = new FormControl<string | null>(null);
@@ -24,17 +22,11 @@ export class RotationServicesPageComponent implements OnInit {
   constructor(
     private rotationServicesService: RotationServicesService,
     private specialtiesService: SpecialtiesService,
-    private dialog: MatDialog,
-    private route: ActivatedRoute
+    private dialog: MatDialog
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.route.data.subscribe(async (v) => {
-      if (v['incoming']) {
-        this.incoming = true;
-      }
-      this.specialties = await this.specialtiesService.findAll(this.incoming);
-    });
+    this.specialties = await this.specialtiesService.findAll();
   }
 
   /**
@@ -44,8 +36,7 @@ export class RotationServicesPageComponent implements OnInit {
     this.loading = true;
     if (this.specialtyFormControl.value) {
       this.rotationServices = await this.rotationServicesService.getAll(
-        this.specialtyFormControl.value!,
-        this.incoming
+        this.specialtyFormControl.value!
       );
     }
     this.loading = false;
@@ -70,7 +61,6 @@ export class RotationServicesPageComponent implements OnInit {
       },
       data: {
         specialty: this.specialtyFormControl.value ?? undefined,
-        incoming: this.incoming,
       },
     });
 
@@ -92,7 +82,6 @@ export class RotationServicesPageComponent implements OnInit {
       },
       data: {
         rotationService,
-        incoming: this.incoming,
       },
     });
 
@@ -114,7 +103,7 @@ export class RotationServicesPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result === true) {
-        await this.rotationServicesService.delete(_id, this.incoming);
+        await this.rotationServicesService.delete(_id);
         await this.getRotationServices();
       }
     });

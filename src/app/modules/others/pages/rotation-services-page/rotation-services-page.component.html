@@ -1,21 +1,19 @@
 <mat-card class="main-card">
   <mat-card-title class="main-card-title">
-    <span class="main-card-title-text"
-      >Servicios a Rotar {{ incoming ? "Externos" : "" }}</span
-    >
+    <span class="main-card-title-text">Servicios a Rotar</span>
     <button
       mat-raised-button
       color="primary"
       class="main-card-right-button"
       (click)="addRotationService()"
     >
-      Agregar Servicio a Rotar {{ incoming ? "Externos" : "" }}
+      Agregar Servicio a Rotar
     </button>
   </mat-card-title>
   <mat-divider></mat-divider>
   <div class="h-20"></div>
   <mat-form-field class="filter-width" appearance="outline">
-    <mat-label>Especialidad {{ incoming ? "Externa" : "" }}</mat-label>
+    <mat-label>Especialidad</mat-label>
     <mat-select
       (selectionChange)="specialtiesSelectionChange()"
       [formControl]="specialtyFormControl"
@@ -30,9 +28,7 @@
   <mat-card-content *ngIf="!loading">
     <table mat-table [dataSource]="rotationServices" class="full-width">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>
-          Servicio a Rotar {{ incoming ? "Externo" : "" }}
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Servicio a Rotar</th>
         <td mat-cell *matCellDef="let rotationService">
           {{ rotationService.value }}
         </td>

@@ -1,5 +1,6 @@
 import { Hospital } from './hospital';
 import { RotationService } from './rotation-service';
+import { Specialty } from './specialty';
 
 /** Incoming Student */
 export interface IncomingStudent {
@@ -41,6 +42,9 @@ export interface IncomingStudent {
 
   /** @property */
   evaluationDocument?: string;
+
+  /** @property */
+  incomingSpecialty: Specialty | string;
 
   /** @property */
   rotationService: RotationService | string;

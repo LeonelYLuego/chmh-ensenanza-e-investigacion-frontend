@@ -44,17 +44,17 @@ export class SpecialtyDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<SpecialtyDialogComponent>,
     private specialtiesService: SpecialtiesService,
     @Inject(MAT_DIALOG_DATA)
-    public data: { specialty?: Specialty; incoming: boolean }
+    public data: { specialty?: Specialty }
   ) {
     if (data.specialty) {
       this.specialtyFormControl.setValue({
         value: data.specialty.value,
-        duration: data.specialty.duration,
-        headOfDepartment: data.specialty.headOfDepartment,
-        headOfDepartmentPosition: data.specialty.headOfDepartmentPosition,
-        headOfService: data.specialty.headOfService,
+        duration: data.specialty.duration!,
+        headOfDepartment: data.specialty.headOfDepartment!,
+        headOfDepartmentPosition: data.specialty.headOfDepartmentPosition!,
+        headOfService: data.specialty.headOfService!,
         tenuredPostgraduateProfessor:
-          data.specialty.tenuredPostgraduateProfessor,
+          data.specialty.tenuredPostgraduateProfessor!,
       });
     }
   }
@@ -78,7 +78,7 @@ export class SpecialtyDialogComponent implements OnInit {
             headOfService: values.headOfService!,
             tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
           },
-          this.data.incoming
+          false
         )
       )
         this.close();
@@ -102,7 +102,7 @@ export class SpecialtyDialogComponent implements OnInit {
             headOfService: values.headOfService!,
             tenuredPostgraduateProfessor: values.tenuredPostgraduateProfessor!,
           },
-          this.data.incoming
+          false
         )
       )
         this.close();

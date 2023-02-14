@@ -22,6 +22,7 @@ import {
   SpecialtiesService,
 } from '@data/services';
 import { HospitalDialogComponent } from '@shared/hospital-dialog';
+import { IncomingSpecialtyDialogComponent } from '@shared/incoming-specialty-dialog';
 import { RotationServiceDialogComponent } from '@shared/rotation-service-dialog';
 import { Moment } from 'moment';
 
@@ -75,6 +76,10 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
       { value: null, disabled: true },
       Validators.required
     ),
+    incomingSpecialty: new FormControl<string | null>(
+      null,
+      Validators.required
+    ),
     initialDate: new FormControl<null | Date>(null, [Validators.required]),
     finalDate: new FormControl<null | Date>(null, [Validators.required]),
   });
@@ -83,6 +88,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
   specialties: Specialty[] = [];
   rotationServices: RotationService[] = [];
   incomingStudent?: IncomingStudent;
+  incomingSpecialties: Specialty[] = [];
 
   constructor(
     private incomingStudentsService: IncomingStudentsService,
@@ -96,7 +102,8 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.hospitals = await this.hospitalsService.getAll();
-    this.specialties = await this.specialtiesService.findAll(true);
+    this.specialties = await this.specialtiesService.findAll();
+    this.incomingSpecialties = await this.specialtiesService.findAll(true);
     this.route.params.subscribe(async (params) => {
       const _id = params['_id'];
       if (_id) {
@@ -117,10 +124,10 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     if (this.incomingStudent) {
       this.incomingStudentFormControl.setValue({
         code: this.incomingStudent.code ?? '',
-        finalDate: this.incomingStudent.finalDate,
+        finalDate: new Date(this.incomingStudent.finalDate),
         firstLastName: this.incomingStudent.firstLastName,
         hospital: (this.incomingStudent.hospital as Hospital)._id!,
-        initialDate: this.incomingStudent.initialDate,
+        initialDate: new Date(this.incomingStudent.initialDate),
         name: this.incomingStudent.name,
         rotationService: (
           this.incomingStudent.rotationService as RotationService
@@ -129,6 +136,8 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
           (this.incomingStudent.rotationService as RotationService)
             .specialty as Specialty
         )._id!,
+        incomingSpecialty: (this.incomingStudent.incomingSpecialty as Specialty)
+          ._id!,
         secondLastName: this.incomingStudent.secondLastName ?? '',
         emails: [],
         phones: [],
@@ -137,8 +146,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
       this.incomingStudent.emails.map((email) => this.addEmail(email));
       this.incomingStudentFormControl.controls.rotationService.enable();
       this.rotationServices = await this.rotationServicesService.getAll(
-        this.incomingStudentFormControl.controls.specialty.value!,
-        true
+        this.incomingStudentFormControl.controls.specialty.value!
       );
     }
   }
@@ -146,8 +154,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
   async specialtyChanged(): Promise<void> {
     this.incomingStudentFormControl.controls.rotationService.setValue('');
     this.rotationServices = await this.rotationServicesService.getAll(
-      this.incomingStudentFormControl.controls.specialty.value!,
-      true
+      this.incomingStudentFormControl.controls.specialty.value!
     );
     this.incomingStudentFormControl.controls.rotationService.enable();
   }
@@ -204,35 +211,27 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
 
   async addIncomingStudent(): Promise<void> {
     if (this.incomingStudentFormControl.valid) {
-      this.loading = true;
       const values = this.incomingStudentFormControl.value;
-      const data = await this.incomingStudentsService.add({
-        name: values.name!,
-        firstLastName: values.firstLastName!,
-        secondLastName:
-          values.secondLastName == '' || null
-            ? undefined
-            : (values.secondLastName as string),
-        code: values.code == '' || null ? undefined : (values.code as string),
-        phones: values.phones?.map((phone) => phone) as string[],
-        emails: values.emails?.map((email) => email) as string[],
-        hospital: values.hospital!,
-        rotationService: values.rotationService!,
-        initialDate: values.initialDate!,
-        finalDate: values.finalDate!,
-      });
-      if (data) this.router.navigate([PATHS.INCOMING_STUDENTS.BASE_PATH]);
-      this.loading = false;
-    }
-  }
-
-  async updateIncomingStudent(): Promise<void> {
-    if (this.incomingStudentFormControl.valid) {
-      this.loading = true;
-      const values = this.incomingStudentFormControl.value;
-      const data = await this.incomingStudentsService.update(
-        this.incomingStudent!._id!,
-        {
+      const initialDate = new Date(
+          values.initialDate!.getFullYear(),
+          values.initialDate!.getMonth(),
+          1
+        ),
+        finalDate = new Date(
+          values.finalDate!.getFullYear(),
+          values.finalDate!.getMonth() + 1,
+          0
+        );
+      if (finalDate.getTime() < initialDate.getTime()) {
+        this.incomingStudentFormControl.controls.initialDate.setErrors({
+          invalid: true,
+        });
+        this.incomingStudentFormControl.controls.finalDate.setErrors({
+          invalid: true,
+        });
+      } else {
+        this.loading = true;
+        const data = await this.incomingStudentsService.add({
           name: values.name!,
           firstLastName: values.firstLastName!,
           secondLastName:
@@ -244,16 +243,65 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
           emails: values.emails?.map((email) => email) as string[],
           hospital: values.hospital!,
           rotationService: values.rotationService!,
+          incomingSpecialty: values.incomingSpecialty!,
           initialDate: values.initialDate!,
           finalDate: values.finalDate!,
-        }
-      );
-      if (data)
-        this.router.navigate([
-          PATHS.INCOMING_STUDENTS.BASE_PATH,
+        });
+        if (data) this.router.navigate([PATHS.INCOMING_STUDENTS.BASE_PATH]);
+        this.loading = false;
+      }
+    }
+  }
+
+  async updateIncomingStudent(): Promise<void> {
+    if (this.incomingStudentFormControl.valid) {
+      const values = this.incomingStudentFormControl.value;
+      const initialDate = new Date(
+          values.initialDate!.getFullYear(),
+          values.initialDate!.getMonth(),
+          1
+        ),
+        finalDate = new Date(
+          values.finalDate!.getFullYear(),
+          values.finalDate!.getMonth() + 1,
+          0
+        );
+      if (finalDate.getTime() < initialDate.getTime()) {
+        this.incomingStudentFormControl.controls.initialDate.setErrors({
+          invalid: true,
+        });
+        this.incomingStudentFormControl.controls.finalDate.setErrors({
+          invalid: true,
+        });
+      } else {
+        this.loading = true;
+        const data = await this.incomingStudentsService.update(
           this.incomingStudent!._id!,
-        ]);
-      this.loading = false;
+          {
+            name: values.name!,
+            firstLastName: values.firstLastName!,
+            secondLastName:
+              values.secondLastName == '' || null
+                ? undefined
+                : (values.secondLastName as string),
+            code:
+              values.code == '' || null ? undefined : (values.code as string),
+            phones: values.phones?.map((phone) => phone) as string[],
+            emails: values.emails?.map((email) => email) as string[],
+            hospital: values.hospital!,
+            rotationService: values.rotationService!,
+            incomingSpecialty: values.incomingSpecialty!,
+            initialDate: values.initialDate!,
+            finalDate: values.finalDate!,
+          }
+        );
+        if (data)
+          this.router.navigate([
+            PATHS.INCOMING_STUDENTS.BASE_PATH,
+            this.incomingStudent!._id!,
+          ]);
+        this.loading = false;
+      }
     }
   }
 
@@ -297,10 +345,22 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(async () => {
         this.rotationServices = await this.rotationServicesService.getAll(
-          this.incomingStudentFormControl.controls.specialty.value!,
-          true
+          this.incomingStudentFormControl.controls.specialty.value!
         );
       });
     }
+  }
+
+  async addIncomingSpecialtyDialog(): Promise<void> {
+    const dialogRef = this.dialog.open(IncomingSpecialtyDialogComponent, {
+      maxWidth: '500px',
+      width: '80%',
+      position: { top: '10px' },
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe(async () => {
+      this.incomingSpecialties = await this.specialtiesService.findAll(true);
+    });
   }
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Specialty } from '@data/interfaces';
 import { SpecialtiesService } from '@data/services';
 import { DeleteDialogComponent } from '@shared/delete-dialog';
+import { IncomingSpecialtyDialogComponent } from '@shared/incoming-specialty-dialog';
 import { SpecialtyDialogComponent } from '../../dialogs/specialty-dialog/specialty-dialog.component';
 
 /** @class Specialties Page Component */
@@ -48,16 +49,29 @@ export class SpecialtiesPageComponent implements OnInit {
    * Opens the Specialty dialog for add a Specialty
    */
   addSpecialtyDialog(): void {
-    const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
-      maxWidth: '500px',
-      width: '80%',
-      position: { top: '10px' },
-      data: { incoming: this.incoming },
-    });
+    if (this.incoming) {
+      const dialogRef = this.dialog.open(IncomingSpecialtyDialogComponent, {
+        maxWidth: '500px',
+        width: '80%',
+        position: { top: '10px' },
+        data: {},
+      });
 
-    dialogRef.afterClosed().subscribe(async () => {
-      await this.getSpecialties();
-    });
+      dialogRef.afterClosed().subscribe(async () => {
+        await this.getSpecialties();
+      });
+    } else {
+      const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
+        maxWidth: '500px',
+        width: '80%',
+        position: { top: '10px' },
+        data: {},
+      });
+
+      dialogRef.afterClosed().subscribe(async () => {
+        await this.getSpecialties();
+      });
+    }
   }
 
   /**
@@ -65,16 +79,29 @@ export class SpecialtiesPageComponent implements OnInit {
    * @param {Specialty} specialty
    */
   updateSpecialtyDialog(specialty: Specialty): void {
-    const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
-      maxWidth: '500px',
-      width: '80%',
-      position: { top: '10px' },
-      data: { specialty, incoming: this.incoming },
-    });
+    if (this.incoming) {
+      const dialogRef = this.dialog.open(IncomingSpecialtyDialogComponent, {
+        maxWidth: '500px',
+        width: '80%',
+        position: { top: '10px' },
+        data: { specialty },
+      });
 
-    dialogRef.afterClosed().subscribe(async () => {
-      await this.getSpecialties();
-    });
+      dialogRef.afterClosed().subscribe(async () => {
+        await this.getSpecialties();
+      });
+    } else {
+      const dialogRef = this.dialog.open(SpecialtyDialogComponent, {
+        maxWidth: '500px',
+        width: '80%',
+        position: { top: '10px' },
+        data: { specialty },
+      });
+
+      dialogRef.afterClosed().subscribe(async () => {
+        await this.getSpecialties();
+      });
+    }
   }
 
   /**

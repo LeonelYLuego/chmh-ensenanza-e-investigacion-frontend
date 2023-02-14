@@ -14,6 +14,7 @@ import { StudentInfoComponent } from './student-info/student-info.component';
 import { MatCardModule } from '@angular/material/card';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { HospitalInfoComponent } from './hospital-info/hospital-info.component';
+import { IncomingSpecialtyDialogComponent } from './incoming-specialty-dialog';
 
 /** @class Shared Module */
 @NgModule({
@@ -23,6 +24,7 @@ import { HospitalInfoComponent } from './hospital-info/hospital-info.component';
     StudentInfoComponent,
     DeleteDialogComponent,
     HospitalInfoComponent,
+    IncomingSpecialtyDialogComponent,
   ],
   imports: [
     CommonModule,

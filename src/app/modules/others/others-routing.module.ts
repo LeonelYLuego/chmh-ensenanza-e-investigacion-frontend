@@ -53,12 +53,6 @@ const routes: Routes = [
     component: SpecialtiesPageComponent,
     data: { incoming: true },
   },
-  {
-    path: PATHS.OTHERS.INCOMING_ROTATION_SERVICES,
-    title: 'Servicios a Rotar Externos',
-    component: RotationServicesPageComponent,
-    data: { incoming: true },
-  },
 ];
 
 /** Others routing module */

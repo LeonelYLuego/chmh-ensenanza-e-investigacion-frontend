@@ -7,17 +7,19 @@ export interface Specialty {
   value: string;
 
   /** @property {number} duration */
-  duration: number;
+  duration?: number;
 
-  headOfDepartment: string;
+  /** @property {string} headOfDepartment */
+  headOfDepartment?: string;
 
-  headOfDepartmentPosition: string;
+  /** @property {string} headOfDepartmentPosition */
+  headOfDepartmentPosition?: string;
 
   /** @property {string} tenuredPostgraduateProfessor */
-  tenuredPostgraduateProfessor: string;
+  tenuredPostgraduateProfessor?: string;
 
   /** @property {string} headOfService */
-  headOfService: string;
+  headOfService?: string;
 
   __v?: number;
 }

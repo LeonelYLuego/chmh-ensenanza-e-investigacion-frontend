@@ -194,7 +194,7 @@ export class SocialServicesPageComponent implements OnInit {
     }
     localStorage.setItem(
       'socialServiceFinalPeriod',
-      JSON.stringify(this.periodFormControl.value.initialPeriod!)
+      JSON.stringify(this.periodFormControl.value.finalPeriod!)
     );
     this.getSocialServices();
   }
