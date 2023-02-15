@@ -107,4 +107,9 @@ export class IncomingStudentStudentComponent implements OnInit {
     await this.incomingStudentsService.uncancel(this.incomingStudent!._id!);
     await this.getIncomingStudent(this.incomingStudent!._id!);
   }
+
+  async deleteIncomingStudent(): Promise<void> {
+    await this.incomingStudentsService.delete(this.incomingStudent!._id!);
+    this.router.navigate([PATHS.INCOMING_STUDENTS.BASE_PATH]);
+  }
 }

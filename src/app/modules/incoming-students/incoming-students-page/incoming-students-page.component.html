@@ -47,6 +47,113 @@
   <mat-card-content *ngIf="!loading">
     <table mat-table [dataSource]="incomingStudents" class="full-width">
       <ng-container matColumnDef="student">
+        <th mat-header-cell *matHeaderCellDef>Alumno</th>
+        <td
+          mat-cell
+          *matCellDef="let incomingStudent"
+          [attr.colspan]="incomingStudent.specialty ? 6 : 0"
+          [class.row-specialty]="incomingStudent.specialty"
+        >
+          <span *ngIf="!incomingStudent.specialty">
+            {{ incomingStudent.student }}
+          </span>
+          <span *ngIf="incomingStudent.specialty">{{
+            incomingStudent.specialty
+          }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="hospital">
+        <th mat-header-cell *matHeaderCellDef>Hospital</th>
+        <td
+          mat-cell
+          *matCellDef="let incomingStudent"
+          [style.display]="incomingStudent.specialty ? 'none' : ''"
+        >
+          <span *ngIf="!incomingStudent.specialty">
+            {{ incomingStudent.hospital }}
+          </span>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="rotationService">
+        <th mat-header-cell *matHeaderCellDef>Servicio a Rotar</th>
+        <td
+          mat-cell
+          *matCellDef="let incomingStudent"
+          [style.display]="incomingStudent.specialty ? 'none' : ''"
+        >
+          <span *ngIf="!incomingStudent.specialty">
+            {{ incomingStudent.rotationService }}
+          </span>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef>Periodo</th>
+        <td
+          mat-cell
+          *matCellDef="let incomingStudent"
+          [style.display]="incomingStudent.specialty ? 'none' : ''"
+        >
+          <span *ngIf="!incomingStudent.specialty">
+            {{ incomingStudent.period }}
+          </span>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="incomingSpecialty">
+        <th mat-header-cell *matHeaderCellDef>Especialidad Externa</th>
+        <td
+          mat-cell
+          *matCellDef="let incomingStudent"
+          [style.display]="incomingStudent.specialty ? 'none' : ''"
+        >
+          <span *ngIf="!incomingStudent.specialty">
+            {{ incomingStudent.incomingSpecialty }}
+          </span>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="documents">
+        <th mat-header-cell *matHeaderCellDef class="column-documents">
+          Documentos
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let incomingStudent"
+          [style.display]="incomingStudent.specialty ? 'none' : ''"
+          class="chip"
+        >
+          <span *ngIf="!incomingStudent.specialty">
+            <mat-chip-list *ngIf="!incomingStudent.canceled">
+              <mat-chip
+                *ngIf="incomingStudent.documents.solicitudeDocument"
+                color="solicitude"
+                selected
+                >Solicitud</mat-chip
+              >
+              <mat-chip
+                *ngIf="incomingStudent.documents.solicitudeVoBo"
+                color="solicitude-VoBo"
+                selected
+                >VoBo</mat-chip
+              >
+              <mat-chip
+                *ngIf="incomingStudent.documents.acceptanceDocument"
+                color="acceptance"
+                selected
+                >Aceptación</mat-chip
+              >
+              <mat-chip
+                *ngIf="incomingStudent.documents.evaluationDocument"
+                color="evaluation"
+                selected
+                >Evaluación</mat-chip
+              >
+            </mat-chip-list>
+            <span *ngIf="incomingStudent.canceled" class="canceled-text"
+              >Cancelado</span
+            >
+          </span>
+        </td></ng-container
+      >
+      <!-- <ng-container matColumnDef="student">
         <th mat-header-cell *matHeaderCellDef>Rotante</th>
         <td mat-cell *matCellDef="let incomingStudent">
           {{ incomingStudent.name }} {{ incomingStudent.firstLastName }}
@@ -100,7 +207,7 @@
             >Cancelado</span
           >
         </td>
-      </ng-container>
+      </ng-container> -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
         mat-row

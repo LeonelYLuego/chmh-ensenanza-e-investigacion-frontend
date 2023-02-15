@@ -9,6 +9,7 @@ import { ForbiddenErrorInterface } from '@core/interfaces';
 import { HttpPetitions } from '@core/services';
 import {
   IncomingStudent,
+  IncomingStudentsBySpecialty,
   IncomingStudentsInterval,
 } from '@data/interfaces/incoming-student';
 import { IncomingStudentDocumentTypes } from '@data/types/incoming-student-document.type';
@@ -52,8 +53,11 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
-  async getAll(initialDate: Date, finalDate: Date): Promise<IncomingStudent[]> {
-    const data = await this.http.get<IncomingStudent[]>(
+  async getAll(
+    initialDate: Date,
+    finalDate: Date
+  ): Promise<IncomingStudentsBySpecialty[]> {
+    const data = await this.http.get<IncomingStudentsBySpecialty[]>(
       SERVER_ENDPOINTS.INCOMING_STUDENTS.BASE_ENDPOINT,
       this.forbiddenErrors,
       [

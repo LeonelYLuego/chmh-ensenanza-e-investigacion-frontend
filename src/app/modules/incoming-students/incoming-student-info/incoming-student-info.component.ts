@@ -20,6 +20,7 @@ export class IncomingStudentInfoComponent implements OnInit {
   incomingStudent: IncomingStudent | null = null;
   specialty: Specialty | null = null;
   rotationService: RotationService | null = null;
+  incomingSpecialty: Specialty | null = null;
   phones: string = '';
   emails: string = '';
   initialDate: string = '';
@@ -53,6 +54,8 @@ export class IncomingStudentInfoComponent implements OnInit {
       this.rotationService = this.incomingStudent
         .rotationService as RotationService;
       this.specialty = this.rotationService.specialty as Specialty;
+      this.incomingSpecialty = this.incomingStudent
+        .incomingSpecialty as Specialty;
       this.initialDate = getFirstDayOfMonthAsString(
         new Date(this.incomingStudent.initialDate)
       );

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PATHS } from '@core/constants';
+import { Hospital, RotationService, Specialty } from '@data/interfaces';
 import {
   IncomingStudent,
   IncomingStudentsInterval,
@@ -21,8 +22,30 @@ export class IncomingStudentsPageComponent implements OnInit {
     initialDate: new FormControl<Date | null>(null, [Validators.required]),
     finalDate: new FormControl<Date | null>(null, [Validators.required]),
   });
-  incomingStudents: IncomingStudent[] = [];
-  displayedColumns = ['student', 'hospital', 'period', 'documents'];
+  incomingStudents: {
+    specialty?: string;
+    _id?: string;
+    student?: string;
+    hospital?: string;
+    period?: string;
+    rotationService?: string;
+    incomingSpecialty?: string;
+    canceled?: boolean;
+    documents?: {
+      solicitudeVoBo?: boolean;
+      solicitudeDocument?: string;
+      acceptanceDocument?: string;
+      evaluationDocument?: string;
+    };
+  }[] = [];
+  displayedColumns = [
+    'student',
+    'hospital',
+    'rotationService',
+    'period',
+    'incomingSpecialty',
+    'documents',
+  ];
 
   constructor(
     private incomingStudentsService: IncomingStudentsService,
@@ -35,12 +58,33 @@ export class IncomingStudentsPageComponent implements OnInit {
       this.interval.initialMonths.length > 0 &&
       this.interval.finalMonths.length > 0
     ) {
+      let initialDateIndex = -1;
+      let finalDateIndex = -1;
+      if (localStorage.getItem('incomingStudentInitialDate'))
+        initialDateIndex = this.interval.initialMonths.findIndex(
+          (date) =>
+            JSON.stringify(date.value) ==
+            localStorage.getItem('incomingStudentInitialDate')
+        );
+      if (localStorage.getItem('incomingStudentFinalDate'))
+        finalDateIndex = this.interval.finalMonths.findIndex(
+          (date) =>
+            JSON.stringify(date.value) ==
+            localStorage.getItem('incomingStudentFinalDate')
+        );
       this.intervalFormControl.controls.initialDate.setValue(
-        this.interval.initialMonths[this.interval.initialMonths.length - 12]
-          .value
+        this.interval.initialMonths[
+          initialDateIndex == -1
+            ? this.interval.initialMonths.length - 12
+            : initialDateIndex
+        ].value
       );
       this.intervalFormControl.controls.finalDate.setValue(
-        this.interval.finalMonths[this.interval.finalMonths.length - 1].value
+        this.interval.finalMonths[
+          finalDateIndex == -1
+            ? this.interval.finalMonths.length - 1
+            : finalDateIndex
+        ].value
       );
       this.getIncomingStudents();
     }
@@ -62,6 +106,10 @@ export class IncomingStudentsPageComponent implements OnInit {
         this.interval.finalMonths[index].value
       );
     }
+    localStorage.setItem(
+      'incomingStudentInitialDate',
+      JSON.stringify(this.intervalFormControl.controls.initialDate.value!)
+    );
     this.getIncomingStudents();
   }
 
@@ -81,15 +129,49 @@ export class IncomingStudentsPageComponent implements OnInit {
         this.interval.initialMonths[index].value
       );
     }
+    localStorage.setItem(
+      'incomingStudentFinalDate',
+      JSON.stringify(this.intervalFormControl.controls.finalDate.value!)
+    );
     this.getIncomingStudents();
   }
 
   async getIncomingStudents(): Promise<void> {
     this.loading = true;
-    this.incomingStudents = await this.incomingStudentsService.getAll(
+    const data = await this.incomingStudentsService.getAll(
       this.intervalFormControl.controls.initialDate.value!,
       this.intervalFormControl.controls.finalDate.value!
     );
+    this.incomingStudents = [];
+    data.map((specialty) => {
+      this.incomingStudents.push({
+        specialty: specialty.value,
+      });
+      specialty.incomingStudents.map((incomingStudent) => {
+        this.incomingStudents.push({
+          _id: incomingStudent._id,
+          student: `${incomingStudent.name} ${incomingStudent.firstLastName} ${
+            incomingStudent.secondLastName ?? ''
+          }`,
+          hospital: (incomingStudent.hospital as Hospital).name,
+          period: this.incomingStudentsService.getPeriod(
+            new Date(incomingStudent.initialDate),
+            new Date(incomingStudent.finalDate)
+          ),
+          rotationService: (incomingStudent.rotationService as RotationService)
+            .value,
+          incomingSpecialty: (incomingStudent.incomingSpecialty as Specialty)
+            .value,
+          canceled: incomingStudent.canceled,
+          documents: {
+            solicitudeVoBo: incomingStudent.solicitudeVoBo,
+            solicitudeDocument: incomingStudent.solicitudeDocument,
+            acceptanceDocument: incomingStudent.acceptanceDocument,
+            evaluationDocument: incomingStudent.evaluationDocument,
+          },
+        });
+      });
+    });
     this.loading = false;
   }
 
@@ -101,6 +183,6 @@ export class IncomingStudentsPageComponent implements OnInit {
   }
 
   async updateIncomingStudent(row: IncomingStudent) {
-    this.router.navigate([this.paths.BASE_PATH, row._id!]);
+    if (row._id) this.router.navigate([this.paths.BASE_PATH, row._id!]);
   }
 }

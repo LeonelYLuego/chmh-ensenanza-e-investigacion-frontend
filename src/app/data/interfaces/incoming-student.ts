@@ -69,3 +69,17 @@ export interface IncomingStudentsInterval {
   /** @property */
   finalMonths: { name: string; value: Date }[];
 }
+
+/**
+ * Incoming Students by Specialty
+ */
+export interface IncomingStudentsBySpecialty {
+  /** @property */
+  _id: string;
+
+  /** @property */
+  value: string;
+
+  /** @property */
+  incomingStudents: IncomingStudent[];
+}

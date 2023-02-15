@@ -206,6 +206,6 @@ export class OptionalMobilitiesPageComponent implements OnInit {
 
   /** Opens the Optional Mobility Student page */
   async updateOptionalMobility(row: OptionalMobility) {
-    this.router.navigate([this.paths.BASE_PATH, row._id!]);
+    if (row._id) this.router.navigate([this.paths.BASE_PATH, row._id!]);
   }
 }

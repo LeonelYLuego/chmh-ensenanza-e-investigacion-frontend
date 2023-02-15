@@ -223,6 +223,6 @@ export class SocialServicesPageComponent implements OnInit {
    * @param row
    */
   updateSocialService(row: SocialService) {
-    this.router.navigate([this.paths.BASE_PATH, row._id!]);
+    if (row._id) this.router.navigate([this.paths.BASE_PATH, row._id!]);
   }
 }
