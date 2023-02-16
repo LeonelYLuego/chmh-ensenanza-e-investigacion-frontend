@@ -198,4 +198,59 @@ export class IncomingStudentsService {
     );
     return data ?? null;
   }
+
+  async generateDocuments(
+    initialNumberOfDocuments: number,
+    numberOfDocument: number,
+    dateOfDocuments: Date,
+    dateToPresent: Date,
+    initialDate: Date,
+    finalDate: Date,
+    hospital?: string,
+    specialty?: string
+  ): Promise<Blob | null> {
+    const params: { name: string; value: string }[] = [
+      {
+        name: 'initialNumberOfDocuments',
+        value: initialNumberOfDocuments.toString(),
+      },
+      {
+        name: 'dateOfDocuments',
+        value: dateOfDocuments.toISOString(),
+      },
+      {
+        name: 'initialDate',
+        value: initialDate.toISOString(),
+      },
+      {
+        name: 'finalDate',
+        value: finalDate.toISOString(),
+      },
+      {
+        name: 'numberOfDocument',
+        value: numberOfDocument.toString(),
+      },
+      {
+        name: 'dateToPresent',
+        value: dateToPresent.toISOString(),
+      },
+    ];
+    if (hospital)
+      params.push({
+        name: 'hospital',
+        value: hospital,
+      });
+    if (specialty)
+      params.push({
+        name: 'specialty',
+        value: specialty,
+      });
+    let data = await this.http.getBlob(
+      SERVER_ENDPOINTS.INCOMING_STUDENTS.GENERATE,
+      this.forbiddenErrors,
+      params
+    );
+
+    return data ?? null;
+  }
 }

@@ -19,6 +19,7 @@ import { SharedModule } from '@shared/shared.module';
 import { IncomingStudentInfoComponent } from './incoming-student-info/incoming-student-info.component';
 import { AddUpdateIncomingStudentComponent } from './add-update-incoming-student/add-update-incoming-student.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { IncomingStudentsGenerateDocumentsComponent } from './incoming-students-generate-documents/incoming-students-generate-documents.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     IncomingStudentStudentComponent,
     IncomingStudentInfoComponent,
     AddUpdateIncomingStudentComponent,
+    IncomingStudentsGenerateDocumentsComponent,
   ],
   imports: [
     CommonModule,

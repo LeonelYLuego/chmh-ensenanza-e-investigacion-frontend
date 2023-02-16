@@ -44,6 +44,12 @@
       >
     </mat-select>
   </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    class="filter-button"
+    [routerLink]="'/' + paths.BASE_PATH + '/' + paths.DOCUMENTS" 
+  >Generar Aceptaciones</button>
   <mat-card-content *ngIf="!loading">
     <table mat-table [dataSource]="incomingStudents" class="full-width">
       <ng-container matColumnDef="student">

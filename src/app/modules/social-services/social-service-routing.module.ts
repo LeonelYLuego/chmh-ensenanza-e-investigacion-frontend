@@ -9,7 +9,7 @@ import { SocialServicesPageComponent } from './social-services-page';
 const routes: Routes = [
   {
     path: PATHS.SOCIAL_SERVICES.BASE,
-    title: 'Servicio Social',
+    title: 'Servicios Sociales',
     component: SocialServicesPageComponent,
   },
   {

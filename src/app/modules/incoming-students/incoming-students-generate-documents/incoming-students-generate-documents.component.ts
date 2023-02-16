@@ -6,19 +6,16 @@ import { NameValueInterface } from '@core/interfaces';
 import { Hospital, Specialty } from '@data/interfaces';
 import {
   HospitalsService,
-  OptionalMobilitiesService,
+  IncomingStudentsService,
   SpecialtiesService,
 } from '@data/services';
 
-/** Optional Mobilities Generate documents component */
 @Component({
-  selector: 'app-optional-mobilities-generate-documents',
-  templateUrl: './optional-mobilities-generate-documents.component.html',
-  styleUrls: ['./optional-mobilities-generate-documents.component.css'],
+  selector: 'app-incoming-students-generate-documents',
+  templateUrl: './incoming-students-generate-documents.component.html',
+  styleUrls: ['./incoming-students-generate-documents.component.css'],
 })
-export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
-  document: 'presentationOfficeDocument' | 'solicitudeDocument' =
-    'presentationOfficeDocument';
+export class IncomingStudentsGenerateDocumentsComponent implements OnInit {
   loading = false;
   hospitals: Hospital[] = [];
   specialties: Specialty[] = [];
@@ -37,10 +34,18 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
     dateOfDocuments: new FormControl<Date | undefined>(undefined, [
       Validators.required,
     ]),
+    numberOfDocument: new FormControl<number | undefined>(undefined, [
+      Validators.required,
+      Validators.min(0),
+      Validators.pattern(/^\d+$/),
+    ]),
+    dateToPresent: new FormControl<Date | undefined>(undefined, [
+      Validators.required,
+    ]),
   });
 
   constructor(
-    private optionalMobilitiesService: OptionalMobilitiesService,
+    private incomingStudentsService: IncomingStudentsService,
     private hospitalsService: HospitalsService,
     private specialtiesService: SpecialtiesService,
     private route: ActivatedRoute,
@@ -49,46 +54,38 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-
-    this.route.data.subscribe(async (v) => {
-      if (v['document']) {
-        this.document = v['document'];
-      }
-
-      //Sets the fist value of hospital and specialties to all
-      this.hospitals = (
-        [
-          {
-            _id: 'all',
-            name: 'Todos',
-            emails: [],
-            phones: [],
-            socialService: false,
-          },
-        ] as Hospital[]
-      ).concat(await this.hospitalsService.getAll());
-      this.specialties = (
-        [
-          {
-            duration: 3,
-            value: 'Todas',
-            _id: 'all',
-          },
-        ] as Specialty[]
-      ).concat(await this.specialtiesService.findAll());
-      const period = await this.optionalMobilitiesService.interval();
-      this.initialDates = period.initialMonths;
-      this.finalDates = period.finalMonths;
-      if (period.finalMonths.length >= 3 && period.initialMonths.length >= 3) {
-        this.filtersFormControl.controls.initialDate.setValue(
-          period.initialMonths[period.initialMonths.length - 12].value
-        );
-        this.filtersFormControl.controls.finalDate.setValue(
-          period.finalMonths[period.finalMonths.length - 1].value
-        );
-      }
-      this.loading = false;
-    });
+    this.hospitals = (
+      [
+        {
+          _id: 'all',
+          name: 'Todos',
+          emails: [],
+          phones: [],
+          socialService: false,
+        },
+      ] as Hospital[]
+    ).concat(await this.hospitalsService.getAll());
+    this.specialties = (
+      [
+        {
+          duration: 3,
+          value: 'Todas',
+          _id: 'all',
+        },
+      ] as Specialty[]
+    ).concat(await this.specialtiesService.findAll());
+    const period = await this.incomingStudentsService.interval();
+    this.initialDates = period.initialMonths;
+    this.finalDates = period.finalMonths;
+    if (period.finalMonths.length >= 3 && period.initialMonths.length >= 3) {
+      this.filtersFormControl.controls.initialDate.setValue(
+        period.initialMonths[period.initialMonths.length - 12].value
+      );
+      this.filtersFormControl.controls.finalDate.setValue(
+        period.finalMonths[period.finalMonths.length - 1].value
+      );
+    }
+    this.loading = false;
   }
 
   /** If the initial period change and is greater than final period, final period will be equal to initial period */
@@ -133,11 +130,11 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
   async generate(): Promise<void> {
     if (this.filtersFormControl.valid) {
       const values = this.filtersFormControl.value;
-      //Receives a zip file as blob object
-      const blob = await this.optionalMobilitiesService.generateDocuments(
-        this.document,
+      const blob = await this.incomingStudentsService.generateDocuments(
         values.initialNumberOfDocuments!,
+        values.numberOfDocument!,
         values.dateOfDocuments!,
+        values.dateToPresent!,
         values.initialDate!,
         values.finalDate!,
         values.hospital! == 'all' ? undefined : values.hospital!,
@@ -148,11 +145,7 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
         //Creates an url and opens it
         var url = window.URL.createObjectURL(blob);
         var anchor = document.createElement('a');
-        anchor.download = `${
-          this.document == 'presentationOfficeDocument'
-            ? 'Oficios de Presentación'
-            : 'Solicitudes'
-        }.zip`;
+        anchor.download = 'aceptaciones.zip';
         anchor.href = url;
         anchor.click();
       }
@@ -161,6 +154,6 @@ export class OptionalMobilitiesGenerateDocumentsComponent implements OnInit {
 
   /** Returns to the last page */
   goBack(): void {
-    this.router.navigate([PATHS.OPTIONAL_MOBILITIES.BASE_PATH]);
+    this.router.navigate([PATHS.INCOMING_STUDENTS.BASE_PATH]);
   }
 }

@@ -47,6 +47,9 @@ export interface IncomingStudent {
   incomingSpecialty: Specialty | string;
 
   /** @property */
+  incomingYear: number;
+
+  /** @property */
   rotationService: RotationService | string;
 
   /** @property */

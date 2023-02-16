@@ -80,6 +80,12 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
       null,
       Validators.required
     ),
+    incomingYear: new FormControl<null | number>(null, [
+      Validators.required,
+      Validators.min(1),
+      Validators.max(6),
+      Validators.pattern(/^\d+$/),
+    ]),
     initialDate: new FormControl<null | Date>(null, [Validators.required]),
     finalDate: new FormControl<null | Date>(null, [Validators.required]),
   });
@@ -138,6 +144,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
         )._id!,
         incomingSpecialty: (this.incomingStudent.incomingSpecialty as Specialty)
           ._id!,
+        incomingYear: this.incomingStudent.incomingYear!,
         secondLastName: this.incomingStudent.secondLastName ?? '',
         emails: [],
         phones: [],
@@ -244,6 +251,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
           hospital: values.hospital!,
           rotationService: values.rotationService!,
           incomingSpecialty: values.incomingSpecialty!,
+          incomingYear: values.incomingYear!,
           initialDate: values.initialDate!,
           finalDate: values.finalDate!,
         });
@@ -291,6 +299,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
             hospital: values.hospital!,
             rotationService: values.rotationService!,
             incomingSpecialty: values.incomingSpecialty!,
+            incomingYear: values.incomingYear!,
             initialDate: values.initialDate!,
             finalDate: values.finalDate!,
           }

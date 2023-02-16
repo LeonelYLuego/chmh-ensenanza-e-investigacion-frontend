@@ -25,6 +25,7 @@ export class IncomingStudentInfoComponent implements OnInit {
   emails: string = '';
   initialDate: string = '';
   finalDate: string = '';
+  year: string = '';
 
   constructor(
     private incomingStudentsService: IncomingStudentsService,
@@ -62,6 +63,7 @@ export class IncomingStudentInfoComponent implements OnInit {
       this.finalDate = getLastDayOfMonthAsString(
         new Date(this.incomingStudent.finalDate)
       );
+      this.year = `${this.incomingStudent.incomingYear} año`;
     }
   }
 

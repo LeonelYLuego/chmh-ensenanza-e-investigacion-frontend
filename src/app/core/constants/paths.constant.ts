@@ -65,5 +65,6 @@ export const PATHS = {
     ADD: 'agregar',
     UPDATE: 'editar',
     STUDENT: ':_id',
+    DOCUMENTS: 'generar-documentos',
   },
 };
