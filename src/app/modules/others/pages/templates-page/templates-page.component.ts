@@ -105,4 +105,22 @@ export class TemplatesPageComponent implements OnInit {
       this.showEditedSnackBar();
     }
   }
+
+  /**
+   * Sends the information to the server to update a Template
+   * @param event
+   */
+  async updateIncomingStudentsAcceptanceTemplate(event: any): Promise<void> {
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.templatesService.update(
+        'incomingStudent',
+        'acceptanceDocument',
+        formData
+      );
+      this.showEditedSnackBar();
+    }
+  }
 }

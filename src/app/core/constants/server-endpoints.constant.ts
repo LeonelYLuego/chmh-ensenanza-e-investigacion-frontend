@@ -68,7 +68,11 @@ export const SERVER_ENDPOINTS = {
   TEMPLATES: {
     BASE_ENDPOINT: SERVER_RESOURCES.TEMPLATES,
     BY_DOCUMENT: (
-      document: 'socialService' | 'optionalMobility' | 'obligatoryMobility'
+      document:
+        | 'socialService'
+        | 'optionalMobility'
+        | 'obligatoryMobility'
+        | 'incomingStudent'
     ) => {
       return `${SERVER_RESOURCES.TEMPLATES}/${document}`;
     },

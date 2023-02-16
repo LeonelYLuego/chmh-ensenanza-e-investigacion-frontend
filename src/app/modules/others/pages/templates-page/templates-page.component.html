@@ -9,7 +9,6 @@
     (click)="socialServicePresentationOfficeUploader.click()"
     mat-raised-button
     color="accent"
-    class="document-button"
   >
     Actualizar Plantilla Oficio de Presentación
   </button>
@@ -26,7 +25,6 @@
     (click)="optionalMobilitiesSolicitudeUploader.click()"
     mat-raised-button
     color="accent"
-    class="document-button"
   >
     Actualizar Plantilla Solicitud
   </button>
@@ -37,11 +35,11 @@
     #optionalMobilitiesSolicitudeUploader
     (change)="updateOptionalMobilitiesSolicitudeTemplate($event)"
   />
+  <span style="margin-left: 10px"></span>
   <button
     (click)="optionalMobilitiesPresentationOfficeUploader.click()"
     mat-raised-button
     color="accent"
-    class="document-button"
   >
     Actualizar Plantilla Oficio de Presentación
   </button>
@@ -52,12 +50,12 @@
     #optionalMobilitiesPresentationOfficeUploader
     (change)="updateOptionalMobilitiesPresentationOfficeTemplate($event)"
   />
+  <div class="h-20"></div>
   <h1>Movilidades Obligatorias</h1>
   <button
     (click)="obligatoryMobilitiesSolicitudeUploader.click()"
     mat-raised-button
     color="accent"
-    class="document-button"
   >
     Actualizar Plantilla Solicitud
   </button>
@@ -68,7 +66,22 @@
     #obligatoryMobilitiesSolicitudeUploader
     (change)="updateObligatoryMobilitiesSolicitudeTemplate($event)"
   />
-  <div style="clear: both;"></div>
+  <div class="h-20"></div>
+  <h1>Rotantes</h1>
+  <button
+    (click)="incomingStudentsAcceptanceUploader.click()"
+    mat-raised-button
+    color="accent"
+  >
+    Actualizar Plantilla Aceptaciones
+  </button>
+  <input
+    hidden
+    accept=".docx"
+    type="file"
+    #incomingStudentsAcceptanceUploader
+    (change)="updateIncomingStudentsAcceptanceTemplate($event)"
+  />
   <mat-card-actions align="end">
     <button mat-raised-button color="basic" routerLink="..">Cancelar</button>
   </mat-card-actions>

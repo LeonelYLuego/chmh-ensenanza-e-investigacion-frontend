@@ -48,7 +48,6 @@ export class IncomingStudentsGenerateDocumentsComponent implements OnInit {
     private incomingStudentsService: IncomingStudentsService,
     private hospitalsService: HospitalsService,
     private specialtiesService: SpecialtiesService,
-    private route: ActivatedRoute,
     private router: Router
   ) {}
 
