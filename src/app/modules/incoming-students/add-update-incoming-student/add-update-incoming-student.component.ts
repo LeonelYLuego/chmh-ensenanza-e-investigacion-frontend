@@ -38,6 +38,7 @@ export const MY_FORMATS = {
   },
 };
 
+/** Add Update Incoming Student component */
 @Component({
   selector: 'app-add-update-incoming-student',
   templateUrl: './add-update-incoming-student.component.html',
@@ -110,6 +111,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     this.hospitals = await this.hospitalsService.getAll();
     this.specialties = await this.specialtiesService.findAll();
     this.incomingSpecialties = await this.specialtiesService.findAll(true);
+    // Checks if the _id param is valid
     this.route.params.subscribe(async (params) => {
       const _id = params['_id'];
       if (_id) {
@@ -124,6 +126,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     });
   }
 
+  /** Sets int the form control the Incoming Student */
   async setIncomingStudent(_id: string): Promise<void> {
     this.incomingStudent =
       (await this.incomingStudentsService.get(_id)) ?? undefined;
@@ -158,6 +161,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     }
   }
 
+  /** If specialty changes */
   async specialtyChanged(): Promise<void> {
     this.incomingStudentFormControl.controls.rotationService.setValue('');
     this.rotationServices = await this.rotationServicesService.getAll(
@@ -166,6 +170,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     this.incomingStudentFormControl.controls.rotationService.enable();
   }
 
+  /** Adds a phone */
   addPhone(phone = ''): void {
     this.incomingStudentFormControl.controls.phones.push(
       new FormControl(phone, [
@@ -177,10 +182,12 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     );
   }
 
+  /** Deletes a phone */
   deletePhone(index: number): void {
     this.incomingStudentFormControl.controls.phones.removeAt(index);
   }
 
+  /** Adds an email */
   addEmail(email = ''): void {
     this.incomingStudentFormControl.controls.emails.push(
       new FormControl(email, [
@@ -192,10 +199,12 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     );
   }
 
+  /** Deletes an email */
   deleteEmail(index: number): void {
     this.incomingStudentFormControl.controls.emails.removeAt(index);
   }
 
+  /** Sets initial date when a year and month is selected */
   setFinalMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -206,6 +215,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     datepicker.close();
   }
 
+  /** Sets final date when a year and month is selected */
   setInitialMonthAndYear(
     normalizedMonthAndYear: any,
     datepicker: MatDatepicker<Moment>
@@ -216,8 +226,10 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     datepicker.close();
   }
 
+  /** Add an Incoming Student to the database */
   async addIncomingStudent(): Promise<void> {
     if (this.incomingStudentFormControl.valid) {
+      // Checks if the dates are valid
       const values = this.incomingStudentFormControl.value;
       const initialDate = new Date(
           values.initialDate!.getFullYear(),
@@ -261,8 +273,10 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     }
   }
 
+  /** Updates a Incoming Student in the database */
   async updateIncomingStudent(): Promise<void> {
     if (this.incomingStudentFormControl.valid) {
+      // Checks if the dates are valid
       const values = this.incomingStudentFormControl.value;
       const initialDate = new Date(
           values.initialDate!.getFullYear(),
@@ -314,6 +328,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     }
   }
 
+  /** Returns to the last page */
   goBack() {
     this.router.navigate([
       PATHS.INCOMING_STUDENTS.BASE_PATH,
@@ -321,6 +336,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     ]);
   }
 
+  /** Opens the Hospital dialog to add a new Hospital  */
   async addHospitalDialog(): Promise<void> {
     const dialogRef = this.dialog.open(HospitalDialogComponent, {
       maxWidth: '500px',
@@ -335,6 +351,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     });
   }
 
+  /** Opens the Rotation Service dialog to add a new Rotation Service */
   async addRotationServiceDialog(): Promise<void> {
     if (this.incomingStudentFormControl.controls.specialty.value) {
       const dialogRef = this.dialog.open(RotationServiceDialogComponent, {
@@ -360,6 +377,7 @@ export class AddUpdateIncomingStudentComponent implements OnInit {
     }
   }
 
+  /** Opens the Incoming Specialty dialog to add a new specialty */
   async addIncomingSpecialtyDialog(): Promise<void> {
     const dialogRef = this.dialog.open(IncomingSpecialtyDialogComponent, {
       maxWidth: '500px',

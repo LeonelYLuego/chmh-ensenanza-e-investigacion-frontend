@@ -6,6 +6,7 @@ import { IncomingStudentStudentComponent } from './incoming-student-student/inco
 import { IncomingStudentsGenerateDocumentsComponent } from './incoming-students-generate-documents/incoming-students-generate-documents.component';
 import { IncomingStudentsPageComponent } from './incoming-students-page/incoming-students-page.component';
 
+/** Incoming Students routes */
 const routes: Routes = [
   {
     path: PATHS.INCOMING_STUDENTS.BASE,
@@ -34,6 +35,7 @@ const routes: Routes = [
   },
 ];
 
+/** Incoming Students routing module */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

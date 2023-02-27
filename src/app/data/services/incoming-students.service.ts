@@ -14,6 +14,7 @@ import {
 } from '@data/interfaces/incoming-student';
 import { IncomingStudentDocumentTypes } from '@data/types/incoming-student-document.type';
 
+/**  */
 @Injectable()
 export class IncomingStudentsService {
   forbiddenErrors: ForbiddenErrorInterface[] = [
@@ -41,10 +42,19 @@ export class IncomingStudentsService {
       errorMessage: 'incoming student interval not found',
       snackbarMessage: 'Intervalo de Rotantes no encontrado',
     },
+    {
+      errorMessage: 'specialty not found',
+      snackbarMessage: 'Especialidad no encontrada',
+    },
+    {
+      errorMessage: 'rotation service not found',
+      snackbarMessage: 'Servicio a Rotar no encontrado',
+    },
   ];
 
   constructor(private http: HttpPetitions) {}
 
+  /** Gets an Incoming Student based on the provided _id */
   async get(_id: string): Promise<IncomingStudent | null> {
     const data = await this.http.get<IncomingStudent>(
       SERVER_ENDPOINTS.INCOMING_STUDENTS.BY_ID(_id),
@@ -53,6 +63,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Gets all Incoming Students between the dates */
   async getAll(
     initialDate: Date,
     finalDate: Date
@@ -74,6 +85,7 @@ export class IncomingStudentsService {
     return data ?? [];
   }
 
+  /** Adds a new Incoming Student */
   async add(incomingStudent: IncomingStudent): Promise<IncomingStudent | null> {
     const data = await this.http.post<IncomingStudent>(
       SERVER_ENDPOINTS.INCOMING_STUDENTS.BASE_ENDPOINT,
@@ -83,6 +95,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Updates an Incoming Student based on the provided _id */
   async update(
     _id: string,
     incomingStudent: IncomingStudent
@@ -95,6 +108,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Deletes an Incoming Student based on the provided _id */
   async delete(_id: string): Promise<void> {
     await this.http.delete<IncomingStudent>(
       SERVER_ENDPOINTS.INCOMING_STUDENTS.BY_ID(_id),
@@ -102,6 +116,7 @@ export class IncomingStudentsService {
     );
   }
 
+  /** Gets the interval to find Incoming Students */
   async interval(): Promise<IncomingStudentsInterval> {
     let data = await this.http.get<{
       initialYear: number;
@@ -128,6 +143,7 @@ export class IncomingStudentsService {
     return { initialMonths, finalMonths };
   }
 
+  /** Gets a period of the dates */
   getPeriod(initialDate: Date, finalDate: Date): string {
     let initialMonthString = monthToString(initialDate.getMonth());
     initialMonthString =
@@ -138,6 +154,7 @@ export class IncomingStudentsService {
     return `${initialMonthString} de ${initialDate.getFullYear()} - ${finalMonthString} de ${finalDate.getFullYear()}`;
   }
 
+  /** Gets the specified document */
   async getDocument(
     _id: string,
     type: IncomingStudentDocumentTypes
@@ -150,6 +167,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Updates the specified document */
   async updateDocument(
     _id: string,
     type: IncomingStudentDocumentTypes,
@@ -164,6 +182,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Deleted the specified document */
   async deleteDocument(
     _id: string,
     type: IncomingStudentDocumentTypes
@@ -175,6 +194,7 @@ export class IncomingStudentsService {
     );
   }
 
+  /** Cancels an Incoming Student based on the provided _id */
   async cancel(_id: string): Promise<IncomingStudent | null> {
     const data = await this.http.put<IncomingStudent>(
       SERVER_ENDPOINTS.INCOMING_STUDENTS.CANCEL_ID(_id),
@@ -183,6 +203,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Uncancels an Incoming Student based on the provided _id */
   async uncancel(_id: string): Promise<IncomingStudent | null> {
     const data = await this.http.put<IncomingStudent>(
       SERVER_ENDPOINTS.INCOMING_STUDENTS.UNCANCEL_ID(_id),
@@ -191,6 +212,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Toggle the VoBo of the Incoming Student  */
   async VoBo(_id: string): Promise<IncomingStudent | null> {
     const data = await this.http.put<IncomingStudent>(
       SERVER_ENDPOINTS.INCOMING_STUDENTS.VOBO_ID(_id),
@@ -199,6 +221,7 @@ export class IncomingStudentsService {
     return data ?? null;
   }
 
+  /** Generates the acceptances documents */
   async generateDocuments(
     initialNumberOfDocuments: number,
     numberOfDocument: number,

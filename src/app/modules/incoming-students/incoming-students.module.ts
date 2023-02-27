@@ -21,6 +21,7 @@ import { AddUpdateIncomingStudentComponent } from './add-update-incoming-student
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IncomingStudentsGenerateDocumentsComponent } from './incoming-students-generate-documents/incoming-students-generate-documents.component';
 
+/** Incoming Students module */
 @NgModule({
   declarations: [
     IncomingStudentsPageComponent,

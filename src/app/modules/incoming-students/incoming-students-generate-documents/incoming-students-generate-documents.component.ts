@@ -10,6 +10,7 @@ import {
   SpecialtiesService,
 } from '@data/services';
 
+/** Incoming Students Generate Documents component */
 @Component({
   selector: 'app-incoming-students-generate-documents',
   templateUrl: './incoming-students-generate-documents.component.html',

@@ -9,6 +9,7 @@ import {
 } from '@data/interfaces/incoming-student';
 import { IncomingStudentsService } from '@data/services';
 
+/** Incoming Student page component */
 @Component({
   selector: 'app-incoming-students-page',
   templateUrl: './incoming-students-page.component.html',
@@ -90,6 +91,7 @@ export class IncomingStudentsPageComponent implements OnInit {
     }
   }
 
+  /** Sets initial date when a year and month is selected */
   initialDateChanged(): void {
     if (
       this.intervalFormControl.controls.initialDate.value!.getTime() >
@@ -113,6 +115,7 @@ export class IncomingStudentsPageComponent implements OnInit {
     this.getIncomingStudents();
   }
 
+  /** Sets final date when a year and month is selected */
   finalDateChanged(): void {
     if (
       this.intervalFormControl.controls.finalDate.value!.getTime() <
@@ -136,17 +139,21 @@ export class IncomingStudentsPageComponent implements OnInit {
     this.getIncomingStudents();
   }
 
+  /** Gets Incoming Students */
   async getIncomingStudents(): Promise<void> {
     this.loading = true;
     const data = await this.incomingStudentsService.getAll(
       this.intervalFormControl.controls.initialDate.value!,
       this.intervalFormControl.controls.finalDate.value!
     );
+    // Clear Incoming Students
     this.incomingStudents = [];
     data.map((specialty) => {
+      // Push specialties
       this.incomingStudents.push({
         specialty: specialty.value,
       });
+      // Push Incoming Students
       specialty.incomingStudents.map((incomingStudent) => {
         this.incomingStudents.push({
           _id: incomingStudent._id,
@@ -175,6 +182,7 @@ export class IncomingStudentsPageComponent implements OnInit {
     this.loading = false;
   }
 
+  /** Gets the period */
   getPeriod(initialDate: Date, finalDate: Date): string {
     return this.incomingStudentsService.getPeriod(
       new Date(initialDate),
@@ -182,6 +190,7 @@ export class IncomingStudentsPageComponent implements OnInit {
     );
   }
 
+  /** Open the page to update the Incoming Student */
   async updateIncomingStudent(row: IncomingStudent) {
     if (row._id) this.router.navigate([this.paths.BASE_PATH, row._id!]);
   }

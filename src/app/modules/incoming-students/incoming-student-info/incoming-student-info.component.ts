@@ -9,6 +9,7 @@ import { RotationService, Specialty } from '@data/interfaces';
 import { IncomingStudent } from '@data/interfaces/incoming-student';
 import { IncomingStudentsService } from '@data/services';
 
+/** Incoming Student Info component */
 @Component({
   selector: 'app-incoming-student-info',
   templateUrl: './incoming-student-info.component.html',
@@ -36,12 +37,14 @@ export class IncomingStudentInfoComponent implements OnInit {
     await this.getIncomingStudent();
   }
 
+  /** Gets a Incoming Student */
   async getIncomingStudent(): Promise<void> {
     if ((this.id as IncomingStudent)._id)
       this.id = (this.id as IncomingStudent)._id!;
     this.incomingStudent = await this.incomingStudentsService.get(
       this.id as string
     );
+    // If the incoming student exist fills the form
     if (this.incomingStudent) {
       this.phones = this.emails = '';
       this.incomingStudent.phones.map((phone) => {
@@ -67,6 +70,7 @@ export class IncomingStudentInfoComponent implements OnInit {
     }
   }
 
+  /** Opens the page to update the Incoming Student  */
   updateIncomingStudent(): void {
     this.router.navigate([
       PATHS.INCOMING_STUDENTS.BASE_PATH,
