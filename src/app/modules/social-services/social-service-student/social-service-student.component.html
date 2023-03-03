@@ -72,6 +72,7 @@
           Editar Archivo
         </button>
         <button
+          *ngIf="socialService.presentationOfficeDocument"
           (click)="deleteFile('presentationOfficeDocument')"
           mat-raised-button
           color="warn"
@@ -117,6 +118,7 @@
           Editar Archivo
         </button>
         <button
+          *ngIf="socialService.reportDocument"
           (click)="deleteFile('reportDocument')"
           mat-raised-button
           color="warn"
@@ -162,6 +164,7 @@
           Editar Archivo
         </button>
         <button
+          *ngIf="socialService.constancyDocument"
           (click)="deleteFile('constancyDocument')"
           mat-raised-button
           color="warn"
