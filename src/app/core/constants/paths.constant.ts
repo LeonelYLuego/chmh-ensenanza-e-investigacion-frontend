@@ -15,7 +15,7 @@ export const RESOURCE_PATHS = {
  * Paths for routing
  */
 export const PATHS = {
-  SERVER: 'http://localhost:3000/api',
+  SERVER: 'http://10.0.2.178:3000/api',
   ROOT: '/',
   ERROR: {
     BASE_PATH: RESOURCE_PATHS.ERROR,
