@@ -151,6 +151,47 @@
       </button>
       <br />
       <mat-form-field appearance="outline" class="long-width">
+        <mat-label>Especialidad Externa</mat-label>
+        <mat-select
+          [formControl]="incomingStudentFormControl.controls.incomingSpecialty"
+        >
+          <mat-option
+            *ngFor="let incomingSpecialty of incomingSpecialties"
+            [value]="incomingSpecialty._id"
+          >
+            {{ incomingSpecialty.value }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="incomingStudentFormControl.controls.incomingSpecialty.invalid"
+          >Especialidad Externa <strong>Inválida</strong></mat-error
+        >
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="addIncomingSpecialtyDialog()"
+        class="add-dialog-button"
+      >
+        Agregar Especialidad Externa
+      </button>
+      <br />
+      <mat-form-field appearance="outline" class="long-width">
+        <mat-label>Año</mat-label>
+        <input
+          matInput
+          type="number"
+          min="1"
+          max="6"
+          [formControl]="incomingStudentFormControl.controls.incomingYear"
+        />
+        <mat-error
+          *ngIf="incomingStudentFormControl.controls.incomingYear.invalid"
+          >Año <strong>Inválido</strong></mat-error
+        >
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="outline" class="long-width">
         <mat-label>Especialidad</mat-label>
         <mat-select
           [formControl]="incomingStudentFormControl.controls.specialty"
@@ -192,47 +233,6 @@
       >
         Agregar Servicio a Rotar
       </button>
-      <br />
-      <mat-form-field appearance="outline" class="long-width">
-        <mat-label>Especialidad Externa</mat-label>
-        <mat-select
-          [formControl]="incomingStudentFormControl.controls.incomingSpecialty"
-        >
-          <mat-option
-            *ngFor="let incomingSpecialty of incomingSpecialties"
-            [value]="incomingSpecialty._id"
-          >
-            {{ incomingSpecialty.value }}
-          </mat-option>
-        </mat-select>
-        <mat-error
-          *ngIf="incomingStudentFormControl.controls.incomingSpecialty.invalid"
-          >Especialidad Externa <strong>Inválida</strong></mat-error
-        >
-      </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="addIncomingSpecialtyDialog()"
-        class="add-dialog-button"
-      >
-        Agregar Especialidad Externa
-      </button>
-      <br />
-      <mat-form-field appearance="outline" class="long-width">
-        <mat-label>Año</mat-label>
-        <input
-          matInput
-          type="number"
-          min="1"
-          max="6"
-          [formControl]="incomingStudentFormControl.controls.incomingYear"
-        />
-        <mat-error
-          *ngIf="incomingStudentFormControl.controls.incomingYear.invalid"
-          >Año <strong>Inválido</strong></mat-error
-        >
-      </mat-form-field>
       <br />
       <mat-form-field appearance="outline" class="long-width">
         <mat-label>Fecha de Inicio</mat-label>
